@@ -65,7 +65,7 @@ class StandaloneServer
     {
         if (!isset($config['port'])) {
             throw new Exception\InvalidArgumentException("Error missing required 'port' in config");
-        } elseif(!filter_var($config['port'], FILTER_VALIDATE_INT)) {
+        } elseif (!filter_var($config['port'], FILTER_VALIDATE_INT)) {
             throw new Exception\InvalidArgumentException("Option 'port' must be numeric");
         }
         $config = array_merge($this->getDefaultConfig($config['port']), $config);
@@ -74,7 +74,7 @@ class StandaloneServer
         $this->config = $config;
     }
 
-    
+
     /**
      * Start the standalone server
      * @return void
@@ -82,7 +82,7 @@ class StandaloneServer
     public function start()
     {
         $port = $this->getServerPort();
-        
+
         $java_bin = $this->config['java_bin'];
 
         $classpath = array(
@@ -95,19 +95,19 @@ class StandaloneServer
         $error_file = $this->config['error_file'];
         $pid_file   = $this->config['pid_file'];
         $cmd = sprintf("%s > %s 2>&1 & echo $! > %s", $command, $error_file, $pid_file);
-        
+
         //echo $cmd . "\n";
         exec($cmd);
-        
+
         $this->started = true;
 
-        
+
     }
 
     public function stop()
     {
         unlink($this->config['pid_file']);
-        
+
         $this->started = false;
     }
 
@@ -122,7 +122,7 @@ class StandaloneServer
 
     /**
      * Get runnin standalone server pid number
-     * 
+     *
      * @throws Exception\RuntimeException
      * @return int
      */
@@ -136,7 +136,7 @@ class StandaloneServer
         return trim(file_get_contents($pid_file));
     }
 
-    
+
     /**
      * Restart the standalone server
      */
@@ -223,7 +223,7 @@ class StandaloneServer
                             $msg = "File specified in '$name' is not writable ($file)";
                             throw new Exception\InvalidArgumentException($msg);
                         }
-                        break;                        
+                        break;
                 }
             }
         }

@@ -35,14 +35,13 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPid()
     {
-        
+
         $this->server->start();
         $pid = $this->server->getPid();
-        
+
         $this->assertInternalType('int', (filter_var($pid, FILTER_VALIDATE_INT)));
         $this->server->stop();
-        
-        
-    }    
-    
+
+
+    }
 }
