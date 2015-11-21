@@ -1,4 +1,14 @@
 parameters:
     git_dir: .
     bin_dir: ./vendor/bin
-    tasks: { phpcsfixer: null }
+    tasks: 
+        phpcsfixer: ~
+        phpcs:
+            standard: "PSR2"
+        phpunit: 
+            config_file: ./phpunit.xml
+        blacklist:
+            - 'var_dump('
+            - 'die('
+            - 'exit;'        
+    
