@@ -27,6 +27,11 @@
     "require-dev": {
         "phpro/grumphp": "^0.5.2"
     },
+    "extra": {
+        "grumphp": {
+            "config-default-path": "./grumphp.yml"
+        }
+    },
     "archive": {
         "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore"]
     }

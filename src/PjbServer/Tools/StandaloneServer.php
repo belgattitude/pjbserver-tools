@@ -1,8 +1,8 @@
 <?php
 namespace PjbServer\Tools;
+
 class StandaloneServer
 {
-
     /**
      * @var int
      */
@@ -32,7 +32,6 @@ class StandaloneServer
     public function __construct(array $config)
     {
         $this->checkConfig($config);
-
 
         $this->config = $config;
 
