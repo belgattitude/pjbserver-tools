@@ -1,0 +1,29 @@
+language: php
+
+php:
+  - 5.3
+  - 7.0
+  
+matrix:
+    include:
+        - php: 7.0
+          env: SEND_COVERAGE=true
+          
+env:
+    global:
+        - SEND_COVERAGE=false
+
+before_script:
+  - sudo apt-get install --yes ant
+  - travis_retry composer self-update
+  - travis_retry composer --prefer-source --dev install
+  - mkdir build
+  - mkdir -p build/logs
+  - mkdir -p test/logs
+  
+script: 
+  - phpunit -v 
+
+after_script:
+  - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover test/build/logs/clover.xml; fi
