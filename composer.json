@@ -1,0 +1,29 @@
+{
+    "name": "pjbserver/tools",
+    "description": "PHP Java bridge server tools",
+    "license": "MIT",
+    "keywords": [
+        "java",
+        "phpjavabridge",
+        "server"
+    ],
+    "homepage": "https://github.com/belgattitude/pjbserver-tools",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Sébastien Vanvelthem",
+            "homepage": "http://www.nuvolia.com/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PjbServer\\Tools\\": "src/PjbServer/Tools"
+        }
+    },
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "archive": {
+        "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore"]
+    }
+}
