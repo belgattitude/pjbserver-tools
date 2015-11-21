@@ -8,13 +8,18 @@ class StandaloneServer
      */
     protected $port;
 
-
     /**
      *
      * @var array
      */
     protected $config;
 
+
+    /**
+     * Tells whether the standalone server is started
+     * @var boolean
+     */
+    protected $started = false;
 
     /**
      * @var array
@@ -32,8 +37,7 @@ class StandaloneServer
     public function __construct(array $config)
     {
         $this->checkConfig($config);
-
-        $this->config = $config;
+        $this->setServerPort($config['server_port']);
 
     }
 
@@ -44,7 +48,6 @@ class StandaloneServer
      */
     protected function checkConfig(array $config)
     {
-
         foreach ($this->required_arguments as $name => $type) {
             if (!isset($config[$name])) {
                 $msg = "Missing option '$name' in Standalone server configuration";
@@ -66,9 +69,11 @@ class StandaloneServer
     public function start()
     {
         $port = $this->getServerPort();
+        $this->started = true;
 
+        /*
         $command = "java -cp $jar_dir/mysql-connector-java-5.1.36-bin.jar:$jar_file php.java.bridge.Standalone SERVLET:$port";
-        $error_file = "$test_dir/logs/pjb-error.log";
+        $error_file = "$test_dir/logs/pjb-standalone-error.log";
         $pid_file   = "$test_dir/logs/pjb-standalone.pid";
 
         if (!self::isStandaloneServerRunning($pid_file)) {
@@ -90,29 +95,31 @@ class StandaloneServer
         }
 
         register_shutdown_function(array(__CLASS__, 'killStandaloneServer'));
-
+        */
     }
 
 
     public function stop()
     {
-
-    }
-
-    public function restart()
-    {
-
+        $this->started = false;
     }
 
     /**
-     * Set port on which standalone server listens.
-     *
-     * @param int $port
-     * @return void
+     * Tells whether the standalone server is started
+     * @return boolean
      */
-    public function setServerPort($port)
+    public function isStarted()
     {
-        $this->port = $port;
+        return $this->started;
+    }
+
+    /**
+     * Restart the standalone server
+     */
+    public function restart()
+    {
+        $this->stop();
+        $this->start();
     }
 
     /**
@@ -123,4 +130,16 @@ class StandaloneServer
     {
         return $this->port;
     }
+    
+    /**
+     * Set port on which standalone server listens.
+     *
+     * @param int $port
+     * @return void
+     */
+    protected function setServerPort($port)
+    {
+        $this->port = $port;
+    }
+    
 }

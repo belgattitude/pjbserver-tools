@@ -13,11 +13,8 @@
 >
 
     <php>
-        <server name="AUTORUN_PJB_STANDALONE" value="false" />
-        <server name="PJB_SERVLET_ADDRESS" value="http://127.0.0.1:8080/javabridge-bundle/servlet.phpjavabridge" />
-
-        <server name="PHPUNIT_CACHE_DIR" value="./test/tmp/cache" />		          
-        
+        <!-- port on wich the standalone server listen -->
+        <server name="standalone_server_port" value="8089" />
     </php>
 
     <testsuites>

@@ -6,8 +6,8 @@ if (!$loader = @include __DIR__ . '/../vendor/autoload.php') {
             'php composer.phar install' . PHP_EOL);
 }
 
-ini_set('error_reporting', E_ALL | E_STRICT);
 $baseDir = dirname(__DIR__);
+require_once(dirname(__FILE__) . '/PjbServerTestConfig.php');
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 $loader->add('Soluble', array($baseDir . '/src/', $baseDir . '/test/'));

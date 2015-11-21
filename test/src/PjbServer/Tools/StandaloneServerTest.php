@@ -2,29 +2,33 @@
 
 namespace PjbServer\Tools;
 
+use PjbServerTestConfig;
+
 class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var StandaloneServer
+     */
+    protected $server;
+
     protected function setUp()
     {
+        $config = PjbServerTestConfig::getStandaloneServerConfig();
+        $this->server = new StandaloneServer($config);
     }
 
     protected function tearDown()
     {
     }
 
-    public function testConstructorThrowsInvalidArgumentException()
+    public function testIsStarted()
     {
-        $this->setExpectedException('PjbServer\Tools\Exception\InvalidArgumentException');
-        $config = array();
-        $server = new StandaloneServer($config);
+        $this->assertFalse($this->server->isStarted());
+        $this->server->start();
+        $this->assertTrue($this->server->isStarted());
+        $this->server->stop();
+        $this->assertFalse($this->server->isStarted());
+
     }
-    
-    public function testConstructorThrowsInvalidArgumentException2()
-    {
-        $this->setExpectedException('PjbServer\Tools\Exception\InvalidArgumentException');
-        $config = array('server_port' => 'cool');
-        $server = new StandaloneServer($config);
-    }
-    
 }
