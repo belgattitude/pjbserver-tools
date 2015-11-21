@@ -18,13 +18,11 @@ before_script:
   - sudo apt-get install --yes ant
   - travis_retry composer self-update
   - travis_retry composer --prefer-source --dev install
-  - mkdir build
-  - mkdir -p build/logs
   - mkdir -p test/logs
   
 script: 
-  - phpunit --configuration ./phpunit.xml.dist
+  - phpunit -v
 
 after_script:
   - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover test/build/logs/clover.xml; fi
+  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover test/logs/clover.xml; fi
