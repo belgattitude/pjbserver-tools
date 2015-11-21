@@ -15,6 +15,9 @@
     <php>
         <!-- port on wich the standalone server listen -->
         <server name="standalone_server_port" value="8089" />
+        <!-- phpjavabridge standalone server jar file -->
+        <server name="standalone_server_jar" value="./resources/pjb621_standalone/JavaBridge.jar" />
+        
     </php>
 
     <testsuites>

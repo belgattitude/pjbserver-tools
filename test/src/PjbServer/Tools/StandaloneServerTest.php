@@ -16,6 +16,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig();
         $this->server = new StandaloneServer($config);
+
     }
 
     protected function tearDown()
@@ -29,6 +30,19 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->server->isStarted());
         $this->server->stop();
         $this->assertFalse($this->server->isStarted());
-
     }
+
+
+    public function testGetPid()
+    {
+        
+        $this->server->start();
+        $pid = $this->server->getPid();
+        
+        $this->assertInternalType('int', (filter_var($pid, FILTER_VALIDATE_INT)));
+        $this->server->stop();
+        
+        
+    }    
+    
 }
