@@ -1,11 +1,11 @@
 # pjbserver-tools
 
-[![Build Status](https://travis-ci.org/belgattitude/pjbserverver-tools.png?branch=master)](https://travis-ci.org/belgattitude/pjbserverver-tools)
-[![HHVM Status](http://hhvm.h4cc.de/badge/belgattitude/pjbserverver-tools.png?style=flat)](http://hhvm.h4cc.de/package/belgattitude/pjbserverver-tools)
-[![Code Coverage](https://scrutinizer-ci.com/g/belgattitude/pjbserverver-tools/badges/coverage.png?s=aaa552f6313a3a50145f0e87b252c84677c22aa9)](https://scrutinizer-ci.com/g/belgattitude/pjbserverver-tools/)
+[![Build Status](https://travis-ci.org/belgattitude/pjbserver-tools.svg?branch=master)](https://travis-ci.org/belgattitude/pjbserver-tools)
+[![HHVM Status](http://hhvm.h4cc.de/badge/belgattitude/pjbserver-tools.png?style=flat)](http://hhvm.h4cc.de/package/belgattitude/pjbserver-tools)
+[![Code Coverage](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/badges/coverage.png?s=aaa552f6313a3a50145f0e87b252c84677c22aa9)](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/belgattitude/pjbserverver-tools/v/stable.svg)](https://packagist.org/packages/belgattitude/pjbserverver-tools)
-[![License](https://poser.pugx.org/belgattitude/pjbserverver-tools/license.png)](https://packagist.org/packages/belgattitude/pjbserverver-tools)
+[![Latest Stable Version](https://poser.pugx.org/belgattitude/pjbserver-tools/v/stable.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
+[![License](https://poser.pugx.org/belgattitude/pjbserver-tools/license.png)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 
 
 ## Introduction
