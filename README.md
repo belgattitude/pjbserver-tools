@@ -1,5 +1,12 @@
 # pjbserver-tools
 
+[![Build Status](https://travis-ci.org/belgattitude/pjbserverver-tools.png?branch=master)](https://travis-ci.org/belgattitude/pjbserverver-tools)
+[![HHVM Status](http://hhvm.h4cc.de/badge/belgattitude/pjbserverver-tools.png?style=flat)](http://hhvm.h4cc.de/package/belgattitude/pjbserverver-tools)
+[![Code Coverage](https://scrutinizer-ci.com/g/belgattitude/pjbserverver-tools/badges/coverage.png?s=aaa552f6313a3a50145f0e87b252c84677c22aa9)](https://scrutinizer-ci.com/g/belgattitude/pjbserverver-tools/)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/belgattitude/pjbserverver-tools/badges/quality-score.png?s=6f3ab91f916bf642f248e82c29857f94cb50bb33)](https://scrutinizer-ci.com/g/belgattitude/pjbserverver-tools/)
+[![Latest Stable Version](https://poser.pugx.org/belgattitude/pjbserverver-tools/v/stable.svg)](https://packagist.org/packages/belgattitude/pjbserverver-tools)
+[![License](https://poser.pugx.org/belgattitude/pjbserverver-tools/license.png)](https://packagist.org/packages/belgattitude/pjbserverver-tools)
+
 
 ## Introduction
 
