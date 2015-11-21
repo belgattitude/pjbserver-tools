@@ -21,7 +21,11 @@
         }
     },
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.4",
+        "symfony/console": "2.*"
+    },
+    "require-dev": {
+        "phpro/grumphp": "^0.5.2"
     },
     "archive": {
         "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore"]
