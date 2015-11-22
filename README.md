@@ -27,7 +27,7 @@
 `pjbserver-tools` can be installed through composer
 
 ```sh
-php composer require belgattitude/pjbserver-tools:0.*
+php composer require belgattitude/pjbserver-tools:1.*
 ```
 
 ## Usage
