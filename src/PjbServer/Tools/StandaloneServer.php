@@ -197,12 +197,17 @@ class StandaloneServer
             if ($throws_exception) {
                 throw new Exception\RuntimeException($msg);
             }
+            return;
         }
 
-        $cmd = "kill $pid";
+        //$cmd = "kill $pid";
+        // Let sleep the process, 
+        // @todo: test sleep mith microseconds on different unix flavours
+        $sleep_time = '0.2';
+        $cmd = "kill $pid; while ps -p $pid; do sleep $sleep_time;done;";
 
         exec($cmd, $output, $return_var);
-
+        
         try {
             if ($return_var !== 0) {
                 $msg = "Cannot kill standalone server process '$pid', seems to not exists.";
@@ -217,10 +222,11 @@ class StandaloneServer
             }
         }
 
+        
         if (file_exists($pid_file)) {
             unlink($pid_file);
         }
-
+        
         $this->started = false;
     }
 
@@ -298,6 +304,26 @@ class StandaloneServer
         }
         $output = file_get_contents($log_file);
         return $output;
+        
+    }
+    
+    
+    /**
+     * Test whether the standalone server is effectively running
+     * @return boolean
+     */
+    public function isRunning()
+    {
+        try {
+            $pid = $this->getPid();
+        } catch (\Exception $e) {
+            return false;
+        }
+        $result = shell_exec(sprintf("ps %d", $pid));
+        if( count(preg_split("/\n/", $result)) > 2){
+            return true;
+        }                    
+        return false;
         
     }
 

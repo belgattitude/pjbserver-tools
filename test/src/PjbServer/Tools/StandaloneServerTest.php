@@ -31,6 +31,16 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->server->stop();
         $this->assertFalse($this->server->isStarted());
     }
+    
+    public function testIsRunning()
+    {
+        $this->server->stop();
+        $this->assertFalse($this->server->isRunning());
+        $this->server->start();
+        $this->assertTrue($this->server->isRunning());
+        $this->server->stop();
+        
+    }
 
 
     public function testGetPid()
