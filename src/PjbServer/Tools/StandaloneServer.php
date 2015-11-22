@@ -95,12 +95,14 @@ class StandaloneServer
         $this->setServerPort($config['port']);
         $this->config = $config;
 
+        $curl_available = function_exists('curl_version');
+
         $this->portTester = new PortTester(array(
-            'backend' => PortTester::BACKEND_CURL,
+            'backend' => $curl_available ? PortTester::BACKEND_CURL : PortTester::BACKEND_STREAM_SOCKET,
             // Close timout ms could be adjusted for your system
             // It prevent that port availability testing does
             // not close quickly enough to allow standalone server binding
-            'close_timeout_ms' => null
+            'close_timeout_ms' => $curl_available ? null : 300
         ));
     }
 
