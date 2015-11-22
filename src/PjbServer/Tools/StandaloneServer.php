@@ -105,7 +105,7 @@ class StandaloneServer
 
         if (!$this->isPortAvailable('localhost', $port)) {
             $msg = "Cannot start server on port '$port', it's already in use.";
-            //throw new Exception\RuntimeException($msg);
+            throw new Exception\RuntimeException($msg);
         }
 
         $command = $this->getCommand();
@@ -129,7 +129,7 @@ class StandaloneServer
         $started = false;
         $refresh_ms = 200; // 200ms
         while (!$started) {
-            usleep(200 * 1000);
+            usleep($refresh_ms);
             $log_file_content = file_get_contents($log_file);
             if (preg_match('/Exception/', $log_file_content)) {
                 $msg = "Cannot start standalone server on port '$port', reason:\n";
@@ -204,7 +204,7 @@ class StandaloneServer
         } catch (Exception\RuntimeException $e) {
             $msg = "Cannot stop server, pid cannot be determined (was the server started ?)";
             if ($throws_exception) {
-                throw $e;
+                throw new Exception\RuntimeException($msg);
             }
         }
 
