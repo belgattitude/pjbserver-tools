@@ -2,17 +2,19 @@
 
 namespace PjbServer\Tools;
 
-/*
-java -Djava.awt.headless="true"
-     -Dphp.java.bridge.threads=50
-     -Dphp.java.bridge.base=/usr/lib/php/modules
-     -Dphp.java.bridge.php_exec=/usr/local/bin/php-cgi
-     -Dphp.java.bridge.default_log_file=
-     -Dphp.java.bridge.default_log_level=5
-     -Dphp.java.bridge.daemon="false"
-     -jar JavaBridge.jar
-*/
+use PjbServer\Tools\Network\PortTester;
 
+/*
+  java -Djava.awt.headless="true"
+  -Dphp.java.bridge.threads=50
+  -Dphp.java.bridge.base=/usr/lib/php/modules
+  -Dphp.java.bridge.php_exec=/usr/local/bin/php-cgi
+  -Dphp.java.bridge.default_log_file=
+  -Dphp.java.bridge.default_log_level=5
+  -Dphp.java.bridge.daemon="false"
+  -jar JavaBridge.jar
+ * sudo netstat -anltp|grep :8089
+ */
 
 class StandaloneServer
 {
@@ -56,6 +58,13 @@ class StandaloneServer
     );
 
     /**
+     *
+     * @var PortTester
+     */
+    protected $portTester;
+
+
+    /**
      * Constructor
      *
      * <code>
@@ -85,16 +94,26 @@ class StandaloneServer
         $this->checkConfigRequiredArgs($config);
         $this->setServerPort($config['port']);
         $this->config = $config;
+
+        $this->portTester = new PortTester(array(
+            'backend' => PortTester::BACKEND_CURL,
+            // Close timout ms could be adjusted for your system
+            // It prevent that port availability testing does
+            // not close quickly enough to allow standalone server binding
+            'close_timeout_ms' => null
+        ));
     }
 
     /**
      * Start the standalone server
      *
      * @throws Exception\RuntimeException
+     * @throws Exce
      *
+     * @param int $timeout_ms maximum number of milliseconds to wait for server start
      * @return void
      */
-    public function start()
+    public function start($timeout_ms = 3000)
     {
 
         if ($this->isStarted()) {
@@ -103,7 +122,7 @@ class StandaloneServer
 
         $port = $this->getServerPort();
 
-        if (!$this->isPortAvailable('localhost', $port)) {
+        if (!$this->portTester->isAvailable('localhost', $port, 'http')) {
             $msg = "Cannot start server on port '$port', it's already in use.";
             throw new Exception\RuntimeException($msg);
         }
@@ -127,9 +146,13 @@ class StandaloneServer
 
         // Loop for waiting correct start of phpjavabridge
         $started = false;
-        $refresh_ms = 200; // 200ms
-        while (!$started) {
-            usleep($refresh_ms);
+        $iterations = true;
+        $refresh_us = 100 * 1000; // 200ms
+        $timeout_us = $timeout_ms * 1000;
+        $max_iterations = ceil($timeout_us / min(array($refresh_us, $timeout_us)));
+
+        while (!$started || $iterations > $max_iterations) {
+            usleep($refresh_us);
             $log_file_content = file_get_contents($log_file);
             if (preg_match('/Exception/', $log_file_content)) {
                 $msg = "Cannot start standalone server on port '$port', reason:\n";
@@ -142,52 +165,16 @@ class StandaloneServer
             if (preg_match('/JavaBridgeRunner started on/', $log_file_content)) {
                 $started = true;
             }
-
+            $iterations++;
+        }
+        if (!$started) {
+            $msg = "Standalone server probably not started, timeout '$timeout_ms' reached before getting output";
+            throw new Exception\RuntimeException($msg);
         }
         $this->started = true;
     }
 
-    /**
-     * Check if TCP port is available for binding
-     *
-     * @param int $port
-     * @param int $timeout
-     */
-    protected function isPortAvailable($host, $port, $timeout = 1)
-    {
-        $available = false;
-        $fp = @stream_socket_client("tcp://$host:$port", $errno, $errstr, $timeout);
-        if (!$fp) {
-            $available = true;
-        } else {
-            stream_socket_shutdown($fp, STREAM_SHUT_RDWR); 
-            //fclose($fp);
-        }
-        return $available;
-    }
 
-    /**
-     * Return command used to start the standalone server
-     * @return string
-     */
-    public function getCommand()
-    {
-        $port = $this->getServerPort();
-
-        $java_bin = $this->config['java_bin'];
-
-        $classpath = join(':', array(
-            $this->config['server_jar'],
-        ));
-
-        $directives = ' -D' . join(' -D', array(
-            'php.java.bridge.daemon="false"',
-            'php.java.bridge.threads=50'
-        ));
-
-        $command = "$java_bin -cp $classpath $directives php.java.bridge.Standalone SERVLET:$port";
-        return $command;
-    }
 
     /**
      * Stop the standalone server
@@ -242,6 +229,30 @@ class StandaloneServer
     {
         return $this->started;
     }
+
+    /**
+     * Return command used to start the standalone server
+     * @return string
+     */
+    public function getCommand()
+    {
+        $port = $this->getServerPort();
+
+        $java_bin = $this->config['java_bin'];
+
+        $classpath = join(':', array(
+            $this->config['server_jar'],
+        ));
+
+        $directives = ' -D' . join(' -D', array(
+                    'php.java.bridge.daemon="false"',
+                    'php.java.bridge.threads=50'
+        ));
+
+        $command = "$java_bin -cp $classpath $directives php.java.bridge.Standalone SERVLET:$port";
+        return $command;
+    }
+
 
     /**
      * Get runnin standalone server pid number
