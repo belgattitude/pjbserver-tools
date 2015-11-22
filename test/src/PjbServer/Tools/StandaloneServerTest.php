@@ -56,4 +56,17 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileNotExists($pid_file);
 
     }
+    
+    public function testGetOutput()
+    {
+        $config   = $this->server->getConfig();
+        $pid_file = $config['pid_file'];
+        $this->server->start();
+        $output = $this->server->getOutput();
+        $this->assertInternalType('string', $output);
+        $this->assertTrue(strlen($output) > 10);
+        $this->server->stop();
+        
+
+    }    
 }

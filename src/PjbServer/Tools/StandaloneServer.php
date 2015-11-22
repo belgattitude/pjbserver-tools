@@ -44,6 +44,7 @@ class StandaloneServer
         'server_jar' => 'existing_file',
         'log_file' => 'file_with_existing_directory',
         'pid_file' => 'file_with_existing_directory',
+        'autoload_path' => 'existing_directory'
     );
 
     /**
@@ -54,7 +55,8 @@ class StandaloneServer
         'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
         'java_bin' => 'java',
         'log_file' => '{base_dir}/resources/pjb621_standalone/logs/pjbserver-port{tcp_port}.log',
-        'pid_file' => '{base_dir}/resources/pjb621_standalone/var/run/pjbserver-port{tcp_port}.pid'
+        'pid_file' => '{base_dir}/resources/pjb621_standalone/var/run/pjbserver-port{tcp_port}.pid',
+        'autoload_path' => '{base_dir}/resources/autoload'
     );
 
     /**
@@ -162,7 +164,6 @@ class StandaloneServer
                 throw new Exception\RuntimeException($msg);
             }
 
-            clearstatcache($clear_realpath_cache = false, $log_file);
             $log_file_content = file_get_contents($log_file);
             if (preg_match('/JavaBridgeRunner started on/', $log_file_content)) {
                 $started = true;
@@ -242,13 +243,19 @@ class StandaloneServer
 
         $java_bin = $this->config['java_bin'];
 
-        $classpath = join(':', array(
-            $this->config['server_jar'],
-        ));
+        $jars = array();
+        $autoload_path = $this->config['autoload_path'];
+        $files = glob("$autoload_path/*.jar");
+        foreach($files as $file) {
+            $jars[] = $file;
+        }
+        $jars[] = $this->config['server_jar'];
+        
+        $classpath = join(':', $jars);
 
         $directives = ' -D' . join(' -D', array(
                     'php.java.bridge.daemon="false"',
-                    'php.java.bridge.threads=50'
+                    'php.java.bridge.threads=30'
         ));
 
         $command = "$java_bin -cp $classpath $directives php.java.bridge.Standalone SERVLET:$port";
@@ -275,6 +282,23 @@ class StandaloneServer
             throw new Exception\RuntimeException($msg);
         }
         return $pid;
+    }
+    
+    
+    /**
+     * Return the content of the output_file
+     * @throws \RuntimeException
+     * @return string
+     */
+    public function getOutput()
+    {
+        $log_file = $this->config['log_file'];
+        if (!file_exists($log_file)) {
+            throw new \RuntimeException("Server output log file does not exists '$log_file'");
+        }
+        $output = file_get_contents($log_file);
+        return $output;
+        
     }
 
     /**
@@ -357,6 +381,14 @@ class StandaloneServer
                             throw new Exception\InvalidArgumentException($msg);
                         }
                         break;
+                    case 'existing_directory':
+                        $directory = $config[$name];
+                        if (!is_dir($directory)) {
+                            $msg = "The '$name' directory '$directory 'does not exists.";
+                            throw new Exception\InvalidArgumentException($msg);
+                        }
+                        break;
+                        
                     case 'file_with_existing_directory':
                         $file = $config[$name];
                         $info = pathinfo($file);

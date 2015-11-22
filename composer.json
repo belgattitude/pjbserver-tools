@@ -21,11 +21,7 @@
         }
     },
     "require": {
-        "php": ">=5.3.4",
-        "symfony/console": "2.*"
-    },
-    "require-dev": {
-        "phpro/grumphp": "^0.5.2"
+        "php": ">=5.3.4"
     },
     "extra": {
         "grumphp": {

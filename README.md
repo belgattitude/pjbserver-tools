@@ -19,10 +19,52 @@
 ## Requirements
 
 - PHP 5.3+, 7.0 or HHVM >= 3.2.
-- A supported JVM
+- A supported JVM (java executable in path)
+- Linux/Unix 
 
 ## Installation
 
+`pjbserver-tools` can be installed through composer
+
+```sh
+php composer require belgattitude/pjbserver-tools:0.*
+```
+
+## Usage
+
+### Start a standalone server
+
+```php
+<?php
+
+use PjbServer\Tools\StandaloneServer;
+
+$server = new StandaloneServer([
+    'port' => '8089',
+]);
+
+try {
+    $server->start();
+} catch(\Exception $e) {
+    echo $e->getMessage();
+    die();
+}
+
+$pid = $server->getPid();
+$output = $server->getOutput();
+echo $output;
+
+```
+
+### Debugging
+
+Some useful commands to watch, debug and eventually kill java standalone server process
+
+```shell
+> netstat -an | grep <port>
+> ps ax | grep standalone
+> kill <pid_standalone_server>
+```
 
 ## Credits
 
