@@ -67,4 +67,17 @@ class StandaloneServerConstructTest extends \PHPUnit_Framework_TestCase
         $port = $server->getServerPort();
         $this->assertEquals($config['port'], $port);
     }
+
+    public function testGetServerConfig()
+    {
+        $config = PjbServerTestConfig::getStandaloneServerConfig();
+        $server = new StandaloneServer($config);
+        $config = $server->getConfig();
+        $this->assertInternalType('array', $config);
+        $this->assertArrayHasKey('port', $config);
+        $this->assertArrayHasKey('java_bin', $config);
+        $this->assertArrayHasKey('log_file', $config);
+        $this->assertArrayHasKey('pid_file', $config);
+
+    }
 }
