@@ -160,7 +160,8 @@ class StandaloneServer
         if (!$fp) {
             $available = true;
         } else {
-            fclose($fp);
+            stream_socket_shutdown($fp, STREAM_SHUT_RDWR); 
+            //fclose($fp);
         }
         return $available;
     }
