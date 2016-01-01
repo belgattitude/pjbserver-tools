@@ -5,6 +5,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/badges/coverage.png?s=aaa552f6313a3a50145f0e87b252c84677c22aa9)](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/belgattitude/pjbserver-tools/v/stable.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
+[![Total Downloads](https://poser.pugx.org/belgattitude/pjbserver-tools/downloads.png)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 [![License](https://poser.pugx.org/belgattitude/pjbserver-tools/license.png)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 
 
@@ -24,11 +25,19 @@
 
 ## Installation
 
-`pjbserver-tools` can be installed through composer
+Instant installation via [composer](http://getcomposer.org/).
 
-```sh
+```console
 php composer require belgattitude/pjbserver-tools:1.*
 ```
+Most modern frameworks will include Composer out of the box, but ensure the following file is included:
+
+```php
+<?php
+// include the Composer autoloader
+require 'vendor/autoload.php';
+```
+
 
 ## Usage
 
@@ -66,10 +75,6 @@ Some useful commands to watch, debug and eventually kill java standalone server 
 > kill <pid_standalone_server>
 ```
 
-## Credits
-
-Thanks to the fantastic PHPJavaBridge project leaders and contributors who made it possible. 
-See their official homepage on http://php-java-bridge.sourceforge.net/pjb/index.php.
 
 ## Coding standards
 

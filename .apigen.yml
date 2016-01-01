@@ -1,0 +1,15 @@
+title: soluble-schema API
+source:
+    - src
+    
+destination: build/api
+
+internal: false
+
+todo: yes
+
+templateTheme: bootstrap
+
+
+
+

@@ -201,13 +201,13 @@ class StandaloneServer
         }
 
         //$cmd = "kill $pid";
-        // Let sleep the process, 
+        // Let sleep the process,
         // @todo: test sleep mith microseconds on different unix flavours
         $sleep_time = '0.2';
         $cmd = "kill $pid; while ps -p $pid; do sleep $sleep_time;done;";
 
         exec($cmd, $output, $return_var);
-        
+
         try {
             if ($return_var !== 0) {
                 $msg = "Cannot kill standalone server process '$pid', seems to not exists.";
@@ -222,11 +222,11 @@ class StandaloneServer
             }
         }
 
-        
+
         if (file_exists($pid_file)) {
             unlink($pid_file);
         }
-        
+
         $this->started = false;
     }
 
@@ -252,11 +252,11 @@ class StandaloneServer
         $jars = array();
         $autoload_path = $this->config['autoload_path'];
         $files = glob("$autoload_path/*.jar");
-        foreach($files as $file) {
+        foreach ($files as $file) {
             $jars[] = $file;
         }
         $jars[] = $this->config['server_jar'];
-        
+
         $classpath = join(':', $jars);
 
         $directives = ' -D' . join(' -D', array(
@@ -289,8 +289,8 @@ class StandaloneServer
         }
         return $pid;
     }
-    
-    
+
+
     /**
      * Return the content of the output_file
      * @throws \RuntimeException
@@ -304,10 +304,10 @@ class StandaloneServer
         }
         $output = file_get_contents($log_file);
         return $output;
-        
+
     }
-    
-    
+
+
     /**
      * Test whether the standalone server is effectively running
      * @return boolean
@@ -320,11 +320,11 @@ class StandaloneServer
             return false;
         }
         $result = shell_exec(sprintf("ps %d", $pid));
-        if( count(preg_split("/\n/", $result)) > 2){
+        if (count(preg_split("/\n/", $result)) > 2) {
             return true;
-        }                    
+        }
         return false;
-        
+
     }
 
     /**
@@ -414,7 +414,7 @@ class StandaloneServer
                             throw new Exception\InvalidArgumentException($msg);
                         }
                         break;
-                        
+
                     case 'file_with_existing_directory':
                         $file = $config[$name];
                         $info = pathinfo($file);

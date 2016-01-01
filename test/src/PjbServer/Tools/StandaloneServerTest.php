@@ -31,7 +31,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->server->stop();
         $this->assertFalse($this->server->isStarted());
     }
-    
+
     public function testIsRunning()
     {
         $this->server->stop();
@@ -39,7 +39,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->server->start();
         $this->assertTrue($this->server->isRunning());
         $this->server->stop();
-        
+
     }
 
 
@@ -66,7 +66,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileNotExists($pid_file);
 
     }
-    
+
     public function testGetOutput()
     {
         $config   = $this->server->getConfig();
@@ -76,7 +76,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $output);
         $this->assertTrue(strlen($output) > 10);
         $this->server->stop();
-        
 
-    }    
+
+    }
 }
