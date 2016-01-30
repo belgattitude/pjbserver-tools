@@ -1,0 +1,56 @@
+<ivy-module version="2.0">
+    <info organisation="io.soluble" module="phpjavabridge-bundle" />
+
+    <!--
+    <configurations>
+        <conf name="include_jasper" description="Include jasper reports"/>
+        <conf name="include_mysql" description="Include mysql jdbc connector"/>
+        <conf name="include_postgres" description="Include postgresql jdbc connector"/>
+        <conf name="include_joda" description="Include joda time library"/>
+    </configurations>        
+    -->
+    
+    <dependencies>
+            
+        <!-- ## JASPER REPORTS -->
+        <dependency org="net.sf.jasperreports" name="jasperreports" rev="6.2.0" conf="default->*, !source, !javadoc">
+            <exclude org="org.olap4j" />
+            <exclude org="mondrian" />                       
+            <exclude org="commons-javaflow" />  
+            <exclude org="stax" />
+            <exclude org="javax.xml.stream" name="stax-api" />
+            <exclude org="avalon-framework" name="avalon-framework-impl" />
+            <exclude org="org.apache.ant" name="ant-launcher" />
+            <exclude org="org.springframework" />
+            <!-- 
+                There is a bug in iText dependency in jasperreports pom
+                Here's a fix to exclude the invalid version,
+                it's included later
+            -->
+            <exclude org="com.lowagie" /> 
+        </dependency>
+        
+        <!-- 
+        itext has been moved to com.itextpdf org, don't know if it's supported by jasper
+        to try, uncomment the com.itextpdf dep and comment the com.lowagie one        
+        <dependency org="com.itextpdf" name="itextpdf" rev="5.5.8" conf="default->*, !sources, !javadoc"/>
+        -->
+        <dependency org="com.lowagie" name="itext" rev="2.1.7" conf="default->*, !sources, !javadoc">
+            <exclude org="bouncycastle" />
+        </dependency>
+        <dependency org="org.apache.bcel" name="bcel" rev="5.2" conf="default->*" />
+        
+        <!-- ## MYSQL -->        
+        <dependency org="mysql" name="mysql-connector-java" rev="5.1.38" conf="default->*, !sources"/>
+        
+        <!-- ## POSTGRESQL -->
+        <dependency org="org.postgresql" name="postgresql" rev="9.4.1207" conf="default->*, !sources, !javadoc"/>
+                
+        <!-- ## JODA -->
+        <!--
+        <dependency org="joda-time" name="joda-time" rev="2.9.2" conf="default->*, !source, !javadoc" />
+        -->
+                
+    </dependencies>
+</ivy-module>
+

@@ -1,0 +1,42 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" 
+         name="phpjavabridge-bundle" default="main" basedir=".">
+
+    <description>
+        Create a javabridge bundle
+    </description>
+    
+    <property name="lib.dir" location="lib"/>
+    <property name="report.dir" location="log/report"/>   
+    
+    <property name="bundle.config.include_jasper" value="default" />
+    <property name="bundle.config.include_mysql" value="default" />
+    <property name="bundle.config.include_postgres" value="default" />
+    <property name="bundle.config.include_joda" value="default" />
+    
+    <!-- ivy start -->
+    <!-- ivy to get dependencies and copy to project lib folder automatically -->
+    <target name="resolve" depends="clean" description="retrieve dependencies with ivy">
+        <ivy:retrieve pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]"/>
+        <ivy:report todir="${report.dir}" graph="false"/>
+    </target>
+
+    <!-- install ivy -->
+    <target name="ivy" description="Install ivy">
+        <mkdir dir="${user.home}/.ant/lib" />
+        <get dest="${user.home}/.ant/lib/ivy.jar" 
+             src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.4.0-rc1/ivy-2.4.0-rc1.jar" />
+    </target>
+    <!-- ivy end -->
+    
+    
+    <target name="clean" description="Remove build directories">
+        <delete dir="${lib.dir}"/>
+        <delete dir="${report.dir}"/>
+    </target>
+
+    <target name="clean-all" depends="clean" description="clean ivy cache">
+        <ivy:cleancache />
+    </target>    
+
+</project>
+

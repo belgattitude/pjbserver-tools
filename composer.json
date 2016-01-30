@@ -29,6 +29,6 @@
         }
     },
     "archive": {
-        "exclude": ["test", "doc", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore"]
+        "exclude": ["test", "doc", "tools", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore"]
     }
 }

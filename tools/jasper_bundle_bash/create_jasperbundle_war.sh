@@ -5,15 +5,14 @@
 #   - PHP Java Bridge
 #   - Jasper reports
 #
-# @author Vanvelthem Sébastien
 
 #
 # Edit configuration here
 #
 BASEDIR=$(dirname $0)
-JASPER_VERSION=6.1.1
+JASPER_VERSION=6.2.0
 PJB_VERSION=6.2.1
-MYSQL_JDBC_VERSION=5.1.36
+MYSQL_JDBC_VERSION=5.1.38
 INSTALL_DIR=$BASEDIR/downloads
 DIST_DIR=$BASEDIR/dist/WEB-INF/lib
 WAR_CONFIG_DIR=$BASEDIR/config/JavaBridge
