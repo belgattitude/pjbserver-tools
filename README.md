@@ -28,7 +28,7 @@
 Instant installation via [composer](http://getcomposer.org/).
 
 ```console
-php composer require belgattitude/pjbserver-tools:1.*
+$ composer require belgattitude/pjbserver-tools:1.*
 ```
 Most modern frameworks will include Composer out of the box, but ensure the following file is included:
 
@@ -75,6 +75,11 @@ Some useful commands to watch, debug and eventually kill java standalone server 
 > kill <pid_standalone_server>
 ```
 
+## Tools
+
+### Create a war bundle
+
+Some scripts and ant tasks examples are available in the /tools folder.
 
 ## Coding standards
 
