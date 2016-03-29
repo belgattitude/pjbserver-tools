@@ -13,7 +13,7 @@
     <dependencies>
             
         <!-- ## JASPER REPORTS -->
-        <dependency org="net.sf.jasperreports" name="jasperreports" rev="6.2.0" conf="default->*, !source, !javadoc">
+        <dependency org="net.sf.jasperreports" name="jasperreports" rev="6.2.1" conf="default->*, !source, !javadoc">
             <exclude org="org.olap4j" />
             <exclude org="mondrian" />                       
             <exclude org="commons-javaflow" />  
