@@ -18,21 +18,21 @@ class StandaloneServerConstructTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorThrowsInvalidArgumentException()
     {
-        $this->expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
         $config = [];
         $server = new StandaloneServer($config);
     }
 
     public function testConstructorThrowsInvalidArgumentException2()
     {
-        $this->expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
         $config = ['port' => 'cool'];
         $server = new StandaloneServer($config);
     }
 
     public function testConstructorThrowsInvalidArgumentException3()
     {
-        $this->expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
         $config = [
             'port' => '8192',
             'server_jar' => '/invalid_path/JavaBridge.jar'
@@ -42,7 +42,7 @@ class StandaloneServerConstructTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorThrowsInvalidArgumentException4()
     {
-        $this->expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
         $config = [
             'error_file' => '/invalid_path/pjb621_standalone/logs/error.log',
         ];
@@ -51,7 +51,7 @@ class StandaloneServerConstructTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorThrowsInvalidArgumentException5()
     {
-        $this->expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
         $config = [
             'pid_file' => '/invalid_path/resources/pjb621_standalone/var/run/server.pid'
         ];

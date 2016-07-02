@@ -97,7 +97,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOutputThrowsExceptionWhenNoLog()
     {
-        $this->expectException(\PjbServer\Tools\Exception\RuntimeException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\RuntimeException::class);
         $config   = $this->server->getConfig();
         $log_file = $config['log_file'];
         $this->server->start();
@@ -126,7 +126,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testStopThrowsException()
     {
-        $this->expectException(\PjbServer\Tools\Exception\RuntimeException::class);
+        $this->setExpectedException(\PjbServer\Tools\Exception\RuntimeException::class);
         $this->server->stop(true);
     }
 
