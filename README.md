@@ -62,15 +62,14 @@ $server = new StandaloneServer([
 try {
     $server->start();
 } catch(\Exception $e) {
+    // Exception message
     echo $e->getMessage();
+    // Server output logs
+    echo $server->getOutput();
     die();
 }
 
 $pid = $server->getPid();
-
-// Return logs from server
-$output = $server->getOutput();
-echo $output;
 
 $server->stop();
 
