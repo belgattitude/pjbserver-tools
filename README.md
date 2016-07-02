@@ -11,24 +11,31 @@
 
 ## Introduction
 
-[PHP/Java bridge](http://php-java-bridge.sourceforge.net/pjb/) server tools 
+The `pjbserver-tools` package currently provides an easy installable php java bridge standalone server.
+
+The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
+for php/java integration while keeping things simple for development or unit testing.
+ 
+See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get an info about php/java integration.  
+  
 
 ## Features
 
-- Provides standalone PJB server
+- PJB standalone server wrapper in PHP.
+- Includes latest compiled [JavaBridge.jar](./resources/pjb621_standalone/JavaBridge.jar) file.
 
 ## Requirements
 
-- PHP 5.3+, 7.0 or HHVM >= 3.2.
-- A supported JVM (java executable in path)
-- Linux/Unix 
+- PHP 5.5+, 7.0 or HHVM >= 3.2.
+- Linux/Unix environment.
+- Java 1.7+ (see [install instructions](./doc/install_java.md).
 
 ## Installation
 
 Instant installation via [composer](http://getcomposer.org/).
 
 ```console
-$ composer require belgattitude/pjbserver-tools:1.*
+$ composer require "belgattitude/pjbserver-tools:^1.1.0"
 ```
 Most modern frameworks will include Composer out of the box, but ensure the following file is included:
 
@@ -81,13 +88,12 @@ Some useful commands to watch, debug and eventually kill java standalone server 
 
 Some scripts and ant tasks examples are available in the /tools folder.
 
+
 ## Coding standards
 
 * [PSR 4 Autoloader](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md)
 * [PSR 2 Coding Style Guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
 * [PSR 1 Coding Standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
 * [PSR 0 Autoloading standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
-
-
 
 

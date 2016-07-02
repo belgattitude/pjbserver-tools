@@ -39,25 +39,25 @@ class StandaloneServer
     /**
      * @var array
      */
-    protected $required_arguments = array(
+    protected $required_arguments = [
         'port' => 'FILTER_VALIDATE_INT',
         'server_jar' => 'existing_file',
         'log_file' => 'file_with_existing_directory',
         'pid_file' => 'file_with_existing_directory',
         'autoload_path' => 'existing_directory'
-    );
+    ];
 
     /**
      * Default configuration options
      * @var array
      */
-    protected $default_config = array(
+    protected $default_config = [
         'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
         'java_bin' => 'java',
         'log_file' => '{base_dir}/resources/pjb621_standalone/logs/pjbserver-port{tcp_port}.log',
         'pid_file' => '{base_dir}/resources/pjb621_standalone/var/run/pjbserver-port{tcp_port}.pid',
         'autoload_path' => '{base_dir}/resources/autoload'
-    );
+    ];
 
     /**
      *
@@ -99,13 +99,13 @@ class StandaloneServer
 
         $curl_available = function_exists('curl_version');
 
-        $this->portTester = new PortTester(array(
+        $this->portTester = new PortTester([
             'backend' => $curl_available ? PortTester::BACKEND_CURL : PortTester::BACKEND_STREAM_SOCKET,
             // Close timout ms could be adjusted for your system
             // It prevent that port availability testing does
             // not close quickly enough to allow standalone server binding
             'close_timeout_ms' => $curl_available ? null : 300
-        ));
+        ]);
     }
 
     /**
@@ -119,7 +119,6 @@ class StandaloneServer
      */
     public function start($timeout_ms = 3000)
     {
-
         if ($this->isStarted()) {
             return;
         }
@@ -151,9 +150,9 @@ class StandaloneServer
         // Loop for waiting correct start of phpjavabridge
         $started = false;
         $iterations = true;
-        $refresh_us = 100 * 1000; // 200ms
+        $refresh_us = 100 * 1000; // 100ms
         $timeout_us = $timeout_ms * 1000;
-        $max_iterations = ceil($timeout_us / min(array($refresh_us, $timeout_us)));
+        $max_iterations = ceil($timeout_us / min([$refresh_us, $timeout_us]));
 
         while (!$started || $iterations > $max_iterations) {
             usleep($refresh_us);
@@ -189,25 +188,32 @@ class StandaloneServer
     public function stop($throws_exception = false)
     {
         $pid_file = $this->config['pid_file'];
-
         try {
             $pid = $this->getPid();
-        } catch (Exception\RuntimeException $e) {
-            $msg = "Cannot stop server, pid cannot be determined (was the server started ?)";
+            $running = $this->isProcessRunning($throws_exception=true);
+            if (!$running) {
+                if ($throws_exception) {
+                    $msg = "Cannot stop: pid exists ($pid) but server process is not running";
+                    throw new Exception\RuntimeException($msg);
+                }
+                return;
+            }
+        } catch (Exception\PidNotFoundException $e) {
             if ($throws_exception) {
+                $msg = "Cannot stop server, pid file not found (was the server started ?)";
                 throw new Exception\RuntimeException($msg);
             }
             return;
         }
 
+
         //$cmd = "kill $pid";
         // Let sleep the process,
         // @todo: test sleep mith microseconds on different unix flavours
         $sleep_time = '0.2';
-        $cmd = "kill $pid; while ps -p $pid; do sleep $sleep_time;done;";
+        $cmd = sprintf("kill %d; while ps -p %d; do sleep %s;done;", $pid, $pid, $sleep_time);
 
         exec($cmd, $output, $return_var);
-
         try {
             if ($return_var !== 0) {
                 $msg = "Cannot kill standalone server process '$pid', seems to not exists.";
@@ -221,7 +227,6 @@ class StandaloneServer
                 throw $e;
             }
         }
-
 
         if (file_exists($pid_file)) {
             unlink($pid_file);
@@ -249,7 +254,7 @@ class StandaloneServer
 
         $java_bin = $this->config['java_bin'];
 
-        $jars = array();
+        $jars = [];
         $autoload_path = $this->config['autoload_path'];
         $files = glob("$autoload_path/*.jar");
         foreach ($files as $file) {
@@ -257,12 +262,12 @@ class StandaloneServer
         }
         $jars[] = $this->config['server_jar'];
 
-        $classpath = join(':', $jars);
+        $classpath = implode(':', $jars);
 
-        $directives = ' -D' . join(' -D', array(
+        $directives = ' -D' . implode(' -D', [
                     'php.java.bridge.daemon="false"',
                     'php.java.bridge.threads=30'
-        ));
+        ]);
 
         $command = "$java_bin -cp $classpath $directives php.java.bridge.Standalone SERVLET:$port";
         return $command;
@@ -272,7 +277,7 @@ class StandaloneServer
     /**
      * Get runnin standalone server pid number
      *
-     * @throws Exception\RuntimeException
+     * @throws Exception\PidNotFoundException
      * @return int
      */
     public function getPid()
@@ -280,14 +285,14 @@ class StandaloneServer
         $pid_file = $this->config['pid_file'];
         if (!file_exists($pid_file)) {
             $msg = "Pid file cannot be found '$pid_file'";
-            throw new Exception\RuntimeException($msg);
+            throw new Exception\PidNotFoundException($msg);
         }
         $pid = trim(file_get_contents($pid_file));
-        if (!is_numeric($pid)) {
-            $msg = "Pid found '$pid_file' but no valid pid stored in it.";
-            throw new Exception\RuntimeException($msg);
+        if (!preg_match('/^[0-9]+$/', $pid)) {
+            $msg = "Pid found '$pid_file' but no valid pid stored in it or corrupted file '$pid_file'.";
+            throw new Exception\PidCorruptedException($msg);
         }
-        return $pid;
+        return (int) $pid;
     }
 
 
@@ -300,32 +305,40 @@ class StandaloneServer
     {
         $log_file = $this->config['log_file'];
         if (!file_exists($log_file)) {
-            throw new \RuntimeException("Server output log file does not exists '$log_file'");
+            throw new Exception\RuntimeException("Server output log file does not exists '$log_file'");
+        } elseif (!is_readable($log_file)) {
+            throw new Exception\RuntimeException("Cannot read log file do to missing read permission '$log_file'");
         }
         $output = file_get_contents($log_file);
         return $output;
-
     }
 
 
     /**
-     * Test whether the standalone server is effectively running
+     * Test whether the standalone server process
+     * is effectively running
+     *
+     * @throws Exception\PidNotFoundException
+     * @param $throwsException if false discard exception if pidfile not exists
      * @return boolean
      */
-    public function isRunning()
+    public function isProcessRunning($throwsException = false)
     {
+        $running = false;
         try {
             $pid = $this->getPid();
-        } catch (\Exception $e) {
-            return false;
+            $result = trim(shell_exec(sprintf("ps -j --no-headers -p %d", $pid)));
+            if (preg_match("/^$pid/", $result)) {
+                $running = true;
+            }
+        } catch (Exception\PidNotFoundException $e) {
+            if ($throwsException) {
+                throw $e;
+            }
         }
-        $result = shell_exec(sprintf("ps %d", $pid));
-        if (count(preg_split("/\n/", $result)) > 2) {
-            return true;
-        }
-        return false;
-
+        return $running;
     }
+
 
     /**
      * Restart the standalone server
@@ -374,7 +387,7 @@ class StandaloneServer
     protected function getDefaultConfig($port)
     {
         $base_dir = realpath(__DIR__ . '/../../../');
-        $config = array();
+        $config = [];
         foreach ($this->default_config as $key => $value) {
             $tmp = str_replace('{base_dir}', $base_dir, $value);
             $tmp = str_replace('{tcp_port}', $port, $tmp);

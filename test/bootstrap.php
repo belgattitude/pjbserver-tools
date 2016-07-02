@@ -10,5 +10,7 @@ $baseDir = dirname(__DIR__);
 require_once(dirname(__FILE__) . '/PjbServerTestConfig.php');
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Soluble', array($baseDir . '/src/', $baseDir . '/test/'));
+/*
+$loader->add('Soluble', [$baseDir . '/src/', $baseDir . '/test/']);
 $loader->register();
+*/

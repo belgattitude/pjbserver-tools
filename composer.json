@@ -1,34 +1,50 @@
 {
-    "name": "belgattitude/pjbserver-tools",
-    "description": "PHP Java bridge server tools",
-    "license": "MIT",
-    "keywords": [
-        "java",
-        "phpjavabridge",
-        "server"
-    ],
-    "homepage": "https://github.com/belgattitude/pjbserver-tools",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Sébastien Vanvelthem",
-            "homepage": "http://www.nuvolia.com/"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "PjbServer\\Tools\\": "src/PjbServer/Tools"
-        }
-    },
-    "require": {
-        "php": "^5.3 || ^7.0"
-    },
-    "extra": {
-        "grumphp": {
-            "config-default-path": "./grumphp.yml"
-        }
-    },
-    "archive": {
-        "exclude": ["test", "doc", "tools", ".travis.yml", ".codeclimate.yml", ".coveralls.yml", ".scrutinizer.yml", ".php_cs", ".gitignore"]
+  "name": "belgattitude/pjbserver-tools",
+  "description": "PHP Java bridge server tools",
+  "license": "MIT",
+  "keywords": [
+    "java",
+    "phpjavabridge",
+    "server"
+  ],
+  "homepage": "https://github.com/belgattitude/pjbserver-tools",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Sébastien Vanvelthem",
+      "homepage": "http://www.nuvolia.com/"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PjbServer\\Tools\\": "src/PjbServer/Tools"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PjbServerTest\\Tools\\": "test/PjbServerTest/Tools"
+    }
+  },
+  "require": {
+    "php": "^5.5 || ^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4"
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "archive": {
+    "exclude": [
+      "test",
+      "doc",
+      "tools",
+      ".travis.yml",
+      ".codeclimate.yml",
+      ".coveralls.yml",
+      ".scrutinizer.yml",
+      ".php_cs",
+      ".gitignore"
+    ]
+  }
 }

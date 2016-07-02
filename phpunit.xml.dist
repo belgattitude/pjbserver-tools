@@ -22,7 +22,7 @@
 
     <testsuites>
         <testsuite name="pjbserver-tools">
-            <directory>./test/src/PjbServer/Tools</directory>
+            <directory>./test/src/PjbServerTest/Tools</directory>
         </testsuite>
     </testsuites>
     

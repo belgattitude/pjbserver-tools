@@ -19,22 +19,22 @@ class PortTester
     /**
      * @var array
      */
-    protected $supportedBackends = array('stream_socket', 'socket_create', 'pfsockopen', 'curl');
+    protected $supportedBackends = ['stream_socket', 'socket_create', 'pfsockopen', 'curl'];
 
     /**
      * @var array
      */
-    protected $supportedProtocols = array('tcp', 'udp', 'http', 'https');
+    protected $supportedProtocols = ['tcp', 'udp', 'http', 'https'];
 
 
     /**
      * @var array
      */
-    protected $defaults = array(
+    protected $defaults = [
         'backend' => null,
         'timeout' => 1,
         'close_timeout_ms' => null
-    );
+    ];
 
 
     /**
@@ -62,7 +62,7 @@ class PortTester
      * @throws \InvalidArgumentException
      * @param array $options
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $this->options = array_merge($this->defaults, $options);
         if ($this->options['backend'] == '') {
@@ -115,14 +115,14 @@ class PortTester
 
             case self::BACKEND_SOCKET_CREATE:
                 $timeout = 0;
-                $protocolMap = array('tcp' => SOL_TCP, 'udp' => SOL_UDP);
+                $protocolMap = ['tcp' => SOL_TCP, 'udp' => SOL_UDP];
                 if (!array_key_exists($protocol, $protocolMap)) {
                     throw new \RuntimeException("Backedn socket_create does not support protocol $protocol");
                 }
                 $proto = $protocolMap[$protocol];
 
                 $sock = socket_create(AF_INET, SOCK_STREAM, $proto);
-                socket_set_option($sock, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $timeout, 'usec' => 0));
+                socket_set_option($sock, SOL_SOCKET, SO_RCVTIMEO, ['sec' => $timeout, 'usec' => 0]);
                 if (!@socket_connect($sock, $host, $port)) {
                     $available = true;
                 } else {
@@ -149,13 +149,13 @@ class PortTester
                 if (!$this->isCurlAvailable()) {
                     throw new \RuntimeException("Curl not available");
                 }
-                $curl_options = array(
+                $curl_options = [
                     CURLOPT_URL => "http://$host:$port",
                     CURLOPT_TIMEOUT => $timeout,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_FAILONERROR => true,
                     CURLOPT_PORT => $port,
-                );
+                ];
 
                 $curl_handle = curl_init();
                 curl_setopt_array($curl_handle, $curl_options);
