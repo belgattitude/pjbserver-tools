@@ -28,7 +28,7 @@ See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project t
 
 - PHP 5.5+, 7.0 or HHVM >= 3.2.
 - Linux/Unix environment.
-- Java 1.7+ (see [install instructions](./doc/install_java.md).
+- Java 1.7+ (see [install instructions](./doc/install_java.md)).
 
 ## Installation
 
@@ -67,8 +67,12 @@ try {
 }
 
 $pid = $server->getPid();
+
+// Return logs from server
 $output = $server->getOutput();
 echo $output;
+
+$server->stop();
 
 ```
 
