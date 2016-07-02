@@ -21,7 +21,7 @@ before_script:
   - mkdir -p test/logs
   
 script: 
-  - phpunit -v
+  - ./vendor/bin/phpunit -v
 
 after_script:
   - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
