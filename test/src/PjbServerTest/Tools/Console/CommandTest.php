@@ -36,8 +36,6 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $port = $this->config->getPort();
         $tester->execute([
-            'port' => $port
-        ], [
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
