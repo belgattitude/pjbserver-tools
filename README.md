@@ -45,7 +45,7 @@ $ composer require "belgattitude/pjbserver-tools:^2.0.0"
 
 ### Standalone server
 
-Depending of your needs, you can decide to use the standalone server directly from the command line or use it programatically.
+Depending on your needs, you can decide to use the standalone server directly from the command line or use it programatically.
  
 #### Option 1: Command line usage
 
@@ -69,6 +69,8 @@ $ ./vendor/bin/pjbserver-tools pjbserver:restart ./pjbserver.config.php
 the best is to deploy on a J2EE server like Tomcat...*
 
 #### Option 2: Programatically
+
+As an alternative to the command line you can control the server directly from PHP.
 
 ```php
 <?php
@@ -116,7 +118,18 @@ $server->stop();
 
 ```
 
-### Debugging
+
+You can also inject any PSR-3 compatible logger to the `StandaloneServer`.
+
+```php
+// any PSR-3 compatible logger
+$logger = new \Psr\Log\NullLogger();
+$server = new StanaloneServer($config, $logger);
+
+```
+
+## Debugging
+
 
 Some useful commands to watch, debug and eventually kill java standalone server process
 
