@@ -28,6 +28,7 @@ class Config
         'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
         'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
         'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
+        'classpaths' => []
     ];
 
     /**

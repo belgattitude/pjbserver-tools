@@ -4,6 +4,7 @@
 
 - Refactored usage, config params must now be passed in the `StandaloneServer\Config($params)` object.
 - Support for PSR-3 logger interface.
+- Console commands added (symfony/console)
 
 
 ### 1.1.0 (2016-07-02)

@@ -1,0 +1,28 @@
+<?php
+/**
+ * Example configuration file to use in console mode with
+ *
+ * $ ./bin/pjbserver-tools pjbserver:start 8089 --config-file=<config-file>
+ *
+ * You can adapt for your own need
+ */
+
+return [
+    // Port on which the standalone server listen
+    'port'       => 8089,
+
+    // Specify here additional jar files or directory
+    'classpaths' => [
+        // '/my/path/autoload/*.jar',
+        // '/my/path/mylib.jar'
+    ],
+
+    // Advanced options
+    // #########################################################################
+    //'java_bin'   => 'java',
+    //'server_jar' => __DIR__ . '/../resources/pjb621_standalone/JavaBridge.jar',
+    //'log_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.log',
+    //'pid_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.pid',
+    // ##########################################################################
+
+];

@@ -1,6 +1,6 @@
 <?php
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->in(['src', 'test'])
+    ->in(['src', 'test', 'bin'])
     ->filter(function (SplFileInfo $file) {
         if (strstr($file->getPath(), 'compatibility')) {
             return false;

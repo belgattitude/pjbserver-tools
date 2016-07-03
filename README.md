@@ -12,16 +12,18 @@
 ## Introduction
 
 The `pjbserver-tools` package currently provides an easy installable php java bridge standalone server.
+See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get more info about php/java integration.
 
-The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
-for php/java integration while keeping things simple for development or unit testing.
- 
-See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get more info about php/java integration.  
-  
+
+*The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
+for php/java integration while keeping things simple for development, unit testing or small projects.*
+     
 
 ## Features
 
-- PJB standalone server wrapper in PHP.
+- PHP Java bridge standalone server.
+- Simple and easy console to start/stop the server. 
+- Libraries to programatically control the server.
 - Includes latest compiled [JavaBridge.jar](./resources/pjb621_standalone/JavaBridge.jar) file.
 
 ## Requirements
@@ -31,26 +33,42 @@ See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project t
 - Java 1.7+ (see [install instructions](./doc/install_java.md)).
 
 ## Installation
-
+ 
 Instant installation via [composer](http://getcomposer.org/).
 
 ```console
 $ composer require "belgattitude/pjbserver-tools:^2.0.0"
 ```
-Most modern frameworks will include Composer out of the box, but ensure the following file is included:
-
-```php
-<?php
-// include the Composer autoloader
-require 'vendor/autoload.php';
-```
 
 
 ## Usage
 
-### Console
+### Standalone server
 
-### Programatically
+Depending of your needs, you can decide to use the standalone server directly from the command line or use it programatically.
+ 
+#### Option 1: Command line usage
+
+First copy the distribution configuration file and edit a local copy.
+
+```console
+$ cp ./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist ./pjbserver.config.php
+```
+
+Edit the TCP server port on which you want the standalone server to listen and eventually advanced options.
+
+Then you can control the server from the command line.
+
+```console
+$ ./vendor/bin/pjbserver-tools pjbserver:start ./pjbserver.config.php
+$ ./vendor/bin/pjbserver-tools pjbserver:stop ./pjbserver.config.php
+$ ./vendor/bin/pjbserver-tools pjbserver:restart ./pjbserver.config.php
+```
+
+*It's possible to launch the process at boot time ([supervisord](http://supervisord.org/),...), but for production systems
+the best is to deploy on a J2EE server like Tomcat...*
+
+#### Option 2: Programatically
 
 ```php
 <?php
@@ -61,7 +79,14 @@ use PjbServer\Tools\StandaloneServer\Config;
 $config = new Config([
     // Port on which php java bridge server listen (required)
     'port' => 8089,
+
+    // Optional but often more than useful
+    'classpaths  => [
+          '/my/path/*.jar',
+          '/another/path/mylib.jar
+    ],
     
+   
     // Optional
     'java_bin' => 'java', // Java executable
     'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
