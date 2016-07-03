@@ -239,16 +239,12 @@ class StandaloneServer
         $port = $this->config->getPort();
 
         $java_bin = $this->config->getJavaBin();
-/*
+
         $jars = [];
-        $autoload_path = $this->config['autoload_path'];
-        $files = glob("$autoload_path/*.jar");
-        foreach ($files as $file) {
-            $jars[] = $file;
+        $classpaths = $this->config->getClasspaths();
+        foreach ($classpaths as $classpath) {
+            $jars[] = $classpath;
         }
-*/
-        $jars =[];
-        $jars[] = "/web/www/pjbserver-tools/resources/autoload/*.jar";
         $jars[] = $this->config->getServerJar();
         $classpath = implode(':', $jars);
 

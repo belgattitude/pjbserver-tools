@@ -58,7 +58,47 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = new Config($params);
     }
 
+    public function testInvalidClassPath()
+    {
+        $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
+        try {
+            $config['classpaths'] = 'cool';
+            $cfg = new Config($config);
+            $this->assertFalse(true, "Exception should be thrown when passing an invalid classpaths option");
+        } catch (\PjbServer\Tools\Exception\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
 
+        try {
+            $config['classpaths'] = [
+                '/invalidfile'
+            ];
+            $cfg = new Config($config);
+            $this->assertFalse(true, "Exception should be thrown when passing a classpath option not finishing by .jar");
+        } catch (\PjbServer\Tools\Exception\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+
+        try {
+            $config['classpaths'] = [
+                '/unexisting/test.jar'
+            ];
+            $cfg = new Config($config);
+            $this->assertFalse(true, "Exception should be thrown when passing a classpath option with file not existing");
+        } catch (\PjbServer\Tools\Exception\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+
+        try {
+            $config['classpaths'] = [
+                '/invalid_dir/*.jar'
+            ];
+            $cfg = new Config($config);
+            $this->assertFalse(true, "Exception should be thrown when passing a classpath option with *.jar in an unexisting dir");
+        } catch (\PjbServer\Tools\Exception\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
 
     public function testGetConfig()
     {

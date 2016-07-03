@@ -43,21 +43,27 @@ class Config
      * <code>
      *
      * $params = [
-     *      // required
+     *      // Port (required)
      *      'port' => 8089,
      *
-     *      // optionally
+     *      // Classpath autoloads (optional)
+     *      'classpaths' => [
+     *          '/my/path/to_specific/jar_file.jar',
+     *          '/my/path/to_all_jars/*.jar'
+     *      ],
+     *
+     *      // Defaults (optional)
      *      'java_bin'   => 'java',
      *      'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
      *      'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
-     *      'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
+     *      'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid'
+     *
      * ];
      * $config = new StandaloneServer\Config($params);
      * </code>
      *
      * @throws Exception\InvalidArgumentException
      * @param array $config
-     * @param LoggerInterface $logger
      *
      */
     public function __construct(array $config)
@@ -196,6 +202,31 @@ class Config
 
         // Step 4: Java must be callable
 
-        // Step 5: Check autoload
+        // Step 5: Check classpaths autoload
+        if (isset($config['classpaths'])) {
+            if (!is_array($config['classpaths'])) {
+                $msg = "Option 'classpaths' mus be a php array.";
+                throw new Exception\InvalidArgumentException($msg);
+            }
+            foreach ($config['classpaths'] as $classpath) {
+                if (preg_match('/\*\.jar$/', $classpath)) {
+                    // Check if directory exists
+                    $directory = preg_replace('/\*\.jar$/', '', $classpath);
+                    if (!is_dir($directory) || !is_readable($directory)) {
+                        $msg = "Classpath error, the directory of '$classpath' does not exists or is not readable";
+                        throw new Exception\InvalidArgumentException($msg);
+                    }
+                } elseif (preg_match('/\.jar$/', $classpath)) {
+                    // Check if file exists
+                    if (!is_file($classpath) || !is_readable($classpath)) {
+                        $msg = "Classpath error, the file '$classpath' does not exists or is not readable";
+                        throw new Exception\InvalidArgumentException($msg);
+                    }
+                } else {
+                    $msg = "Error in classpath, files to import must end by .jar extension ($classpath)";
+                    throw new Exception\InvalidArgumentException($msg);
+                }
+            }
+        }
     }
 }
