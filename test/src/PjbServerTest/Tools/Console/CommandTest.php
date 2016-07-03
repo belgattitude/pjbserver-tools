@@ -38,7 +38,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $tester->execute([
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
-        
+
         $this->assertEquals(0, $tester->getStatusCode());
 
         $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());

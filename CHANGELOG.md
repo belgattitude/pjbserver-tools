@@ -1,5 +1,10 @@
 # CHANGELOG
 
+
+### 2.0.1 (2016-07-03)
+
+- Fix for multiple jar entries (*.jar)
+
 ### 2.0.0 (2016-07-03)
 
 - Refactored usage, config params must now be passed in the `StandaloneServer\Config($params)` object.

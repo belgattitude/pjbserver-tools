@@ -243,14 +243,25 @@ class StandaloneServer
         $jars = [];
         $classpaths = $this->config->getClasspaths();
         foreach ($classpaths as $classpath) {
-            $jars[] = $classpath;
+            if (preg_match('/\*\.jar$/', $classpath)) {
+                $directory = preg_replace('/\*\.jar$/', '', $classpath);
+                $files = glob("$directory/*.jar");
+                foreach ($files as $file) {
+                    foreach ($files as $file) {
+                        $jars[] = $file;
+                    }
+                }
+            } else {
+                $jars[] = $classpath;
+            }
         }
+
         $jars[] = $this->config->getServerJar();
         $classpath = implode(':', $jars);
 
         $directives = ' -D' . implode(' -D', [
                     'php.java.bridge.daemon="false"',
-                    'php.java.bridge.threads=30'
+                    'php.java.bridge.threads=50'
         ]);
 
         $command = sprintf('%s -cp "%s" %s php.java.bridge.Standalone SERVLET:%d',
