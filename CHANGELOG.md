@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.0.2 (2016-07-03)
+
+- Fix travis builds (no notable changes)
 
 ### 2.0.1 (2016-07-03)
 
