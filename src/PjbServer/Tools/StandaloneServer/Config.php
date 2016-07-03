@@ -116,8 +116,8 @@ class Config
     }
 
     /**
-     *
-     * @return string
+     * Return an array containing the java classpath(s) for the server
+     * @return array
      */
     public function getClasspaths()
     {
