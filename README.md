@@ -81,7 +81,7 @@ $config = new Config([
     'port' => 8089,
 
     // Optional but often more than useful
-    'classpaths  => [
+    'classpaths'  => [
           '/my/path/*.jar',
           '/another/path/mylib.jar'
     ],
