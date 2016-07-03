@@ -55,7 +55,7 @@ First copy the distribution configuration file and edit a local copy.
 $ cp ./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist ./pjbserver.config.php
 ```
 
-Edit the TCP server port on which you want the standalone server to listen and eventually advanced options.
+Edit the TCP server port on which you want the standalone server to listen and eventually modify advanced options.
 
 Then you can control the server from the command line.
 
