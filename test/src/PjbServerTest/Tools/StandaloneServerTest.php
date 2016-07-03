@@ -24,6 +24,13 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->server->stop();
     }
 
+    public function testGetConfig()
+    {
+        $config = PjbServerTestConfig::getStandaloneServerConfig();
+        $server = new StandaloneServer($config);
+        $this->assertInstanceOf(\PjbServer\Tools\StandaloneServer\Config::class, $server->getConfig());
+    }
+
     public function testIsStarted()
     {
         $this->assertFalse($this->server->isStarted());
@@ -65,7 +72,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     public function testGetPid()
     {
         $config   = $this->server->getConfig();
-        $pid_file = $config['pid_file'];
+        $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
         $this->assertInternalType('int', (filter_var($pid, FILTER_VALIDATE_INT)));
@@ -77,7 +84,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     public function testStop()
     {
         $config   = $this->server->getConfig();
-        $pid_file = $config['pid_file'];
+        $pid_file = $config->getPidFile();
         $this->server->start();
         $this->assertFileExists($pid_file);
         $this->server->stop();
@@ -87,7 +94,6 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     public function testGetOutput()
     {
         $config   = $this->server->getConfig();
-        $pid_file = $config['pid_file'];
         $this->server->start();
         $output = $this->server->getOutput();
         $this->assertInternalType('string', $output);
@@ -99,7 +105,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\RuntimeException::class);
         $config   = $this->server->getConfig();
-        $log_file = $config['log_file'];
+        $log_file = $config->getLogFile();
         $this->server->start();
         // pretend output log file does not exists
         unlink($log_file);
@@ -109,7 +115,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     public function testGetOutputThrowsExceptionWhenUnreadbableLog()
     {
         $config   = $this->server->getConfig();
-        $log_file = $config['log_file'];
+        $log_file = $config->getLogFile();
         $this->server->start();
         // pretend output log file is not readable
         chmod($log_file, 0000);
@@ -139,7 +145,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     public function testGetPidCorrupted()
     {
         $config   = $this->server->getConfig();
-        $pid_file = $config['pid_file'];
+        $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
         $this->assertInternalType('int', $pid);

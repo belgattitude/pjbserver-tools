@@ -1,11 +1,11 @@
 <?php
 
-namespace PjbServerTest\Tools;
+namespace PjbServerTest\Tools\StandaloneServer;
 
+use PjbServer\Tools\StandaloneServer\Config;
 use PjbServerTestConfig;
-use PjbServer\Tools\StandaloneServer;
 
-class StandaloneServerConstructTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function setUp()
@@ -19,59 +19,51 @@ class StandaloneServerConstructTest extends \PHPUnit_Framework_TestCase
     public function testConstructorThrowsInvalidArgumentException()
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
-        $config = [];
-        $server = new StandaloneServer($config);
+        $params = [];
+        $config = new Config($params);
     }
 
     public function testConstructorThrowsInvalidArgumentException2()
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
-        $config = ['port' => 'cool'];
-        $server = new StandaloneServer($config);
+        $params = ['port' => 'cool'];
+        $config = new Config($params);
     }
 
     public function testConstructorThrowsInvalidArgumentException3()
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
-        $config = [
+        $params = [
             'port' => '8192',
             'server_jar' => '/invalid_path/JavaBridge.jar'
         ];
-        $server = new StandaloneServer($config);
+        $config = new Config($params);
     }
 
     public function testConstructorThrowsInvalidArgumentException4()
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
-        $config = [
+        $params = [
             'error_file' => '/invalid_path/pjb621_standalone/logs/error.log',
         ];
-        $server = new StandaloneServer($config);
+        $config = new Config($params);
     }
 
     public function testConstructorThrowsInvalidArgumentException5()
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
-        $config = [
+        $params = [
             'pid_file' => '/invalid_path/resources/pjb621_standalone/var/run/server.pid'
         ];
-        $server = new StandaloneServer($config);
+        $config = new Config($params);
     }
 
 
-    public function testGetServerPort()
-    {
-        $config = PjbServerTestConfig::getStandaloneServerConfig();
-        $server = new StandaloneServer($config);
-        $port = $server->getServerPort();
-        $this->assertEquals($config['port'], $port);
-    }
 
-    public function testGetServerConfig()
+    public function testGetConfig()
     {
-        $config = PjbServerTestConfig::getStandaloneServerConfig();
-        $server = new StandaloneServer($config);
-        $config = $server->getConfig();
+        $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
+
         $this->assertInternalType('array', $config);
         $this->assertArrayHasKey('port', $config);
         $this->assertArrayHasKey('java_bin', $config);

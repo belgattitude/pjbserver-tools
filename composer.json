@@ -26,10 +26,14 @@
     }
   },
   "require": {
-    "php": "^5.5 || ^7.0"
+    "php": "^5.5 || ^7.0",
+    "psr/log": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8 || ^5.4"
+  },
+  "suggest": {
+    "monolog/monolog": "Monolog or other PSR-1 compatible logger"
   },
   "scripts": {
     "test": "phpunit"

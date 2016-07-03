@@ -3,18 +3,9 @@
 namespace PjbServer\Tools;
 
 use PjbServer\Tools\Network\PortTester;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-/*
-  java -Djava.awt.headless="true"
-  -Dphp.java.bridge.threads=50
-  -Dphp.java.bridge.base=/usr/lib/php/modules
-  -Dphp.java.bridge.php_exec=/usr/local/bin/php-cgi
-  -Dphp.java.bridge.default_log_file=
-  -Dphp.java.bridge.default_log_level=5
-  -Dphp.java.bridge.daemon="false"
-  -jar JavaBridge.jar
- * sudo netstat -anltp|grep :8089
- */
 
 class StandaloneServer
 {
@@ -26,7 +17,7 @@ class StandaloneServer
 
     /**
      *
-     * @var array
+     * @var StandaloneServer\Config
      */
     protected $config;
 
@@ -36,28 +27,6 @@ class StandaloneServer
      */
     protected $started = false;
 
-    /**
-     * @var array
-     */
-    protected $required_arguments = [
-        'port' => 'FILTER_VALIDATE_INT',
-        'server_jar' => 'existing_file',
-        'log_file' => 'file_with_existing_directory',
-        'pid_file' => 'file_with_existing_directory',
-        'autoload_path' => 'existing_directory'
-    ];
-
-    /**
-     * Default configuration options
-     * @var array
-     */
-    protected $default_config = [
-        'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
-        'java_bin' => 'java',
-        'log_file' => '{base_dir}/resources/pjb621_standalone/logs/pjbserver-port{tcp_port}.log',
-        'pid_file' => '{base_dir}/resources/pjb621_standalone/var/run/pjbserver-port{tcp_port}.pid',
-        'autoload_path' => '{base_dir}/resources/autoload'
-    ];
 
     /**
      *
@@ -65,6 +34,11 @@ class StandaloneServer
      */
     protected $portTester;
 
+
+    /**
+     * @var
+     */
+    protected $logger;
 
     /**
      * Constructor
@@ -83,18 +57,12 @@ class StandaloneServer
      * </code>
      *
      * @throws Exception\InvalidArgumentException
-     * @param array $config
+     * @param StandaloneServer\Config $config
+     * @param LoggerInterface $logger
+     *
      */
-    public function __construct(array $config)
+    public function __construct(StandaloneServer\Config $config, LoggerInterface $logger=null)
     {
-        if (!isset($config['port'])) {
-            throw new Exception\InvalidArgumentException("Error missing required 'port' in config");
-        } elseif (!filter_var($config['port'], FILTER_VALIDATE_INT)) {
-            throw new Exception\InvalidArgumentException("Option 'port' must be numeric");
-        }
-        $config = array_merge($this->getDefaultConfig($config['port']), $config);
-        $this->checkConfigRequiredArgs($config);
-        $this->setServerPort($config['port']);
         $this->config = $config;
 
         $curl_available = function_exists('curl_version');
@@ -106,44 +74,56 @@ class StandaloneServer
             // not close quickly enough to allow standalone server binding
             'close_timeout_ms' => $curl_available ? null : 300
         ]);
+        if ($logger === null) {
+            $logger = new NullLogger();
+        }
+        $this->logger = $logger;
     }
 
     /**
      * Start the standalone server
      *
      * @throws Exception\RuntimeException
-     * @throws Exce
      *
      * @param int $timeout_ms maximum number of milliseconds to wait for server start
      * @return void
      */
     public function start($timeout_ms = 3000)
     {
+        $port = $this->config->getPort();
+
+        $this->logger->info("Starting standalone server on port $port.");
+
         if ($this->isStarted()) {
+            $this->logger->info("Standalone server already running, skipping start.");
             return;
         }
 
-        $port = $this->getServerPort();
+
 
         if (!$this->portTester->isAvailable('localhost', $port, 'http')) {
             $msg = "Cannot start server on port '$port', it's already in use.";
+            $this->logger->error("Start failed: $msg");
             throw new Exception\RuntimeException($msg);
         }
 
         $command = $this->getCommand();
 
-        $log_file = $this->config['log_file'];
-        $pid_file = $this->config['pid_file'];
+        $log_file = $this->config->getLogFile();
+        $pid_file = $this->config->getPidFile();
         $cmd = sprintf("%s > %s 2>&1 & echo $! > %s", $command, $log_file, $pid_file);
 
+        $this->logger->debug("Start server with: $cmd");
         exec($cmd);
 
         if (!file_exists($pid_file)) {
             $msg = "Server not started, pid file was not created in '$pid_file'";
+            $this->logger->error("Start failed: $msg");
             throw new Exception\RuntimeException($msg);
         }
         if (!file_exists($log_file)) {
             $msg = "Server not started, log file was not created in '$log_file'";
+            $this->logger->error("Start failed: $msg");
             throw new Exception\RuntimeException($msg);
         }
 
@@ -160,6 +140,7 @@ class StandaloneServer
             if (preg_match('/Exception/', $log_file_content)) {
                 $msg = "Cannot start standalone server on port '$port', reason:\n";
                 $msg .= $log_file_content;
+                $this->logger->error("Start failed: $msg");
                 throw new Exception\RuntimeException($msg);
             }
 
@@ -171,6 +152,7 @@ class StandaloneServer
         }
         if (!$started) {
             $msg = "Standalone server probably not started, timeout '$timeout_ms' reached before getting output";
+            $this->logger->error("Start failed: $msg");
             throw new Exception\RuntimeException($msg);
         }
         $this->started = true;
@@ -187,13 +169,15 @@ class StandaloneServer
      */
     public function stop($throws_exception = false)
     {
-        $pid_file = $this->config['pid_file'];
+        $this->logger->info("Stopping server");
+        $pid_file = $this->config->getPidFile();
         try {
             $pid = $this->getPid();
             $running = $this->isProcessRunning($throws_exception=true);
             if (!$running) {
                 if ($throws_exception) {
                     $msg = "Cannot stop: pid exists ($pid) but server process is not running";
+                    $this->logger->info("Stop failed: $msg");
                     throw new Exception\RuntimeException($msg);
                 }
                 return;
@@ -201,6 +185,7 @@ class StandaloneServer
         } catch (Exception\PidNotFoundException $e) {
             if ($throws_exception) {
                 $msg = "Cannot stop server, pid file not found (was the server started ?)";
+                $this->logger->info("Stop failed: $msg");
                 throw new Exception\RuntimeException($msg);
             }
             return;
@@ -217,6 +202,7 @@ class StandaloneServer
         try {
             if ($return_var !== 0) {
                 $msg = "Cannot kill standalone server process '$pid', seems to not exists.";
+                $this->logger->info("Stop failed: $msg");
                 throw new Exception\RuntimeException($msg);
             }
         } catch (Exception\RuntimeException $e) {
@@ -250,18 +236,20 @@ class StandaloneServer
      */
     public function getCommand()
     {
-        $port = $this->getServerPort();
+        $port = $this->config->getPort();
 
-        $java_bin = $this->config['java_bin'];
-
+        $java_bin = $this->config->getJavaBin();
+/*
         $jars = [];
         $autoload_path = $this->config['autoload_path'];
         $files = glob("$autoload_path/*.jar");
         foreach ($files as $file) {
             $jars[] = $file;
         }
-        $jars[] = $this->config['server_jar'];
-
+*/
+        $jars =[];
+        $jars[] = "/web/www/pjbserver-tools/resources/autoload/*.jar";
+        $jars[] = $this->config->getServerJar();
         $classpath = implode(':', $jars);
 
         $directives = ' -D' . implode(' -D', [
@@ -269,27 +257,31 @@ class StandaloneServer
                     'php.java.bridge.threads=30'
         ]);
 
-        $command = "$java_bin -cp $classpath $directives php.java.bridge.Standalone SERVLET:$port";
+        $command = sprintf('%s -cp "%s" %s php.java.bridge.Standalone SERVLET:%d',
+                            $java_bin, $classpath, $directives, $port);
+
         return $command;
     }
 
 
     /**
-     * Get runnin standalone server pid number
+     * Get standalone server pid number as it was stored during last start
      *
      * @throws Exception\PidNotFoundException
      * @return int
      */
     public function getPid()
     {
-        $pid_file = $this->config['pid_file'];
+        $pid_file = $this->config->getPidFile();
         if (!file_exists($pid_file)) {
             $msg = "Pid file cannot be found '$pid_file'";
+            $this->logger->error("Get PID failed: $msg");
             throw new Exception\PidNotFoundException($msg);
         }
         $pid = trim(file_get_contents($pid_file));
         if (!preg_match('/^[0-9]+$/', $pid)) {
             $msg = "Pid found '$pid_file' but no valid pid stored in it or corrupted file '$pid_file'.";
+            $this->logger->error("Get PID failed: $msg");
             throw new Exception\PidCorruptedException($msg);
         }
         return (int) $pid;
@@ -298,16 +290,20 @@ class StandaloneServer
 
     /**
      * Return the content of the output_file
-     * @throws \RuntimeException
+     * @throws Exception\RuntimeException
      * @return string
      */
     public function getOutput()
     {
-        $log_file = $this->config['log_file'];
+        $log_file = $this->config->getLogFile();
         if (!file_exists($log_file)) {
-            throw new Exception\RuntimeException("Server output log file does not exists '$log_file'");
+            $msg = "Server output log file does not exists '$log_file'";
+            $this->logger->error("Get server output failed: $msg");
+            throw new Exception\RuntimeException($msg);
         } elseif (!is_readable($log_file)) {
-            throw new Exception\RuntimeException("Cannot read log file do to missing read permission '$log_file'");
+            $msg = "Cannot read log file do to missing read permission '$log_file'";
+            $this->logger->error("Get server output failed: $msg");
+            throw new Exception\RuntimeException($msg);
         }
         $output = file_get_contents($log_file);
         return $output;
@@ -319,7 +315,7 @@ class StandaloneServer
      * is effectively running
      *
      * @throws Exception\PidNotFoundException
-     * @param $throwsException if false discard exception if pidfile not exists
+     * @param boolean $throwsException if false discard exception if pidfile not exists
      * @return boolean
      */
     public function isProcessRunning($throwsException = false)
@@ -327,7 +323,9 @@ class StandaloneServer
         $running = false;
         try {
             $pid = $this->getPid();
-            $result = trim(shell_exec(sprintf("ps -j --no-headers -p %d", $pid)));
+            $cmd = sprintf("ps -j --no-headers -p %d", $pid);
+            $this->logger->debug("Getting process with cmd: $cmd");
+            $result = trim(shell_exec($cmd));
             if (preg_match("/^$pid/", $result)) {
                 $running = true;
             }
@@ -350,103 +348,11 @@ class StandaloneServer
     }
 
     /**
-     * Return port on which standalone server listens
-     * @return int
-     */
-    public function getServerPort()
-    {
-        return $this->port;
-    }
-
-    /**
-     * Set port on which standalone server listens.
-     *
-     * @param int $port
-     * @return void
-     */
-    protected function setServerPort($port)
-    {
-        $this->port = $port;
-    }
-
-    /**
-     * Return standalone configuration
-     *
-     * @return array
+     * Return underlying configuration object
+     * @return StandaloneServer\Config
      */
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * Return default configuration options
-     * @param int $port
-     * @return array
-     */
-    protected function getDefaultConfig($port)
-    {
-        $base_dir = realpath(__DIR__ . '/../../../');
-        $config = [];
-        foreach ($this->default_config as $key => $value) {
-            $tmp = str_replace('{base_dir}', $base_dir, $value);
-            $tmp = str_replace('{tcp_port}', $port, $tmp);
-            $config[$key] = $tmp;
-        }
-        return $config;
-    }
-
-    /**
-     * Check configuration parameters
-     * @throws Exception\InvalidArgumentException
-     * @param array $config
-     */
-    protected function checkConfigRequiredArgs(array $config)
-    {
-        foreach ($this->required_arguments as $name => $type) {
-            if (!isset($config[$name])) {
-                $msg = "Missing option '$name' in Standalone server configuration";
-                throw new Exception\InvalidArgumentException($msg);
-            }
-            if (is_long($type) && !filter_var($config[$name], $type)) {
-                $msg = "Unsupported type in option '$name' in Standalone server configuration (required $type)";
-                throw new Exception\InvalidArgumentException($msg);
-            } elseif (is_string($type)) {
-                switch ($type) {
-                    case 'existing_file':
-                        $file = $config[$name];
-                        if (!file_exists($file)) {
-                            $msg = "The '$name' file '$file 'does not exists.";
-                            throw new Exception\InvalidArgumentException($msg);
-                        }
-                        break;
-                    case 'existing_directory':
-                        $directory = $config[$name];
-                        if (!is_dir($directory)) {
-                            $msg = "The '$name' directory '$directory 'does not exists.";
-                            throw new Exception\InvalidArgumentException($msg);
-                        }
-                        break;
-
-                    case 'file_with_existing_directory':
-                        $file = $config[$name];
-                        $info = pathinfo($file);
-                        $dirname = $info['dirname'];
-                        if (!is_dir($dirname) || $dirname == ".") {
-                            $msg = "Option '$name' refer to an invalid or non-existent directory ($file)";
-                            throw new Exception\InvalidArgumentException($msg);
-                        }
-                        if (is_dir($file)) {
-                            $msg = "Option '$name' does not refer to a file but an existing directory ($file)";
-                            throw new Exception\InvalidArgumentException($msg);
-                        }
-                        if (file_exists($file) && !is_writable($file)) {
-                            $msg = "File specified in '$name' is not writable ($file)";
-                            throw new Exception\InvalidArgumentException($msg);
-                        }
-                        break;
-                }
-            }
-        }
     }
 }

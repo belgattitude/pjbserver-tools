@@ -1,5 +1,7 @@
 <?php
 
+use PjbServer\Tools\StandaloneServer\Config;
+
 class PjbServerTestConfig
 {
 
@@ -10,7 +12,7 @@ class PjbServerTestConfig
 
     /**
      * 
-     * @return array
+     * @return Config
      */
     public static function getStandaloneServerConfig()
     {
@@ -21,11 +23,16 @@ class PjbServerTestConfig
             $server_jar = realpath(self::getBaseDir() . DIRECTORY_SEPARATOR . $server_jar);
         }
 
-        $config = [
+        $params = [
             "port" => $_SERVER['standalone_server_port'],
             "server_jar" => $server_jar,
+            "log_file" => self::getBaseDir() . '/test/logs/pjbserver-port{tcp_port}.log',
+            "pid_file" => self::getBaseDir() . '/test/logs/pjbserver-port{tcp_port}.pid',
+            "classpaths" => [
+                self::getBaseDir() . '/resources/autoload/*.jar'
+            ]
         ];
 
-        return $config;
+        return new Config($params);
     }
 }
