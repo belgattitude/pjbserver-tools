@@ -16,7 +16,7 @@ The `pjbserver-tools` package currently provides an easy installable php java br
 The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
 for php/java integration while keeping things simple for development or unit testing.
  
-See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get an info about php/java integration.  
+See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get more info about php/java integration.  
   
 
 ## Features
@@ -48,16 +48,28 @@ require 'vendor/autoload.php';
 
 ## Usage
 
-### Start a standalone server
+### Console
+
+### Programatically
 
 ```php
 <?php
 
 use PjbServer\Tools\StandaloneServer;
+use PjbServer\Tools\StandaloneServer\Config;
 
-$server = new StandaloneServer([
-    'port' => '8089',
+$config = new Config([
+    // Port on which php java bridge server listen (required)
+    'port' => 8089,
+    
+    // Optional
+    'java_bin' => 'java', // Java executable
+    'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
+    'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
+    'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
 ]);
+
+$server = new StandaloneServer($config);
 
 try {
     $server->start();
@@ -69,7 +81,11 @@ try {
     die();
 }
 
-$pid = $server->getPid();
+echo "Started: " . ($server->isStarted() ? 'yes' : 'no') . PHP_EOL;
+echo "Running: " . ($server->isProcessRunning() ? 'yes' : 'no') . PHP_EOL;
+echo "Pid    : " . $server->getPid() . PHP_EOL;
+
+// Stopping the server
 
 $server->stop();
 

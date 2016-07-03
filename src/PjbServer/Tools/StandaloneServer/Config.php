@@ -50,7 +50,7 @@ class Config
      *      'java_bin'   => 'java',
      *      'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
      *      'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
-     *      'java_bin'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
+     *      'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
      * ];
      * $config = new StandaloneServer\Config($params);
      * </code>
