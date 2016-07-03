@@ -83,7 +83,7 @@ $config = new Config([
     // Optional but often more than useful
     'classpaths  => [
           '/my/path/*.jar',
-          '/another/path/mylib.jar
+          '/another/path/mylib.jar'
     ],
     
    
