@@ -35,7 +35,7 @@ See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project t
 Instant installation via [composer](http://getcomposer.org/).
 
 ```console
-$ composer require "belgattitude/pjbserver-tools:^1.1.0"
+$ composer require "belgattitude/pjbserver-tools:^2.0.0"
 ```
 Most modern frameworks will include Composer out of the box, but ensure the following file is included:
 
@@ -107,10 +107,10 @@ Some useful commands to watch, debug and eventually kill java standalone server 
 
 Some scripts and ant tasks examples are available in the /tools folder.
 
-
 ## Coding standards
 
 * [PSR 4 Autoloader](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md)
+* [PSR 3 Logger interface](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)
 * [PSR 2 Coding Style Guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
 * [PSR 1 Coding Standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
 * [PSR 0 Autoloading standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
