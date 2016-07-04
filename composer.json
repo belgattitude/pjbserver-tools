@@ -38,10 +38,10 @@
   },
   "scripts": {
     "test": "phpunit",
-    "start": "./bin/pjbserver-tools pjbserver:start ./config/pjbserver.config.php.dist",
-    "stop": "./bin/pjbserver-tools pjbserver:stop ./config/pjbserver.config.php.dist",
-    "restart": "./bin/pjbserver-tools pjbserver:restart ./config/pjbserver.config.php.dist",
-    "status": "./bin/pjbserver-tools pjbserver:restart ./config/pjbserver.config.php.dist"
+    "pjbserver:start": "./bin/pjbserver-tools -vvv pjbserver:start ./config/pjbserver.config.php.dist",
+    "pjbserver:stop": "./bin/pjbserver-tools -vvv pjbserver:stop ./config/pjbserver.config.php.dist",
+    "pjbserver:restart": "./bin/pjbserver-tools -vvv pjbserver:restart ./config/pjbserver.config.php.dist",
+    "pjbserver:status": "./bin/pjbserver-tools -vvv pjbserver:status ./config/pjbserver.config.php.dist"
 
   },
   "archive": {

@@ -2,6 +2,14 @@
 
 ### 2.0.3 (2016-07-04)
 
+- Added composer commands aliases with default configuration file
+  from ./config/pjbserver/config.php.dist and verbosity level to debug.
+  Will start on port 8089 by default.
+    - composer pjbserver:start
+    - composer pjbserver:stop
+    - composer pjbserver:restart
+    - composer pjbserver:status
+
 - Added console command to get the status of the server
   - ./bin/pjbservertools pjbserver:status <config_file>
 - Added console logger to all commands:

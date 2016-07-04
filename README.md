@@ -40,7 +40,6 @@ Instant installation via [composer](http://getcomposer.org/).
 $ composer require "belgattitude/pjbserver-tools:^2.0.0"
 ```
 
-
 ## Usage
 
 ### Standalone server
@@ -63,6 +62,7 @@ Then you can control the server from the command line.
 $ ./vendor/bin/pjbserver-tools pjbserver:start ./pjbserver.config.php
 $ ./vendor/bin/pjbserver-tools pjbserver:stop ./pjbserver.config.php
 $ ./vendor/bin/pjbserver-tools pjbserver:restart ./pjbserver.config.php
+$ ./vendor/bin/pjbserver-tools pjbserver:status ./pjbserver.config.php
 ```
 
 *It's possible to launch the process at boot time ([supervisord](http://supervisord.org/),...), but for production systems
