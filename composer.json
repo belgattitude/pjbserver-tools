@@ -34,7 +34,7 @@
     "phpunit/phpunit": "^4.8 || ^5.4"
   },
   "suggest": {
-    "monolog/monolog": "Monolog or other PSR-1 compatible logger"
+    "monolog/monolog": "Monolog or other PSR-3 compatible logger"
   },
   "scripts": {
     "test": "phpunit",
