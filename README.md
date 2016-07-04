@@ -35,7 +35,7 @@ for php/java integration while keeping things simple for development, unit testi
 Instant installation via [composer](http://getcomposer.org/).
 
 ```console
-$ composer require "belgattitude/pjbserver-tools:^2.0.0"
+$ composer require "belgattitude/pjbserver-tools:^2.0.3"
 ```
 
 ## Usage
