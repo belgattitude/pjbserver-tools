@@ -37,7 +37,12 @@
     "monolog/monolog": "Monolog or other PSR-1 compatible logger"
   },
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "start": "./bin/pjbserver-tools pjbserver:start ./config/pjbserver.config.php.dist",
+    "stop": "./bin/pjbserver-tools pjbserver:stop ./config/pjbserver.config.php.dist",
+    "restart": "./bin/pjbserver-tools pjbserver:restart ./config/pjbserver.config.php.dist",
+    "status": "./bin/pjbserver-tools pjbserver:restart ./config/pjbserver.config.php.dist"
+
   },
   "archive": {
     "exclude": [

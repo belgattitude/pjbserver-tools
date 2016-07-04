@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PjbServerStartCommand extends Command
 {
+    use LoggerTrait;
+
     /**
      * @var StandaloneServer
      */
@@ -41,6 +43,8 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = $this->getConsoleLogger($output);
+
         $file = $input->getArgument('config-file');
 
         // Test if config file exists
@@ -48,14 +52,17 @@ EOT
             $msg = "Configuration file '$file' does not exists or is not readable'";
             throw new \InvalidArgumentException($msg);
         }
+
         $params = include($file);
         $port = $params['port'];
 
         $config = new StandaloneServer\Config($params);
-
-        $this->server = new StandaloneServer($config);
+        $logger->notice("Starting the server on port '$port' and config file '$file'");
+        $this->logServerConfig($logger, $config);
+        $this->server = new StandaloneServer($config, $logger);
         $this->server->start();
 
-        $output->write("Server successfully started on port $port" . PHP_EOL);
+        $output->writeln("Server successfully started on port $port");
+        return 0;
     }
 }

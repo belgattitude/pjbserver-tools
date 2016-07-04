@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PjbServerStopCommand extends Command
 {
+    use LoggerTrait;
+
     /**
      * @var StandaloneServer
      */
@@ -40,6 +42,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = $this->getConsoleLogger($output);
         $file = $input->getArgument('config-file');
 
         // Test if config file exists
@@ -51,10 +54,15 @@ EOT
         $port = $params['port'];
 
         $config = new StandaloneServer\Config($params);
+
+        $logger->notice("Stopping the server on port '$port' and config file '$file'");
+        $this->logServerConfig($logger, $config);
+
         $this->server = new StandaloneServer($config);
 
         $this->server->stop();
 
-        $output->write("Server running on port $port successfully stopped" . PHP_EOL);
+        $output->writeln("Server running on port $port successfully stopped");
+        return 0;
     }
 }

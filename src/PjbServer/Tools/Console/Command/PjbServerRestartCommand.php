@@ -8,10 +8,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-
 class PjbServerRestartCommand extends Command
 {
+    use LoggerTrait;
+
     /**
      * @var StandaloneServer
      */
@@ -40,6 +40,8 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $logger = $this->getConsoleLogger($output);
+
         $file = $input->getArgument('config-file');
 
         // Test if config file exists
@@ -51,9 +53,15 @@ EOT
         $port = $params['port'];
         $config = new StandaloneServer\Config($params);
 
-        $this->server = new StandaloneServer($config);
+        $logger->notice("PJB server using port '$port' and config in '$file'");
+        $this->logServerConfig($logger, $config);
+
+        $this->server = new StandaloneServer($config, $logger);
         $this->server->restart();
 
-        $output->write("Server successfully restarted on port $port" . PHP_EOL);
+        $logger->debug("Server output: \n" . $this->server->getOutput());
+
+        $output->writeln("Server successfully restarted on port $port");
+        return 0;
     }
 }

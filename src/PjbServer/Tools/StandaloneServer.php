@@ -92,14 +92,12 @@ class StandaloneServer
     {
         $port = $this->config->getPort();
 
-        $this->logger->info("Starting standalone server on port $port.");
+        $this->logger->notice("Starting standalone server on port $port.");
 
         if ($this->isStarted()) {
-            $this->logger->info("Standalone server already running, skipping start.");
+            $this->logger->notice("Standalone server already running, skipping start.");
             return;
         }
-
-
 
         if (!$this->portTester->isAvailable('localhost', $port, 'http')) {
             $msg = "Cannot start server on port '$port', it's already in use.";
@@ -169,7 +167,7 @@ class StandaloneServer
      */
     public function stop($throws_exception = false)
     {
-        $this->logger->info("Stopping server");
+        $this->logger->notice("Stopping server");
         $pid_file = $this->config->getPidFile();
         try {
             $pid = $this->getPid();
@@ -177,7 +175,7 @@ class StandaloneServer
             if (!$running) {
                 if ($throws_exception) {
                     $msg = "Cannot stop: pid exists ($pid) but server process is not running";
-                    $this->logger->info("Stop failed: $msg");
+                    $this->logger->notice("Stop failed: $msg");
                     throw new Exception\RuntimeException($msg);
                 }
                 return;
@@ -185,7 +183,7 @@ class StandaloneServer
         } catch (Exception\PidNotFoundException $e) {
             if ($throws_exception) {
                 $msg = "Cannot stop server, pid file not found (was the server started ?)";
-                $this->logger->info("Stop failed: $msg");
+                $this->logger->notice("Stop failed: $msg");
                 throw new Exception\RuntimeException($msg);
             }
             return;
@@ -202,7 +200,7 @@ class StandaloneServer
         try {
             if ($return_var !== 0) {
                 $msg = "Cannot kill standalone server process '$pid', seems to not exists.";
-                $this->logger->info("Stop failed: $msg");
+                $this->logger->notice("Stop failed: $msg");
                 throw new Exception\RuntimeException($msg);
             }
         } catch (Exception\RuntimeException $e) {
@@ -282,7 +280,7 @@ class StandaloneServer
         $pid_file = $this->config->getPidFile();
         if (!file_exists($pid_file)) {
             $msg = "Pid file cannot be found '$pid_file'";
-            $this->logger->error("Get PID failed: $msg");
+            $this->logger->info("Get PID failed: $msg");
             throw new Exception\PidNotFoundException($msg);
         }
         $pid = trim(file_get_contents($pid_file));

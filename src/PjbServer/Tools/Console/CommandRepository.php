@@ -15,7 +15,8 @@ class CommandRepository
         $this->commands = [
             'pjbserver:start' => new Command\PjbServerStartCommand(),
             'pjbserver:restart' => new Command\PjbServerRestartCommand(),
-            'pjbserver:stop' => new Command\PjbServerStopCommand()
+            'pjbserver:stop' => new Command\PjbServerStopCommand(),
+            'pjbserver:status' => new Command\PjbServerStatusCommand()
         ];
     }
 

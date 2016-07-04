@@ -44,7 +44,23 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
     }
 
+    public function testServerStatusWhileStopped()
+    {
+        $app = new Application();
+        $app->add($this->commandRepo->getRegisteredCommand('pjbserver:status'));
+        $command = $app->find('pjbserver:status');
 
+        $tester = new CommandTester($command);
+
+        $port = $this->config->getPort();
+        $tester->execute([
+            'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
+        ]);
+
+        $this->assertEquals(1, $tester->getStatusCode());
+
+        $this->assertRegexp("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
+    }
     public function testServerStart()
     {
         $app = new Application();
@@ -61,6 +77,24 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $tester->getStatusCode());
 
         $this->assertRegexp("/Server successfully started on port $port/", $tester->getDisplay());
+    }
+
+    public function testServerStatusWhileRunning()
+    {
+        $app = new Application();
+        $app->add($this->commandRepo->getRegisteredCommand('pjbserver:status'));
+        $command = $app->find('pjbserver:status');
+
+        $tester = new CommandTester($command);
+
+        $port = $this->config->getPort();
+        $tester->execute([
+            'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
+        ]);
+
+        $this->assertEquals(0, $tester->getStatusCode());
+
+        $this->assertRegexp("/Server is running on port '$port'/", $tester->getDisplay());
     }
 
 
