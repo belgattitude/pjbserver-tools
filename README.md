@@ -80,7 +80,7 @@ $ composer pjbserver:restart
 $ composer pjbserver:status 
 ```
 
-See the [./config/pjbserver.config.php.dist](./config.pjbserver.config.php.dist) file to see the default parameters. 
+See the [./config/pjbserver.config.php.dist](./config/pjbserver.config.php.dist) file to see the default parameters. 
 
 #### Option 3: Programatically
 
