@@ -4,7 +4,7 @@
  *
  * $ ./bin/pjbserver-tools pjbserver:start 8089 --config-file=<config-file>
  *
- * You can adapt for your own need
+ * You can adapt for your own need, but don't edit this file directly
  */
 
 return [

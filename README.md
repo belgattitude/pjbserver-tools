@@ -69,7 +69,7 @@ To get more verbose message, you can simply add option -v, -vv or -vvv to the co
 the best is to deploy on a J2EE server like Tomcat...*
 
 
-#### Option 2: Command line with composer (
+#### Option 2: Command line with composer.
 
 The console scripts are aliased in composer with distribution defaults and moderate debug output.
 
@@ -141,6 +141,37 @@ $logger = new \Psr\Log\NullLogger();
 $server = new StanaloneServer($config, $logger);
 
 ```
+
+## Classpath configuration
+
+Whenever you need to add some java libraries, simply edit the configuration file and look for the
+`classpaths` option and add the required jar files.
+
+As an example:
+
+```php
+<?php
+
+return [
+    'port'       => 8089,
+    'classpaths' => [
+        '/my/path/autoload/mysql-connector.jar',
+        '/my/autoload_path/*.jar
+    ],
+
+    // Advanced options
+    // #########################################################################
+    //'java_bin'   => 'java',
+    //'server_jar' => __DIR__ . '/../resources/pjb621_standalone/JavaBridge.jar',
+    //'log_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.log',
+    //'pid_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.pid',
+    // ##########################################################################
+
+];
+```
+
+*Using wildcard `/my/path/*.jar` is possible but should be used with care. All matching files will be appended to classpath 
+by passing arguments in a shell exec. Limits exists...*
 
 ## Debugging
 
