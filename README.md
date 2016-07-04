@@ -14,10 +14,8 @@
 The `pjbserver-tools` package currently provides an easy installable php java bridge standalone server.
 See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get more info about php/java integration.
 
-
 *The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
-for php/java integration while keeping things simple for development, unit testing or small projects.*
-     
+for php/java integration while keeping things simple for development, unit testing or small projects.*     
 
 ## Features
 
@@ -46,7 +44,7 @@ $ composer require "belgattitude/pjbserver-tools:^2.0.0"
 
 Depending on your needs, you can decide to use the standalone server directly from the command line or use it programatically.
  
-#### Option 1: Command line usage
+#### Option 1: Command line usage with console
 
 First copy the distribution configuration file and edit a local copy.
 
@@ -65,10 +63,26 @@ $ ./vendor/bin/pjbserver-tools pjbserver:restart ./pjbserver.config.php
 $ ./vendor/bin/pjbserver-tools pjbserver:status ./pjbserver.config.php
 ```
 
+To get more verbose message, you can simply add option -v, -vv or -vvv to the command line.
+
 *It's possible to launch the process at boot time ([supervisord](http://supervisord.org/),...), but for production systems
 the best is to deploy on a J2EE server like Tomcat...*
 
-#### Option 2: Programatically
+
+#### Option 2: Command line with composer (
+
+The console scripts are aliased in composer with distribution defaults and moderate debug output.
+
+```console
+$ composer pjbserver:start 
+$ composer pjbserver:stop 
+$ composer pjbserver:restart 
+$ composer pjbserver:status 
+```
+
+See the [./config/pjbserver.config.php.dist](./config.pjbserver.config.php.dist) file to see the default parameters. 
+
+#### Option 3: Programatically
 
 As an alternative to the command line you can control the server directly from PHP.
 

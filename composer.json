@@ -44,6 +44,7 @@
     "pjbserver:status": "./bin/pjbserver-tools -vvv pjbserver:status ./config/pjbserver.config.php.dist"
 
   },
+  "bin": ["bin/pjbserver-tools"],
   "archive": {
     "exclude": [
       "test",
