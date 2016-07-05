@@ -19,9 +19,9 @@ for php/java integration while keeping things simple for development, unit testi
 
 ## Features
 
-- PHP Java bridge standalone server.
-- Simple and easy console to start/stop the server. 
-- Libraries to programatically control the server.
+- Easy setup of a PHP Java bridge standalone server (*nix).
+- Console commands to control the server (start/stop/restart/status). 
+- API library to customize the behaviour.
 - Includes latest compiled [JavaBridge.jar](./resources/pjb621_standalone/JavaBridge.jar) file.
 
 ## Requirements
@@ -31,60 +31,68 @@ for php/java integration while keeping things simple for development, unit testi
 - Java 1.7+ (see [install instructions](./doc/install_java.md)).
 
 ## Installation
- 
-Instant installation via [composer](http://getcomposer.org/).
 
-```console
-$ composer require "belgattitude/pjbserver-tools:^2.0.3"
-```
+Depending on your needs you can use the pjserver-tools in two ways.
+
+
+1. Install a standalone server (typical: command line)
+
+   This is the typical installation for php-java-bridge standalone server.
+
+   First create a path on your filesystem that will hold the server install.        
+   
+   ```console
+   $ mkdir -p /my/path/pjbserver-tools
+   $ cd /my/path/pjbserver-tools
+   ```
+   Then use use [composer](http://getcomposer.org) with the create-project option :
+   
+   ```console   
+   $ composer create-project --no-dev --prefer-dist "belgattitude/pjbserver-tools"
+   ```
+   
+2. Add library to your project (API)
+   
+   If you want more control over the process and don't want to install the command line setup,
+   you can add the project to your dependecies with [composer](http://getcomposer.org/).
+
+    ```console
+    $ composer require "belgattitude/pjbserver-tools:^2.0.3"
+    ```
+    
 
 ## Usage
 
-### Standalone server
+### With the command line standalone server
 
-Depending on your needs, you can decide to use the standalone server directly from the command line or use it programatically.
+If you've choosen the typical console mode (first installation method), You can use the commands 
+`pjbserver:start`, `pjbserver:stop`, `pjbserver:restart`, `pjbserver:status` followed
+by the `pjbserver.config.php` file to control or query the server status. 
+
+
+```console
+$ ./bin/pjbserver-tools pjbserver:start -vvv ./config/pjbserver.config.php.dist
+$ ./bin/pjbserver-tools pjbserver:stop -vvv ./config/pjbserver.config.php.dist
+$ ./bin/pjbserver-tools pjbserver:restart -vvv ./config/pjbserver.config.php.dist
+$ ./bin/pjbserver-tools pjbserver:status -vvv ./config/pjbserver.config.php.dist
+```
  
-#### Option 1: Command line usage with console
 
-First copy the distribution configuration file and edit a local copy.
-
+If you use the [./config/pjbserver.config.php.dist](./config/pjbserver.config.php.dist) config file, the server will start on port ***8089***. 
+   
+Feel free to create a local copy of this file and adapt for your usage :
+ 
 ```console
-$ cp ./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist ./pjbserver.config.php
+$ cp ./config/pjbserver.config.php.dist /my/path/pjbserver.config.php
 ```
 
-Edit the TCP server port on which you want the standalone server to listen and eventually modify advanced options.
+*Note that the -v, -vv, -vvv option in the command line allows to define the verbosity level of the scripts.*
 
-Then you can control the server from the command line.
-
-```console
-$ ./vendor/bin/pjbserver-tools pjbserver:start ./pjbserver.config.php
-$ ./vendor/bin/pjbserver-tools pjbserver:stop ./pjbserver.config.php
-$ ./vendor/bin/pjbserver-tools pjbserver:restart ./pjbserver.config.php
-$ ./vendor/bin/pjbserver-tools pjbserver:status ./pjbserver.config.php
-```
-
-To get more verbose message, you can simply add option -v, -vv or -vvv to the command line.
-
-*It's possible to launch the process at boot time ([supervisord](http://supervisord.org/),...), but for production systems
-the best is to deploy on a J2EE server like Tomcat...*
-
-
-#### Option 2: Command line with composer.
-
-The console scripts are aliased in composer with distribution defaults and moderate debug output.
-
-```console
-$ composer pjbserver:start 
-$ composer pjbserver:stop 
-$ composer pjbserver:restart 
-$ composer pjbserver:status 
-```
-
-See the [./config/pjbserver.config.php.dist](./config/pjbserver.config.php.dist) file to see the default parameters. 
-
-#### Option 3: Programatically
+### Using the API (programatically)
 
 As an alternative to the command line you can control the server directly from PHP.
+
+Here's a little example:
 
 ```php
 <?php
@@ -132,7 +140,6 @@ $server->stop();
 
 ```
 
-
 You can also inject any PSR-3 compatible logger to the `StandaloneServer`.
 
 ```php
@@ -142,7 +149,9 @@ $server = new StanaloneServer($config, $logger);
 
 ```
 
-## Classpath configuration
+## Configuration
+
+### Classpath configuration
 
 Whenever you need to add some java libraries, simply edit the configuration file and look for the
 `classpaths` option and add the required jar files.
@@ -177,10 +186,17 @@ by passing arguments in a shell exec. Limits exists...*
 
 ## Debugging
 
-
 Some useful commands to watch, debug and eventually kill java standalone server process
 
-```shell
+Console style:
+
+```console
+$ ./bin/pjbserver-tools pjbserver:status -vvv ./config/pjbserver.config.php.dist
+```
+
+Unix style:
+
+```console
 > netstat -an | grep <port>
 > ps ax | grep standalone
 > kill <pid_standalone_server>
@@ -199,5 +215,3 @@ Some scripts and ant tasks examples are available in the /tools folder.
 * [PSR 2 Coding Style Guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
 * [PSR 1 Coding Standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
 * [PSR 0 Autoloading standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
-
-
