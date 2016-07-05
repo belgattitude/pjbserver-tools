@@ -51,7 +51,7 @@ Depending on your needs you can use the pjserver-tools in two ways.
    $ composer create-project --no-dev --prefer-dist "belgattitude/pjbserver-tools"
    ```
    
-2. Options 2: Add library to your project (API)
+2. Option 2: Add library to your project (API)
    
    If you want more control over the process and don't want to install the command line setup,
    you can add the project to your dependecies with [composer](http://getcomposer.org/).
