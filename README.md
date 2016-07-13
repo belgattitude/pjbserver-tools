@@ -35,7 +35,7 @@ for php/java integration while keeping things simple for development, unit testi
 Depending on your needs you can use the pjserver-tools in two ways.
 
 
-1. Option 1: Install a standalone server (typical: command line)
+1. Option 1: clone the repo or download the repo (typical: command line)
 
    This is the typical installation for php-java-bridge standalone server.
 
@@ -45,10 +45,12 @@ Depending on your needs you can use the pjserver-tools in two ways.
    $ mkdir -p /my/path/pjbserver-tools
    $ cd /my/path/pjbserver-tools
    ```
-   Then use use [composer](http://getcomposer.org) with the create-project option :
    
-   ```console   
-   $ composer create-project --no-dev --prefer-dist "belgattitude/pjbserver-tools"
+   Clone the repository and use run [composer](http://getcomposer.org) update.
+   
+   ```console
+   $ git clone https://github.com/belgattitude/pjbserver-tools.git .
+   $ composer update
    ```
    
 2. Option 2: Add library to your project (API)
