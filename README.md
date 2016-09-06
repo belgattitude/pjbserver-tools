@@ -153,7 +153,7 @@ You can also inject any PSR-3 compatible logger to the `StandaloneServer`.
 ```php
 // any PSR-3 compatible logger
 $logger = new \Psr\Log\NullLogger();
-$server = new StanaloneServer($config, $logger);
+$server = new StandaloneServer($config, $logger);
 
 ```
 
