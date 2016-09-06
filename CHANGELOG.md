@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 2.0.4 (2016-09-06)
+
+- Added possibility to modify standalone server number of threads from config file.
+- New command to reveal internal cli command used to start the server
+  see ./bin/pjbservertools pjbserver:reveal ./config/pjbserver.config.php.dist
+
 ### 2.0.3 (2016-07-04)
 
 - Added composer commands aliases with default configuration file

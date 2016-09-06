@@ -56,10 +56,10 @@ Depending on your needs you can use the pjserver-tools in two ways.
 2. Option 2: Add library to your project (API)
    
    If you want more control over the process and don't want to install the command line setup,
-   you can add the project to your dependecies with [composer](http://getcomposer.org/).
+   you can add the project to your dependencies with [composer](http://getcomposer.org/).
 
     ```console
-    $ composer require "belgattitude/pjbserver-tools:^2.0.3"
+    $ composer require "belgattitude/pjbserver-tools:^2.0.4"
     ```
     
 
@@ -77,6 +77,9 @@ $ ./bin/pjbserver-tools pjbserver:start -vvv ./config/pjbserver.config.php.dist
 $ ./bin/pjbserver-tools pjbserver:stop -vvv ./config/pjbserver.config.php.dist
 $ ./bin/pjbserver-tools pjbserver:restart -vvv ./config/pjbserver.config.php.dist
 $ ./bin/pjbserver-tools pjbserver:status -vvv ./config/pjbserver.config.php.dist
+
+$ # for listing the java cli command issued : 
+$ ./bin/pjbserver-tools pjbserver:reveal ./config/pjbserver.config.php.dist
 ```
  
 
@@ -111,8 +114,11 @@ $config = new Config([
           '/my/path/*.jar',
           '/another/path/mylib.jar'
     ],
-    
    
+    // Standalone server tuning
+    // Number of threads for standalone server is 50, increase if needed
+    //'threads'    => 50,
+       
     // Optional
     'java_bin' => 'java', // Java executable
     'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',

@@ -133,4 +133,22 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
     }
+
+    public function testReveal()
+    {
+        $app = new Application();
+        $app->add($this->commandRepo->getRegisteredCommand('pjbserver:reveal'));
+        $command = $app->find('pjbserver:reveal');
+
+        $tester = new CommandTester($command);
+
+        $port = $this->config->getPort();
+        $tester->execute([
+            'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
+        ]);
+
+        $this->assertEquals(1, $tester->getStatusCode());
+
+        $this->assertRegexp("/java -cp(.*)JavaBridge.jar(.*)SERVLET:$port/", $tester->getDisplay());
+    }
 }

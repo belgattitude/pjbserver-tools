@@ -7,7 +7,6 @@ use PjbServerTestConfig;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
-
     protected function setUp()
     {
     }
@@ -100,6 +99,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+
+    public function testInvalidThreads()
+    {
+        $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
+        try {
+            $config['threads'] = 'A';
+            $cfg = new Config($config);
+            $this->assertFalse(true, "Exception should be thrown when passing invalid threads option.");
+        } catch (\PjbServer\Tools\Exception\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
+
+    public function testThreadsDefault()
+    {
+        $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
+        unset($config['threads']);
+        $cfg = new Config($config);
+        $this->assertEquals(50, $cfg->getThreads());
+    }
+
+
     public function testGetConfig()
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
@@ -109,5 +130,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('java_bin', $config);
         $this->assertArrayHasKey('log_file', $config);
         $this->assertArrayHasKey('pid_file', $config);
+        $this->assertArrayHasKey('threads', $config);
     }
 }

@@ -4,7 +4,6 @@ namespace PjbServer\Tools\Network;
 
 class PortTester
 {
-
     const BACKEND_STREAM_SOCKET = 'stream_socket';
     const BACKEND_SOCKET_CREATE = 'socket_create';
     const BACKEND_PFSOCKOPEN = 'pfsockopen';

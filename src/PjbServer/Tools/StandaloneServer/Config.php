@@ -28,7 +28,8 @@ class Config
         'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
         'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
         'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
-        'classpaths' => []
+        'classpaths' => [],
+        'threads' => 50
     ];
 
     /**
@@ -52,6 +53,8 @@ class Config
      *          '/my/path/to_specific/jar_file.jar',
      *          '/my/path/to_all_jars/*.jar'
      *      ],
+     *
+     *      'threads' => 50,
      *
      *      // Defaults (optional)
      *      'java_bin'   => 'java',
@@ -134,6 +137,17 @@ class Config
         return $this->config['pid_file'];
     }
 
+
+    /**
+     * Return standalone server threads
+     *
+     * @return int|string
+     */
+    public function getThreads()
+    {
+        return $this->config['threads'];
+    }
+
     /**
      * Return standalone configuration
      *
@@ -169,7 +183,7 @@ class Config
     protected function checkConfig(array $config)
     {
         // Step 1: all required options
-        $required = ['port', 'server_jar', 'log_file', 'pid_file'];
+        $required = ['port', 'server_jar', 'log_file', 'pid_file', 'threads'];
         foreach ($required as $option) {
             if (!isset($config[$option]) || $config[$option] == '') {
                 throw new Exception\InvalidArgumentException("Missing resuired configuration option: '$option''");
@@ -201,9 +215,20 @@ class Config
             }
         }
 
-        // Step 4: Java must be callable
+        // Step 4: Threads must be numeric greater than 0
 
-        // Step 5: Check classpaths autoload
+        $threads = $config['threads'];
+
+        if (!preg_match('/^([0-9])+$/', $threads) || $threads <= 0) {
+            $msg = "Parameter 'threads' must be valid integer greater than 0";
+            throw new Exception\InvalidArgumentException($msg);
+        }
+
+        // Step 5: Java must be callable
+
+        // @todo, many options exists
+
+        // Step 6: Check classpaths autoload
         if (isset($config['classpaths'])) {
             if (!is_array($config['classpaths'])) {
                 $msg = "Option 'classpaths' mus be a php array.";

@@ -256,10 +256,11 @@ class StandaloneServer
 
         $jars[] = $this->config->getServerJar();
         $classpath = implode(':', $jars);
+        $threads = $this->config->getThreads();
 
         $directives = ' -D' . implode(' -D', [
                     'php.java.bridge.daemon="false"',
-                    'php.java.bridge.threads=50'
+                    "php.java.bridge.threads=$threads"
         ]);
 
         $command = sprintf('%s -cp "%s" %s php.java.bridge.Standalone SERVLET:%d',

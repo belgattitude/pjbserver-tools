@@ -17,7 +17,12 @@ return [
         // '/my/path/mylib.jar'
     ],
 
+    // Standalone server tuning
+    // Number of threads for standalone server is 50, increase if needed
+    //'threads'    => 60,
+
     // Advanced options
+
     // #########################################################################
     //'java_bin'   => 'java',
     //'server_jar' => __DIR__ . '/../resources/pjb621_standalone/JavaBridge.jar',

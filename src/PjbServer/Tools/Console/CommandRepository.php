@@ -16,7 +16,8 @@ class CommandRepository
             'pjbserver:start' => new Command\PjbServerStartCommand(),
             'pjbserver:restart' => new Command\PjbServerRestartCommand(),
             'pjbserver:stop' => new Command\PjbServerStopCommand(),
-            'pjbserver:status' => new Command\PjbServerStatusCommand()
+            'pjbserver:status' => new Command\PjbServerStatusCommand(),
+            'pjbserver:reveal' => new Command\PjbServerRevealCommand()
         ];
     }
 

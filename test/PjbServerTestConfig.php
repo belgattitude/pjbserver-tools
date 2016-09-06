@@ -4,7 +4,6 @@ use PjbServer\Tools\StandaloneServer\Config;
 
 class PjbServerTestConfig
 {
-
     public static function getBaseDir()
     {
         return dirname(__DIR__);
