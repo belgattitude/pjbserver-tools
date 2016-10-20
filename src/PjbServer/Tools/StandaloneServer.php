@@ -329,11 +329,14 @@ class StandaloneServer
         $running = false;
         try {
             $pid = $this->getPid();
-            $cmd = sprintf("ps -j --no-headers -p %d", $pid);
+            $cmd = sprintf("kill -0 %d", $pid);
             $this->logger->debug("Getting process with cmd: $cmd");
-            $result = trim(shell_exec($cmd));
-            if (preg_match("/^$pid/", $result)) {
+            exec($cmd, $output, $return_var);
+            if ($return_var === 0) {
+                $this->logger->debug("Pid '${pid}' running.");
                 $running = true;
+            } else {
+                $this->logger->debug("Pid '${pid}' not running.");
             }
         } catch (Exception\PidNotFoundException $e) {
             if ($throwsException) {
