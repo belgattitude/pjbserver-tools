@@ -162,6 +162,30 @@ $server = new StandaloneServer($config, $logger);
 
 ## Configuration
 
+The dist config file [./config/pjbserver.config.php.dist](https://github.com/belgattitude/pjbserver-tools/blob/master/config/pjbserver.config.php.dist)
+contains the default parameters used in console mode.  
+
+### Parameters
+
+| Key            | Type   | Comment                                          |
+|----------------|--------|--------------------------------------------------|
+| `port`         | int    | TCP port on which standalone server listen       |
+| `classpaths`   | array  | Java additionnal classpaths                      |
+| `threads`      | int    | Server max number of threads                     |
+| `java_bin`     | string | Java binary executable (with or without path)    |
+| `server_jar`   | string | Path to the JavaBridge.jar file                  |
+| `log_file`     | string | Path to the standalone server log file           |
+| `pid_file`     | string | Path to the standalone pid file                  |
+
+Some considerations:
+
+- When choosing a `port`, ensure it's not available publicly (security).
+- For `server_jar`, `log_file` and `pid_file`, the '{tcp_port}' and '{base_dir}' will
+  be substitued by respectively by the server port and pjbserver-tools install directory.
+- The default config set `log_file` and `pid_file` in the ./var directory.    
+- Avoid storing `log_file` and `pid_file` in the global temp directory '/tmp' as it might
+  be cleared by the OS at anytime.  
+
 ### Classpath configuration
 
 Whenever you need to add some java libraries, simply edit the configuration file and look for the
