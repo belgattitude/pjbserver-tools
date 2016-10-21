@@ -189,8 +189,6 @@ class StandaloneServer
             return;
         }
 
-
-        //$cmd = "kill $pid";
         // Let sleep the process,
         // @todo: test sleep mith microseconds on different unix flavours
         $sleep_time = '0.2';
