@@ -165,7 +165,7 @@ class Config
      */
     protected function getDefaultConfig($port)
     {
-        $base_dir = realpath(__DIR__ . '/../../../../');
+        $base_dir = $this->getBaseDir();
         $config = [];
         foreach ($this->default_config as $key => $value) {
             $tmp = str_replace('{base_dir}', $base_dir, $value);
@@ -173,6 +173,25 @@ class Config
             $config[$key] = $tmp;
         }
         return $config;
+    }
+
+    /**
+     * Return pjbserver-tools installation base directory
+     *
+     * @throws Exception\RuntimeException
+     * @return string
+     */
+    public function getBaseDir()
+    {
+        // Four levels back.
+        $ds  = DIRECTORY_SEPARATOR;
+        $dir = __DIR__ . "$ds..$ds..$ds..$ds..$ds";
+        $base_dir = realpath($dir);
+        if (!$base_dir) {
+            $message = "Cannot resolve project base directory.";
+            throw new Exception\RuntimeException($message);
+        }
+        return $base_dir;
     }
 
     /**

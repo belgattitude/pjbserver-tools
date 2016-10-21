@@ -4,30 +4,35 @@
  *
  * $ ./bin/pjbserver-tools pjbserver:start 8089 --config-file=<config-file>
  *
- * You can adapt for your own need, but don't edit this file directly
+ * You can adapt for your own need, but don't edit this file directly...
+ * as *.dist files are overwritten on update (git pull...)
  */
 
 return [
-    // Port on which the standalone server listen
+    /* Port on which the standalone server listen */
     'port'       => 8089,
 
-    // Specify here additional jar files or directory
+    /* Specify here additional jar files or directory */
     'classpaths' => [
         // '/my/path/autoload/*.jar',
         // '/my/path/mylib.jar'
     ],
 
-    // Standalone server tuning
-    // Number of threads for standalone server is 50, increase if needed
+    /* Standalone server tuning
+        - Number of threads for standalone server is 50, increase if needed
+    */
+
     //'threads'    => 60,
 
-    // Advanced options
+    /* Advanced options, note that
+       - {base_dir} -> will be substitued by pjbserver-tools install directory
+       - {tcp_port} -> will be substitued by the configured server port.
+    */
 
-    // #########################################################################
     //'java_bin'   => 'java',
     //'server_jar' => __DIR__ . '/../resources/pjb621_standalone/JavaBridge.jar',
     //'log_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.log',
     //'pid_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.pid',
-    // ##########################################################################
+
 
 ];

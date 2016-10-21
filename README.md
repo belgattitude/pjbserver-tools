@@ -27,7 +27,7 @@ for php/java integration while keeping things simple for development, unit testi
 ## Requirements
 
 - PHP 5.5+, 7.0 or HHVM >= 3.2.
-- Linux/Unix environment.
+- Linux/Unix *(Mac OSX 10.1+ reported working)*.
 - Java 1.7+ (see [install instructions](./doc/install_java.md)).
 
 ## Installation
@@ -119,7 +119,10 @@ $config = new Config([
     // Number of threads for standalone server is 50, increase if needed
     //'threads'    => 50,
        
-    // Optional
+    // Optional, note that
+    //   - {base_dir} will be substitued by pjbserver-tools install directory
+    //   - {tcp_port} will be substitued by the configured server port.
+
     'java_bin' => 'java', // Java executable
     'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
     'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
@@ -222,4 +225,3 @@ Some scripts and ant tasks examples are available in the /tools folder.
 * [PSR 3 Logger interface](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)
 * [PSR 2 Coding Style Guide](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
 * [PSR 1 Coding Standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
-* [PSR 0 Autoloading standards](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)

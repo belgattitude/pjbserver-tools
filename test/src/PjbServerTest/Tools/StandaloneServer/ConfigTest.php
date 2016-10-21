@@ -99,6 +99,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetBaseDir()
+    {
+        $config = PjbServerTestConfig::getStandaloneServerConfig();
+        $base_dir = $config->getBaseDir();
+        $this->assertNotEmpty($base_dir);
+        $this->assertTrue(is_dir($base_dir));
+    }
+
 
     public function testInvalidThreads()
     {
