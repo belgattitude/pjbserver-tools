@@ -57,6 +57,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = new Config($params);
     }
 
+
+    public function testGetMergedConfig()
+    {
+        $cfg = new Config([
+            'port' => '8192',
+            'pid_file' => '{base_dir}/test_pjb-{tcp_port}.pid'
+        ]);
+
+        $base_dir = realpath(__DIR__ . '/../../../../..');
+
+        $this->assertEquals("${base_dir}/test_pjb-8192.pid", $cfg->getPidFile());
+    }
+
     public function testInvalidClassPath()
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();

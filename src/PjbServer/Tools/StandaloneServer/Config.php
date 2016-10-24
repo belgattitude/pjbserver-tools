@@ -77,7 +77,11 @@ class Config
         } elseif (!filter_var($config['port'], FILTER_VALIDATE_INT) || $config['port'] < 1) {
             throw new Exception\InvalidArgumentException("Option 'port' must be numeric greater than 0");
         }
-        $config = array_merge($this->getDefaultConfig($config['port']), $config);
+        $port = $config['port'];
+        // Substitute magic vars is deprecated and will be removed in v1.0.0
+        $config = array_merge(
+                        $this->getDefaultConfig($port),
+                        $this->substituteMagicVars($config, $port));
         $this->checkConfig($config);
         $this->config = $config;
     }
@@ -166,13 +170,27 @@ class Config
     protected function getDefaultConfig($port)
     {
         $base_dir = $this->getBaseDir();
-        $config = [];
-        foreach ($this->default_config as $key => $value) {
+        return $this->substituteMagicVars($this->default_config, $port);
+    }
+
+    /**
+     * Substitute the magic vars {tcp_port} and {base_dir}
+     * from a config array
+     *
+     * @param array $configArray associative array
+     * @return array
+     */
+    protected function substituteMagicVars(array $configArray, $port)
+    {
+        $substituted = [];
+        $base_dir = $this->getBaseDir();
+
+        foreach ($configArray as $key => $value) {
             $tmp = str_replace('{base_dir}', $base_dir, $value);
             $tmp = str_replace('{tcp_port}', $port, $tmp);
-            $config[$key] = $tmp;
+            $substituted[$key] = $tmp;
         }
-        return $config;
+        return $substituted;
     }
 
     /**

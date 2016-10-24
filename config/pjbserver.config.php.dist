@@ -8,9 +8,23 @@
  * as *.dist files are overwritten on update (git pull...)
  */
 
+$base_dir = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..');
+$tcp_port = 8089;
+
 return [
     /* Port on which the standalone server listen */
-    'port'       => 8089,
+    'port'       => $tcp_port,
+
+    /**
+     * Location of log and pid files... Please do not put
+     * them in global /tmp directory as it might be cleaned by the OS
+     * Defaults is to put them in the project '/var/...' directory
+     * but for better to specify your own data directory.
+     */
+
+    'log_file'   => "${base_dir}/var/pjbserver-port${tcp_port}.log",
+    'pid_file'   => "${base_dir}/var/pjbserver-port${tcp_port}.pid",
+
 
     /* Specify here additional jar files or directory */
     'classpaths' => [
@@ -24,15 +38,20 @@ return [
 
     //'threads'    => 60,
 
-    /* Advanced options, note that
-       - {base_dir} -> will be substitued by pjbserver-tools install directory
-       - {tcp_port} -> will be substitued by the configured server port.
-    */
+    /**
+     * Java binary, if not in path you can
+     * specify its location here, for example:
+     *  - '/usr/bin/java' or
+     *  - '/usr/lib/jvm/java-8-oracle/bin/java'
+     *  - ...
+     */
 
-    //'java_bin'   => 'java',
-    //'server_jar' => __DIR__ . '/../resources/pjb621_standalone/JavaBridge.jar',
-    //'log_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.log',
-    //'pid_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.pid',
+    'java_bin'   => 'java',
+
+    /**
+     * Location of the JavaBridge.jar
+     */
+    'server_jar' => "${base_dir}/resources/pjb621_standalone/JavaBridge.jar",
 
 
 ];

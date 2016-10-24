@@ -105,9 +105,23 @@ Here's a little example:
 use PjbServer\Tools\StandaloneServer;
 use PjbServer\Tools\StandaloneServer\Config;
 
+$base_dir = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..');
+$tcp_port = 8089;
+
 $config = new Config([
     // Port on which php java bridge server listen (required)
-    'port' => 8089,
+    'port' => $tcp_port,
+    
+    /**
+     * Location of log and pid files... Please do not put
+     * them in global /tmp directory as it might be cleaned by the OS
+     * Defaults is to put them in the project '/var/...' directory
+     * but for better to specify your own data directory.
+     */
+
+    'log_file'   => "${base_dir}/var/pjbserver-port${tcp_port}.log",
+    'pid_file'   => "${base_dir}/var/pjbserver-port${tcp_port}.pid",
+    
 
     // Optional but often more than useful
     'classpaths'  => [
@@ -119,14 +133,16 @@ $config = new Config([
     // Number of threads for standalone server is 50, increase if needed
     //'threads'    => 50,
        
-    // Optional, note that
-    //   - {base_dir} will be substitued by pjbserver-tools install directory
-    //   - {tcp_port} will be substitued by the configured server port.
+    // Java binary
+    // change location if you like, for example
+    // /usr/lib/jvm/java-8-oracle/bin/java
+    'java_bin' => 'java', 
 
-    'java_bin' => 'java', // Java executable
-    'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
-    'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
-    'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
+    /**
+     * Location of the JavaBridge.jar
+     */
+    'server_jar' => "${base_dir}/resources/pjb621_standalone/JavaBridge.jar",
+    
 ]);
 
 $server = new StandaloneServer($config);
@@ -180,9 +196,8 @@ contains the default parameters used in console mode.
 Some considerations:
 
 - When choosing a `port`, ensure it's not available publicly (security).
-- For `server_jar`, `log_file` and `pid_file`, the '{tcp_port}' and '{base_dir}' will
-  be substitued by respectively by the server port and pjbserver-tools install directory.
-- The default config set `log_file` and `pid_file` in the ./var directory.    
+- The default config set `log_file` and `pid_file` in the ./var directory, please
+  change the default location to your data directory.
 - Avoid storing `log_file` and `pid_file` in the global temp directory '/tmp' as it might
   be cleared by the OS at anytime.  
 
@@ -202,14 +217,6 @@ return [
         '/my/path/autoload/mysql-connector.jar',
         '/my/autoload_path/*.jar
     ],
-
-    // Advanced options
-    // #########################################################################
-    //'java_bin'   => 'java',
-    //'server_jar' => __DIR__ . '/../resources/pjb621_standalone/JavaBridge.jar',
-    //'log_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.log',
-    //'pid_file'   => __DIR__ . '/../var/pjbserver-port{tcp_port}.pid',
-    // ##########################################################################
 
 ];
 ```
