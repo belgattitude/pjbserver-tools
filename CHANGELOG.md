@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.0.x (UNRELEASED)
+## 2.0.5 (2016-10-24)
 
 ### Added
 
@@ -10,7 +10,7 @@
 ### Deprecated
 
 - Substitution of {base_dir} and {tcp_port} variables in config variables does not prove
-  a good option, they'll be removed for the v1.0.0 release. See
+  a good option, they'll be removed for the v3.0.0 release. See
   [#4](https://github.com/belgattitude/pjbserver-tools/issues/4)
 
 ### Removed
