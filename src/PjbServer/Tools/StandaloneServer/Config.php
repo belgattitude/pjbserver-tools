@@ -169,7 +169,6 @@ class Config
      */
     protected function getDefaultConfig($port)
     {
-        $base_dir = $this->getBaseDir();
         return $this->substituteMagicVars($this->default_config, $port);
     }
 
