@@ -4,13 +4,14 @@
 
 ### Added
 
-- Added comment about {base_dir} and {tcp_port} substitutions in default config file.
 - Experimental support for Mac OSX
 - Added PHP7.1 tests in travis
 
 ### Deprecated
 
-- Nothing.
+- Substitution of {base_dir} and {tcp_port} variables in config variables does not prove
+  a good option, they'll be removed for the v1.0.0 release. See
+  [#4](https://github.com/belgattitude/pjbserver-tools/issues/4)
 
 ### Removed
 
