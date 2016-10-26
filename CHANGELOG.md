@@ -1,5 +1,31 @@
 # CHANGELOG
 
+# CHANGELOG
+
+## 2.0.6 (2016-10-24)
+
+### Added
+
+- Nothing
+
+### Changed
+
+- Reworked default configuration, 'log_file', 'pid_file' and 'server_jar' are now 
+  commented and use defaults.
+
+### Deprecated
+
+- Nothing
+
+### Removed
+
+- Nothing
+
+### Fixed
+
+- Nothing
+
+
 ## 2.0.5 (2016-10-24)
 
 ### Added

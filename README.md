@@ -105,7 +105,6 @@ Here's a little example:
 use PjbServer\Tools\StandaloneServer;
 use PjbServer\Tools\StandaloneServer\Config;
 
-$base_dir = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..');
 $tcp_port = 8089;
 
 $config = new Config([
@@ -113,14 +112,13 @@ $config = new Config([
     'port' => $tcp_port,
     
     /**
-     * Location of log and pid files... Please do not put
-     * them in global /tmp directory as it might be cleaned by the OS
-     * Defaults is to put them in the project '/var/...' directory
-     * but for better to specify your own data directory.
+     * Location of log and pid files...
+     * Defaults is to put them in the project 'pjbserver-tools/var/...' directory
+     * which is fine for unit testing, but to prevent loosing those files
+     * set a safe directory (not /tmp as it might be cleared by the OS)
      */
-
-    'log_file'   => "${base_dir}/var/pjbserver-port${tcp_port}.log",
-    'pid_file'   => "${base_dir}/var/pjbserver-port${tcp_port}.pid",
+    //'log_file'   => "/my/path/var/pjbserver-port${tcp_port}.log",
+    //'pid_file'   => "/my/path/var/pjbserver-port${tcp_port}.pid",
     
 
     // Optional but often more than useful
@@ -139,10 +137,11 @@ $config = new Config([
     'java_bin' => 'java', 
 
     /**
-     * Location of the JavaBridge.jar
+     * Location of the JavaBridge.jar,
+     * Default is to use the default (included) one
+     * available in pjbserver-tools/resources/pjb61_standalone/JavaBridge.jar
      */
-    'server_jar' => "${base_dir}/resources/pjb621_standalone/JavaBridge.jar",
-    
+    //'server_jar' => "/my/path/pjb621_standalone/JavaBridge.jar",    
 ]);
 
 $server = new StandaloneServer($config);

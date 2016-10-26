@@ -81,7 +81,7 @@ class Config
         // Substitute magic vars is deprecated and will be removed in v1.0.0
         $config = array_merge(
                         $this->getDefaultConfig($port),
-                        $this->substituteMagicVars($config, $port));
+                        $this->substitutePlaceholders($config, $port));
         $this->checkConfig($config);
         $this->config = $config;
     }
@@ -169,17 +169,17 @@ class Config
      */
     protected function getDefaultConfig($port)
     {
-        return $this->substituteMagicVars($this->default_config, $port);
+        return $this->substitutePlaceholders($this->default_config, $port);
     }
 
     /**
-     * Substitute the magic vars {tcp_port} and {base_dir}
+     * Substitute the placeholder {tcp_port} and {base_dir}
      * from a config array
      *
      * @param array $configArray associative array
      * @return array
      */
-    protected function substituteMagicVars(array $configArray, $port)
+    protected function substitutePlaceholders(array $configArray, $port)
     {
         $substituted = [];
         $base_dir = $this->getBaseDir();
