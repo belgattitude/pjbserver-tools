@@ -3,6 +3,7 @@
 namespace PjbServer\Tools;
 
 use PjbServer\Tools\Network\PortTester;
+use PjbServer\Tools\System\Process;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -36,9 +37,15 @@ class StandaloneServer
 
 
     /**
-     * @var
+     * @var LoggerInterface
      */
     protected $logger;
+
+
+    /**
+     * @var Process
+     */
+    protected $process;
 
     /**
      * Constructor
@@ -78,6 +85,8 @@ class StandaloneServer
             $logger = new NullLogger();
         }
         $this->logger = $logger;
+
+        $this->process = new Process();
     }
 
     /**
@@ -102,7 +111,7 @@ class StandaloneServer
         if (!$this->portTester->isAvailable('localhost', $port, 'http')) {
             $msg = "Cannot start server on port '$port', it's already in use.";
             $this->logger->error("Start failed: $msg");
-            throw new Exception\RuntimeException($msg);
+            throw new Exception\PortUnavailableException($msg);
         }
 
         $command = $this->getCommand();
@@ -161,68 +170,86 @@ class StandaloneServer
     /**
      * Stop the standalone server
      *
-     * @throws Exception\RuntimeException
-     * @param boolean $throws_exception wether to throw exception if pid or process cannot be found or killed.
+     * @throws Exception\StopFailedException
+     * @param boolean $throwException whether to throw exception if pid exists in config but process cannot be found
+     * @param boolean $clearPidFileOnException clear th pid file if the server was not running
      * @return void
      */
-    public function stop($throws_exception = false)
+    public function stop($throwException=false, $clearPidFileOnException=false)
     {
         $this->logger->notice("Stopping server");
-        $pid_file = $this->config->getPidFile();
+
         try {
             $pid = $this->getPid();
-            $running = $this->isProcessRunning($throws_exception=true);
+            $running = $this->isProcessRunning(true);
             if (!$running) {
-                if ($throws_exception) {
-                    $msg = "Cannot stop: pid exists ($pid) but server process is not running";
-                    $this->logger->notice("Stop failed: $msg");
-                    throw new Exception\RuntimeException($msg);
+                if ($throwException) {
+                    $msg = "Cannot stop: pid exists (${pid}) but server process is not running (throws_exception=true)";
+                    $this->logger->notice("Stop failed: ${msg}");
+                    throw new Exception\StopFailedException($msg);
                 }
                 return;
             }
         } catch (Exception\PidNotFoundException $e) {
-            if ($throws_exception) {
-                $msg = "Cannot stop server, pid file not found (was the server started ?)";
+            if ($throwException) {
+                $msg = "Cannot stop server: pid file not found (was the server started ?)";
                 $this->logger->notice("Stop failed: $msg");
-                throw new Exception\RuntimeException($msg);
+                if ($clearPidFileOnException) {
+                    $this->clearPidFile();
+                }
+                throw new Exception\StopFailedException($msg, null, $e);
             }
             return;
         }
 
-        // Let sleep the process,
-        // @todo: test sleep mith microseconds on different unix flavours
-        $sleep_time = '0.2';
-        $cmd = sprintf("kill %d; while ps -p %d; do sleep %s;done;", $pid, $pid, $sleep_time);
+        $killed = $this->process->kill($pid, $wait=true);
 
-        exec($cmd, $output, $return_var);
         try {
-            if ($return_var !== 0) {
+            if (!$killed) {
                 $msg = "Cannot kill standalone server process '$pid', seems to not exists.";
                 $this->logger->notice("Stop failed: $msg");
                 throw new Exception\RuntimeException($msg);
             }
         } catch (Exception\RuntimeException $e) {
-            if ($throws_exception) {
-                if (file_exists($pid_file)) {
-                    unlink($pid_file);
-                }
+            if ($throwException) {
+                $this->clearPidFile();
                 throw $e;
             }
         }
 
-        if (file_exists($pid_file)) {
-            unlink($pid_file);
-        }
-
+        // Server successfully stopped let's clear the pid
+        $this->clearPidFile();
         $this->started = false;
+    }
+
+
+    /**
+     * @throws Exception\FilePermissionException
+     */
+    protected function clearPidFile()
+    {
+        $pid_file = $this->config->getPidFile();
+        if (file_exists($pid_file)) {
+            if (is_writable($pid_file)) {
+                unlink($pid_file);
+            } else {
+                throw new Exception\FilePermissionException("Cannot remove pid file '${pid_file}', no write access");
+            }
+        }
     }
 
     /**
      * Tells whether the standalone server is started
+     *
+     * @param boolean $test_is_running
      * @return boolean
      */
-    public function isStarted()
+    public function isStarted($test_is_running=true)
     {
+        // In case of previous run, let's us
+        if (!$this->started && $test_is_running) {
+            $this->started = $this->isProcessRunning();
+        }
         return $this->started;
     }
 
@@ -271,7 +298,7 @@ class StandaloneServer
     /**
      * Get standalone server pid number as it was stored during last start
      *
-     * @throws Exception\PidNotFoundException
+     * @throws Exception\PidNotFoundException|ExceptionPidCorruptedException
      * @return int
      */
     public function getPid()
@@ -322,15 +349,13 @@ class StandaloneServer
      * @param boolean $throwsException if false discard exception if pidfile not exists
      * @return boolean
      */
-    public function isProcessRunning($throwsException = false)
+    public function isProcessRunning($throwsException=false)
     {
         $running = false;
         try {
             $pid = $this->getPid();
-            $cmd = sprintf("kill -0 %d", $pid);
-            $this->logger->debug("Getting process with cmd: $cmd");
-            exec($cmd, $output, $return_var);
-            if ($return_var === 0) {
+            $isRunning = $this->process->isRunning($pid);
+            if ($isRunning) {
                 $this->logger->debug("Pid '${pid}' running.");
                 $running = true;
             } else {

@@ -58,11 +58,15 @@ EOT
         $logger->notice("Stopping the server on port '$port' and config file '$file'");
         $this->logServerConfig($logger, $config);
 
-        $this->server = new StandaloneServer($config);
+        $this->server = new StandaloneServer($config, $logger);
 
-        $this->server->stop();
-
-        $output->writeln("Server running on port $port successfully stopped");
+        $pid_file = $this->server->getConfig()->getPidFile();
+        if (!file_exists($pid_file)) {
+            $output->writeln("Server already stopped (pid_file '${pid_file}' not found).");
+        } else {
+            $this->server->stop();
+            $output->writeln("Server running on port $port successfully stopped");
+        }
         return 0;
     }
 }

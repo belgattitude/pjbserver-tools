@@ -139,8 +139,6 @@ class PortTester
                         throw new \RuntimeException("Cannot properly close socket stream.");
                     }
                     fclose($sock);
-                    //fclose($sock);
-                    //unset($sock);
                 }
                 break;
 

@@ -41,7 +41,13 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(0, $tester->getStatusCode());
 
-        $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
+        $pid_file = $this->config->getPidFile();
+
+        if (!file_exists($pid_file)) {
+            $this->assertRegexp("/Server already stopped \(pid_file (.*) not found\)./", $tester->getDisplay());
+        } else {
+            $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
+        }
     }
 
     public function testServerStatusWhileStopped()

@@ -2,6 +2,15 @@
 
 # CHANGELOG
 
+## 2.1.0 (Not released)
+
+### Changed
+
+- Refactored system process handling (`PjbServer\Tools\System\Process`)
+- Console, start and stop commands messages :
+  - pjbserver:start inform if the server was already started.
+  - pjbserver:stop inform if the server was already stopped.
+
 ## 2.0.6 (2016-10-24)
 
 ### Added

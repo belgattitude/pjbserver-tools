@@ -157,10 +157,21 @@ class Config
      *
      * @return array
      */
-    public function getConfig()
+    public function toArray()
     {
         return $this->config;
     }
+
+    /**
+     * Return standalone configuration
+     * @deprecated use toArray() instead
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->toArray();
+    }
+
 
     /**
      * Return default configuration options

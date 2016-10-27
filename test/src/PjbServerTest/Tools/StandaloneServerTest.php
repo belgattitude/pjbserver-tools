@@ -3,6 +3,7 @@
 namespace PjbServerTest\Tools;
 
 use PjbServer\Tools\StandaloneServer;
+use PjbServer\Tools\Exception;
 use PjbServerTestConfig;
 
 class StandaloneServerTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +22,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->server->stop();
+        $this->server->stop($throws_exception=false);
     }
 
     public function testGetConfig()
@@ -33,29 +34,50 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testIsStarted()
     {
+        $pid_file = $this->server->getConfig()->getPidFile();
+
         $this->assertFalse($this->server->isStarted());
         $this->server->start();
         $this->assertTrue($this->server->isStarted());
+        $this->assertFileExists($pid_file);
         $this->server->stop();
         $this->assertFalse($this->server->isStarted());
+        $this->assertFileNotExists($pid_file);
+    }
+/*
+    public function testStopExceptionWhenStopped()
+    {
+        $this->server->stop();
+        $this->setExpectedException(Exception\StopFailedException::class);
+        $this->server->stop($throwException=true);
+
     }
 
+*/
     public function testRestartWhenNotStarted()
     {
+        $pid_file = $this->server->getConfig()->getPidFile();
+
         $this->assertFalse($this->server->isStarted());
         $this->server->restart();
+        $this->assertFileExists($pid_file);
         $this->assertTrue($this->server->isStarted());
         $this->server->stop();
+        $this->assertFileNotExists($pid_file);
         $this->assertFalse($this->server->isStarted());
     }
 
     public function testRestartWhenStarted()
     {
+        $pid_file = $this->server->getConfig()->getPidFile();
         $this->server->start();
+        $this->assertFileExists($pid_file);
         $this->assertTrue($this->server->isStarted());
         $this->server->restart();
+        $this->assertFileExists($pid_file);
         $this->assertTrue($this->server->isStarted());
         $this->server->stop();
+        $this->assertFileNotExists($pid_file);
         $this->assertFalse($this->server->isStarted());
     }
 
@@ -68,6 +90,15 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->server->stop();
     }
 
+    public function testIsProcessRunningThrowsException()
+    {
+        $this->setExpectedException(Exception\PidNotFoundException::class);
+        $pid_file = $this->server->getConfig()->getPidFile();
+        $this->assertFileNotExists($pid_file);
+        $this->server->stop();
+        $this->assertFileNotExists($pid_file);
+        $this->server->isProcessRunning($throwException=true);
+    }
 
     public function testGetPid()
     {
@@ -112,7 +143,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->server->getOutput();
     }
 
-    public function testGetOutputThrowsExceptionWhenUnreadbableLog()
+    public function testGetOutputThrowsExceptionWhenUnreadableLog()
     {
         $config   = $this->server->getConfig();
         $log_file = $config->getLogFile();
@@ -123,6 +154,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
             $this->server->getOutput();
             $this->assertFalse(true, 'Output log file was not readable, RuntimeException was not thrown');
         } catch (\PjbServer\Tools\Exception\RuntimeException $e) {
+            $this->assertTrue(true, "Correctly catched excepted RuntimeException");
         }
         // restore
         chmod($log_file, 0755);
@@ -138,6 +170,9 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testStartDouble()
     {
+        // If already started, a second start should not be
+        // a problem
+
         $this->server->start();
         $this->server->start();
     }
@@ -163,5 +198,34 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $this->server->getPid());
         $this->assertEquals($pid, $this->server->getPid());
         $this->server->stop();
+    }
+
+    public function testStartServerThrowsPortUnavailableException()
+    {
+        $this->assertFalse($this->server->isStarted());
+        $this->server->start();
+        $this->assertTrue($this->server->isStarted());
+        $pid_file = $this->server->getConfig()->getPidFile();
+        $this->assertFileExists($pid_file);
+
+        $this->setExpectedException(Exception\PortUnavailableException::class);
+
+        // Test starting another instance on the same port
+
+        $runningServerConfig = $this->server->getConfig()->toArray();
+
+        // Start the original server
+        $this->server->start();
+
+        $config = array_merge($runningServerConfig, [
+            'log_file' => $this->server->getConfig()->getLogFile() . '.extra.log',
+            'pid_file' => $this->server->getConfig()->getPidFile() . '.extra.pid'
+        ]);
+
+
+        // Other server on same port
+        // should throw a port unavailable exception
+        $otherServer = new StandaloneServer(new StandaloneServer\Config($config));
+        $otherServer->start();
     }
 }

@@ -60,9 +60,15 @@ EOT
         $logger->notice("Starting the server on port '$port' and config file '$file'");
         $this->logServerConfig($logger, $config);
         $this->server = new StandaloneServer($config, $logger);
-        $this->server->start();
 
-        $output->writeln("Server successfully started on port $port");
+        if ($this->server->isProcessRunning()) {
+            $pid = $this->server->getPid();
+            $output->writeln("PjbServer is already running on port ${port} with pid {$pid}, skipping start");
+        } else {
+            $this->server->start();
+            $output->writeln("Server successfully started on port $port");
+        }
+
         return 0;
     }
 }

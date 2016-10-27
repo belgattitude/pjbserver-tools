@@ -22,11 +22,13 @@ class PjbServerTestConfig
             $server_jar = realpath(self::getBaseDir() . DIRECTORY_SEPARATOR . $server_jar);
         }
 
+        $port = $_SERVER['standalone_server_port'];
+
         $params = [
-            "port" => $_SERVER['standalone_server_port'],
+            "port" => $port,
             "server_jar" => $server_jar,
-            "log_file" => self::getBaseDir() . '/test/logs/pjbserver-port{tcp_port}.log',
-            "pid_file" => self::getBaseDir() . '/test/logs/pjbserver-port{tcp_port}.pid',
+            "log_file" => self::getBaseDir() . "/test/logs/pjbserver-port{$port}.log",
+            "pid_file" => self::getBaseDir() . "/test/logs/pjbserver-port{$port}.pid",
             "classpaths" => [
                 self::getBaseDir() . '/resources/autoload/*.jar'
             ]
