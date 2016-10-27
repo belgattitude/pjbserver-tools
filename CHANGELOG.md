@@ -2,7 +2,7 @@
 
 # CHANGELOG
 
-## 2.1.0 (Not released)
+## 2.1.0 (2016-10-27)
 
 ### Changed
 
