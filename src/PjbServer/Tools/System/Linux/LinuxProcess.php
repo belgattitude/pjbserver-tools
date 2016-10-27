@@ -51,7 +51,7 @@ class LinuxProcess implements ProcessInterface
      * @throws Exception\InvalidArgumentException
      * @param int $pid
      * @param bool $wait wait for the process to be killed
-     * @return bool
+     * @return boolean
      */
     public function kill($pid, $wait = false)
     {

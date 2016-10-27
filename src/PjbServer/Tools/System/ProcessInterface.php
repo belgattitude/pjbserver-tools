@@ -14,7 +14,7 @@ interface ProcessInterface
      * @throws Exception\InvalidArgumentException
      * @param int $pid
      * @param bool $wait
-     * @return void
+     * @return boolean
      */
     public function kill($pid, $wait=false);
 
