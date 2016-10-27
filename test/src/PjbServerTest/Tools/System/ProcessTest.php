@@ -3,6 +3,7 @@
 namespace PjbServerTest\Tools\System;
 
 use PjbServer\Tools\System;
+use PjbServer\Tools\Exception;
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,6 +21,13 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
+
+    public function testUnsupportedSystem()
+    {
+        $this->setExpectedException(Exception\UnsupportedSystemException::class);
+        $process = new System\Process('WinMac');
+    }
+
 
     public function testImplementsProcessInterface()
     {

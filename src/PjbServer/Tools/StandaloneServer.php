@@ -202,7 +202,7 @@ class StandaloneServer
             return;
         }
 
-        $killed = $this->process->kill($pid, $wait=true);
+        $killed = $this->process->kill($pid, true);
 
         try {
             if (!$killed) {

@@ -2,6 +2,6 @@
 
 namespace PjbServer\Tools\Exception;
 
-class StartFailedException extends RuntimeException  implements ServerControlExceptionInterface
+class StartFailedException extends RuntimeException implements ServerControlExceptionInterface
 {
 }
