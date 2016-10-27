@@ -37,8 +37,6 @@ Depending on your needs you can use the pjserver-tools in two ways.
 
 1. Option 1: clone the repo or download the repo (typical: command line)
 
-   This is the typical installation for php-java-bridge standalone server.
-
    First create a path on your filesystem that will hold the server install.        
    
    ```console
@@ -59,7 +57,7 @@ Depending on your needs you can use the pjserver-tools in two ways.
    you can add the project to your dependencies with [composer](http://getcomposer.org/).
 
     ```console
-    $ composer require "belgattitude/pjbserver-tools:^2.0.4"
+    $ composer require belgattitude/pjbserver-tools
     ```
     
 
