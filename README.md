@@ -34,8 +34,25 @@ for php/java integration while keeping things simple for development, unit testi
 
 Depending on your needs you can use the pjserver-tools in two ways.
 
+1. Option 1: Composer install
+   
+   You can easily add the pjbserver-tools to your existing [composer](http://getcomposer.org/) project.  
+      
+    ```console
+    $ composer require belgattitude/pjbserver-tools
+    ```
+    
+    It can also be added to your development dependencies (replace `require` by `require --dev` in the
+    previous command). Very helpful if you intend to test with Travis... 
+    
+    Test a command line.
+   
+    ```console
+    ./vendor/bin/pjbserver-tools pjbserver:status ./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist -vvv
+    ```
 
-1. Option 1: clone the repo or download the repo (typical: command line)
+
+2. Option 2: Console, clone the repo.
 
    First create a path on your filesystem that will hold the server install.        
    
@@ -51,21 +68,28 @@ Depending on your needs you can use the pjserver-tools in two ways.
    $ composer update
    ```
    
-2. Option 2: Add library to your project (API)
+   Test a command line
    
-   If you want more control over the process and don't want to install the command line setup,
-   you can add the project to your dependencies with [composer](http://getcomposer.org/).
-
-    ```console
-    $ composer require belgattitude/pjbserver-tools
-    ```
-    
+   ```
+   ./bin/pjbserver-tools pjbserver:status ./config/pjbserver.config.php.dist -vvv
+   ```
+   
 
 ## Usage
 
-### With the command line standalone server
+### Command line
 
-If you've choosen the typical console mode (first installation method), You can use the commands 
+Command line depends on your install method (composer or clone/download).
+
+- With composer the location of the binary is `./vendor/bin/pjbserver-tools` and the default 
+  config is located in `./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist`.
+
+- With the clone method, binary is `./bin/pjbserver-tools` and default config is `./config/pjbserver.config.php.dist`.
+
+*For clarity, the documentation of console commands is based on the clone method. Simply 
+replace your path whenever needed.*  
+
+You can use the commands 
 `pjbserver:start`, `pjbserver:stop`, `pjbserver:restart`, `pjbserver:status` followed
 by the `pjbserver.config.php` file to control or query the server status. 
 
@@ -91,9 +115,9 @@ $ cp ./config/pjbserver.config.php.dist /my/path/pjbserver.config.php
 
 *Note that the -v, -vv, -vvv option in the command line allows to define the verbosity level of the scripts.*
 
-### Using the API (programatically)
+### Controlling via the API
 
-As an alternative to the command line you can control the server directly from PHP.
+Command line is good, but API gives a little more control especially good when setting unit tests and CI. 
 
 Here's a little example:
 
