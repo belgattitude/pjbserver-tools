@@ -64,7 +64,8 @@ Depending on your needs you can use the pjserver-tools in two ways.
    Clone the repository and use run [composer](http://getcomposer.org) update.
    
    ```console
-   $ git clone https://github.com/belgattitude/pjbserver-tools.git .
+   $ git clone https://github.com/belgattitude/pjbserver-tools.git
+   $ cd pjbserver-tools
    $ composer update
    ```
    
