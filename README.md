@@ -251,18 +251,36 @@ by passing arguments in a shell exec. Limits exists...*
 
 Some useful commands to watch, debug and eventually kill java standalone server process
 
-Console style:
+### Getting the status (running/not running)
 
 ```console
 $ ./bin/pjbserver-tools pjbserver:status -vvv ./config/pjbserver.config.php.dist
 ```
 
-Unix style:
+### Reveal the issued command
 
 ```console
-> netstat -an | grep <port>
-> ps ax | grep standalone
-> kill <pid_standalone_server>
+$ ./bin/pjbserver-tools pjbserver:reveal -vvv ./config/pjbserver.config.php.dist
+```
+
+For example, the issued command the default config can be
+
+```console
+$ java -cp "/xxx/pjbserver-tools/resources/pjb621_standalone/JavaBridge.jar" -Dphp.java.bridge.daemon="false" -Dphp.java.bridge.threads=50 php.java.bridge.Standalone SERVLET:8089
+```
+ 
+### Process management
+
+If for any reason the server cannot be stopped through the console, you can
+search and kill through the commande line.
+
+```console
+$ # Searching by listening port
+$ netstat -an | grep <port>
+$ # Searching by name
+$ ps ax | grep standalone
+$ # Eventually kill the process manually
+$ kill <pid_standalone_server>
 ```
 
 ## Tools
