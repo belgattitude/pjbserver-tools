@@ -273,16 +273,25 @@ $ java -cp "/xxx/pjbserver-tools/resources/pjb621_standalone/JavaBridge.jar" -Dp
 ### Process management
 
 If for any reason the server cannot be stopped through the console, you can
-search and kill through the commande line.
+lookup the process through the command line.
 
 ```console
 $ # Searching by listening port
 $ netstat -an | grep <port>
+
 $ # Searching by name
-$ ps ax | grep standalone
-$ # Eventually kill the process manually
+$ ps ax | grep JavaBridge.jar
+
+$ # Searching by custom filter
+$ pgrep -f "(.*)java(.*)JavaBridge.jar(.*)SERVLET:8089"
+```
+
+You can kill the process:
+
+```
 $ kill <pid_standalone_server>
 ```
+
 
 ## Tools
 
