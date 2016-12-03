@@ -12,7 +12,8 @@
 ## Introduction
 
 The `pjbserver-tools` package currently provides an easy installable php java bridge standalone server.
-See the [soluble/japha](https://github.com/belgattitude/soluble-japha) project to get more info about php/java integration.
+See the [soluble/japha](https://github.com/belgattitude/soluble-japha) and [php-java-bridge](https://github.com/belgattitude/php-java-bridge) 
+projects to get more info about php/java integration.
 
 *The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
 for php/java integration while keeping things simple for development, unit testing or small projects.*     
