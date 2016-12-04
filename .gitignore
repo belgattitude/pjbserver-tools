@@ -2,6 +2,7 @@ composer.lock
 .buildpath
 .DS_Store
 .idea
+.php_cs.cache
 .project
 .settings/
 .*.sw*
