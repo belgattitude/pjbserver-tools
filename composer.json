@@ -45,12 +45,12 @@
     "post-update-cmd": [
         "PjbServer\\Tools\\Composer\\Installer::postUpdate"
     ],
-    "test": "phpunit",
+    "test": "vendor/bin/phpunit",
+    "cs:fix": "vendor/bin/php-cs-fixer fix",
     "pjbserver:start": "./bin/pjbserver-tools -vvv pjbserver:start ./config/pjbserver.config.php.dist",
     "pjbserver:stop": "./bin/pjbserver-tools -vvv pjbserver:stop ./config/pjbserver.config.php.dist",
     "pjbserver:restart": "./bin/pjbserver-tools -vvv pjbserver:restart ./config/pjbserver.config.php.dist",
     "pjbserver:status": "./bin/pjbserver-tools -vvv pjbserver:status ./config/pjbserver.config.php.dist"
-
   },
   "bin": ["bin/pjbserver-tools"],
   "archive": {
