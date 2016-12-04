@@ -7,7 +7,7 @@ if (!$loader = @include __DIR__ . '/../vendor/autoload.php') {
 }
 
 $baseDir = dirname(__DIR__);
-require_once(dirname(__FILE__) . '/PjbServerTestConfig.php');
+require_once dirname(__FILE__) . '/PjbServerTestConfig.php';
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 /*

@@ -9,7 +9,6 @@ class PortTester
     const BACKEND_PFSOCKOPEN = 'pfsockopen';
     const BACKEND_CURL = 'curl';
 
-
     const PROTOCOL_TCP = 'tcp';
     const PROTOCOL_UDP = 'udp';
     const PROTOCOL_HTTP = 'http';
@@ -25,7 +24,6 @@ class PortTester
      */
     protected $supportedProtocols = ['tcp', 'udp', 'http', 'https'];
 
-
     /**
      * @var array
      */
@@ -35,15 +33,13 @@ class PortTester
         'close_timeout_ms' => null
     ];
 
-
     /**
-     *
      * @var array
      */
     protected $options;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * <code>
      * $options = [
@@ -59,6 +55,7 @@ class PortTester
      * </code>
      *
      * @throws \InvalidArgumentException
+     *
      * @param array $options
      */
     public function __construct($options = [])
@@ -77,16 +74,17 @@ class PortTester
     }
 
     /**
-     * Check if TCP port is available for binding
+     * Check if TCP port is available for binding.
      *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      *
-     * @param string $host
-     * @param int $port
-     * @param string $protocol
+     * @param string   $host
+     * @param int      $port
+     * @param string   $protocol
      * @param int|null $timeout
-     * @return boolean
+     *
+     * @return bool
      */
     public function isAvailable($host, $port, $protocol = 'http', $timeout = null)
     {
@@ -136,7 +134,7 @@ class PortTester
                     $available = true;
                 } else {
                     if (!stream_socket_shutdown($sock, STREAM_SHUT_RDWR)) {
-                        throw new \RuntimeException("Cannot properly close socket stream.");
+                        throw new \RuntimeException('Cannot properly close socket stream.');
                     }
                     fclose($sock);
                 }
@@ -144,7 +142,7 @@ class PortTester
 
             case 'curl':
                 if (!$this->isCurlAvailable()) {
-                    throw new \RuntimeException("Curl not available");
+                    throw new \RuntimeException('Curl not available');
                 }
                 $curl_options = [
                     CURLOPT_URL => "http://$host:$port",
@@ -171,13 +169,14 @@ class PortTester
         if ($this->options['close_timeout_ms'] > 0) {
             usleep($this->options['close_timeout_ms'] * 1000);
         }
+
         return $available;
     }
 
-
     /**
-     * Test whether curl extension is available
-     * @return boolean
+     * Test whether curl extension is available.
+     *
+     * @return bool
      */
     protected function isCurlAvailable()
     {

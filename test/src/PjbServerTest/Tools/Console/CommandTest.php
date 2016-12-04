@@ -67,6 +67,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegexp("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
     }
+
     public function testServerStart()
     {
         $app = new Application();
@@ -102,7 +103,6 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegexp("/Server is running on port '$port'/", $tester->getDisplay());
     }
-
 
     public function testServerRestart()
     {

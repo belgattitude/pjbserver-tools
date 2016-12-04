@@ -4,7 +4,6 @@ namespace PjbServer\Tools\Console;
 
 class CommandRepository
 {
-
     /**
      * @var array
      */
@@ -23,6 +22,7 @@ class CommandRepository
 
     /**
      * @param $name
+     *
      * @return \Symfony\Component\Console\Command\Command
      */
     public function getRegisteredCommand($name)
@@ -31,7 +31,8 @@ class CommandRepository
     }
 
     /**
-     * Return all registered commands
+     * Return all registered commands.
+     *
      * @return array
      */
     public function getRegisteredCommands()

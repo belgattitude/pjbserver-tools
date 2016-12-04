@@ -7,7 +7,6 @@ use PjbServer\Tools\System\Linux\LinuxProcess;
 
 class LinuxProcessTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var LinuxProcess
      */

@@ -7,7 +7,6 @@ use PjbServer\Tools\Exception;
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var System\Linux\LinuxProcess
      */
@@ -27,7 +26,6 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(Exception\UnsupportedSystemException::class);
         $process = new System\Process('WinMac');
     }
-
 
     public function testImplementsProcessInterface()
     {

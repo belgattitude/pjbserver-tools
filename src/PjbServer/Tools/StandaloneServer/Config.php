@@ -18,29 +18,29 @@ use PjbServer\Tools\Exception;
 
 class Config
 {
-
     /**
-     * Default configuration options
+     * Default configuration options.
+     *
      * @var array
      */
     protected $default_config = [
-        'java_bin'   => 'java',
+        'java_bin' => 'java',
         'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
-        'log_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.log',
-        'pid_file'   => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
+        'log_file' => '{base_dir}/var/pjbserver-port{tcp_port}.log',
+        'pid_file' => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
         'classpaths' => [],
         'threads' => 50
     ];
 
     /**
-     * Internal configuration array
+     * Internal configuration array.
+     *
      * @var array
      */
     protected $config;
 
-
     /**
-     * Constructor
+     * Constructor.
      *
      * <code>
      *
@@ -67,8 +67,8 @@ class Config
      * </code>
      *
      * @throws Exception\InvalidArgumentException
-     * @param array $config
      *
+     * @param array $config
      */
     public function __construct(array $config)
     {
@@ -87,7 +87,8 @@ class Config
     }
 
     /**
-     * Return port on which standalone server listens
+     * Return port on which standalone server listens.
+     *
      * @return int
      */
     public function getPort()
@@ -96,7 +97,8 @@ class Config
     }
 
     /**
-     * Return jar file of the server
+     * Return jar file of the server.
+     *
      * @return string
      */
     public function getServerJar()
@@ -104,9 +106,9 @@ class Config
         return $this->config['server_jar'];
     }
 
-
     /**
-     * Return java binary
+     * Return java binary.
+     *
      * @return string
      */
     public function getJavaBin()
@@ -115,7 +117,8 @@ class Config
     }
 
     /**
-     * Return log file
+     * Return log file.
+     *
      * @return string
      */
     public function getLogFile()
@@ -124,7 +127,8 @@ class Config
     }
 
     /**
-     * Return an array containing the java classpath(s) for the server
+     * Return an array containing the java classpath(s) for the server.
+     *
      * @return array
      */
     public function getClasspaths()
@@ -133,7 +137,8 @@ class Config
     }
 
     /**
-     * Return pid file where to store process id
+     * Return pid file where to store process id.
+     *
      * @return string
      */
     public function getPidFile()
@@ -141,9 +146,8 @@ class Config
         return $this->config['pid_file'];
     }
 
-
     /**
-     * Return standalone server threads
+     * Return standalone server threads.
      *
      * @return int|string
      */
@@ -153,7 +157,7 @@ class Config
     }
 
     /**
-     * Return standalone configuration
+     * Return standalone configuration.
      *
      * @return array
      */
@@ -163,8 +167,10 @@ class Config
     }
 
     /**
-     * Return standalone configuration
+     * Return standalone configuration.
+     *
      * @deprecated use toArray() instead
+     *
      * @return array
      */
     public function getConfig()
@@ -172,10 +178,11 @@ class Config
         return $this->toArray();
     }
 
-
     /**
-     * Return default configuration options
+     * Return default configuration options.
+     *
      * @param int $port
+     *
      * @return array
      */
     protected function getDefaultConfig($port)
@@ -185,9 +192,10 @@ class Config
 
     /**
      * Substitute the placeholder {tcp_port} and {base_dir}
-     * from a config array
+     * from a config array.
      *
      * @param array $configArray associative array
+     *
      * @return array
      */
     protected function substitutePlaceholders(array $configArray, $port)
@@ -200,31 +208,36 @@ class Config
             $tmp = str_replace('{tcp_port}', $port, $tmp);
             $substituted[$key] = $tmp;
         }
+
         return $substituted;
     }
 
     /**
-     * Return pjbserver-tools installation base directory
+     * Return pjbserver-tools installation base directory.
      *
      * @throws Exception\RuntimeException
+     *
      * @return string
      */
     public function getBaseDir()
     {
         // Four levels back.
-        $ds  = DIRECTORY_SEPARATOR;
+        $ds = DIRECTORY_SEPARATOR;
         $dir = __DIR__ . "$ds..$ds..$ds..$ds..$ds";
         $base_dir = realpath($dir);
         if (!$base_dir) {
-            $message = "Cannot resolve project base directory.";
+            $message = 'Cannot resolve project base directory.';
             throw new Exception\RuntimeException($message);
         }
+
         return $base_dir;
     }
 
     /**
-     * Check configuration parameters
+     * Check configuration parameters.
+     *
      * @throws Exception\InvalidArgumentException
+     *
      * @param array $config
      */
     protected function checkConfig(array $config)
@@ -239,7 +252,7 @@ class Config
 
         // Step 2: server_jar file must exists
         if (!is_file($config['server_jar']) || !is_readable($config['server_jar'])) {
-            throw new Exception\InvalidArgumentException("Server jar file not exists or unreadable. server-jar: '" . $config['server_jar'] ."'");
+            throw new Exception\InvalidArgumentException("Server jar file not exists or unreadable. server-jar: '" . $config['server_jar'] . "'");
         }
 
         // Step 3: log and pid file should be creatable
@@ -248,7 +261,7 @@ class Config
             $file = $config[$option];
             $info = pathinfo($file);
             $dirname = $info['dirname'];
-            if (!is_dir($dirname) || $dirname == ".") {
+            if (!is_dir($dirname) || $dirname == '.') {
                 $msg = "Option '$option' refer to an invalid or non-existent directory ($file)";
                 throw new Exception\InvalidArgumentException($msg);
             }

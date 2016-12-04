@@ -7,40 +7,34 @@ use PjbServer\Tools\System\Process;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-
 class StandaloneServer
 {
-
     /**
      * @var int
      */
     protected $port;
 
     /**
-     *
      * @var StandaloneServer\Config
      */
     protected $config;
 
     /**
-     * Tells whether the standalone server is started
-     * @var boolean
+     * Tells whether the standalone server is started.
+     *
+     * @var bool
      */
     protected $started = false;
 
-
     /**
-     *
      * @var PortTester
      */
     protected $portTester;
-
 
     /**
      * @var LoggerInterface
      */
     protected $logger;
-
 
     /**
      * @var Process
@@ -48,7 +42,7 @@ class StandaloneServer
     protected $process;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * <code>
      *
@@ -64,11 +58,11 @@ class StandaloneServer
      * </code>
      *
      * @throws Exception\InvalidArgumentException
-     * @param StandaloneServer\Config $config
-     * @param LoggerInterface $logger
      *
+     * @param StandaloneServer\Config $config
+     * @param LoggerInterface         $logger
      */
-    public function __construct(StandaloneServer\Config $config, LoggerInterface $logger=null)
+    public function __construct(StandaloneServer\Config $config, LoggerInterface $logger = null)
     {
         $this->config = $config;
 
@@ -90,12 +84,11 @@ class StandaloneServer
     }
 
     /**
-     * Start the standalone server
+     * Start the standalone server.
      *
      * @throws Exception\RuntimeException
      *
      * @param int $timeout_ms maximum number of milliseconds to wait for server start
-     * @return void
      */
     public function start($timeout_ms = 3000)
     {
@@ -104,7 +97,8 @@ class StandaloneServer
         $this->logger->notice("Starting standalone server on port $port.");
 
         if ($this->isStarted()) {
-            $this->logger->notice("Standalone server already running, skipping start.");
+            $this->logger->notice('Standalone server already running, skipping start.');
+
             return;
         }
 
@@ -118,7 +112,7 @@ class StandaloneServer
 
         $log_file = $this->config->getLogFile();
         $pid_file = $this->config->getPidFile();
-        $cmd = sprintf("%s > %s 2>&1 & echo $! > %s", $command, $log_file, $pid_file);
+        $cmd = sprintf('%s > %s 2>&1 & echo $! > %s', $command, $log_file, $pid_file);
 
         $this->logger->debug("Start server with: $cmd");
         exec($cmd);
@@ -155,7 +149,7 @@ class StandaloneServer
             if (preg_match('/JavaBridgeRunner started on/', $log_file_content)) {
                 $started = true;
             }
-            $iterations++;
+            ++$iterations;
         }
         if (!$started) {
             $msg = "Standalone server probably not started, timeout '$timeout_ms' reached before getting output";
@@ -165,19 +159,17 @@ class StandaloneServer
         $this->started = true;
     }
 
-
-
     /**
-     * Stop the standalone server
+     * Stop the standalone server.
      *
      * @throws Exception\StopFailedException
-     * @param boolean $throwException whether to throw exception if pid exists in config but process cannot be found
-     * @param boolean $clearPidFileOnException clear th pid file if the server was not running
-     * @return void
+     *
+     * @param bool $throwException          whether to throw exception if pid exists in config but process cannot be found
+     * @param bool $clearPidFileOnException clear th pid file if the server was not running
      */
-    public function stop($throwException=false, $clearPidFileOnException=false)
+    public function stop($throwException = false, $clearPidFileOnException = false)
     {
-        $this->logger->notice("Stopping server");
+        $this->logger->notice('Stopping server');
 
         try {
             $pid = $this->getPid();
@@ -188,17 +180,19 @@ class StandaloneServer
                     $this->logger->notice("Stop failed: ${msg}");
                     throw new Exception\StopFailedException($msg);
                 }
+
                 return;
             }
         } catch (Exception\PidNotFoundException $e) {
             if ($throwException) {
-                $msg = "Cannot stop server: pid file not found (was the server started ?)";
+                $msg = 'Cannot stop server: pid file not found (was the server started ?)';
                 $this->logger->notice("Stop failed: $msg");
                 if ($clearPidFileOnException) {
                     $this->clearPidFile();
                 }
                 throw new Exception\StopFailedException($msg, null, $e);
             }
+
             return;
         }
 
@@ -222,7 +216,6 @@ class StandaloneServer
         $this->started = false;
     }
 
-
     /**
      * @throws Exception\FilePermissionException
      */
@@ -239,22 +232,25 @@ class StandaloneServer
     }
 
     /**
-     * Tells whether the standalone server is started
+     * Tells whether the standalone server is started.
      *
-     * @param boolean $test_is_running
-     * @return boolean
+     * @param bool $test_is_running
+     *
+     * @return bool
      */
-    public function isStarted($test_is_running=true)
+    public function isStarted($test_is_running = true)
     {
         // In case of previous run, let's us
         if (!$this->started && $test_is_running) {
             $this->started = $this->isProcessRunning();
         }
+
         return $this->started;
     }
 
     /**
-     * Return command used to start the standalone server
+     * Return command used to start the standalone server.
+     *
      * @return string
      */
     public function getCommand()
@@ -294,11 +290,11 @@ class StandaloneServer
         return $command;
     }
 
-
     /**
-     * Get standalone server pid number as it was stored during last start
+     * Get standalone server pid number as it was stored during last start.
      *
      * @throws Exception\PidNotFoundException|ExceptionPidCorruptedException
+     *
      * @return int
      */
     public function getPid()
@@ -315,13 +311,15 @@ class StandaloneServer
             $this->logger->error("Get PID failed: $msg");
             throw new Exception\PidCorruptedException($msg);
         }
+
         return (int) $pid;
     }
 
-
     /**
-     * Return the content of the output_file
+     * Return the content of the output_file.
+     *
      * @throws Exception\RuntimeException
+     *
      * @return string
      */
     public function getOutput()
@@ -337,19 +335,21 @@ class StandaloneServer
             throw new Exception\RuntimeException($msg);
         }
         $output = file_get_contents($log_file);
+
         return $output;
     }
 
-
     /**
      * Test whether the standalone server process
-     * is effectively running
+     * is effectively running.
      *
      * @throws Exception\PidNotFoundException
-     * @param boolean $throwsException if false discard exception if pidfile not exists
-     * @return boolean
+     *
+     * @param bool $throwsException if false discard exception if pidfile not exists
+     *
+     * @return bool
      */
-    public function isProcessRunning($throwsException=false)
+    public function isProcessRunning($throwsException = false)
     {
         $running = false;
         try {
@@ -366,12 +366,12 @@ class StandaloneServer
                 throw $e;
             }
         }
+
         return $running;
     }
 
-
     /**
-     * Restart the standalone server
+     * Restart the standalone server.
      */
     public function restart()
     {
@@ -380,7 +380,8 @@ class StandaloneServer
     }
 
     /**
-     * Return underlying configuration object
+     * Return underlying configuration object.
+     *
      * @return StandaloneServer\Config
      */
     public function getConfig()

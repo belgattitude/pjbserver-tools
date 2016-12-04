@@ -10,7 +10,6 @@ class PjbServerTestConfig
     }
 
     /**
-     * 
      * @return Config
      */
     public static function getStandaloneServerConfig()
@@ -25,11 +24,11 @@ class PjbServerTestConfig
         $port = $_SERVER['standalone_server_port'];
 
         $params = [
-            "port" => $port,
-            "server_jar" => $server_jar,
-            "log_file" => self::getBaseDir() . "/test/logs/pjbserver-port{$port}.log",
-            "pid_file" => self::getBaseDir() . "/test/logs/pjbserver-port{$port}.pid",
-            "classpaths" => [
+            'port' => $port,
+            'server_jar' => $server_jar,
+            'log_file' => self::getBaseDir() . "/test/logs/pjbserver-port{$port}.log",
+            'pid_file' => self::getBaseDir() . "/test/logs/pjbserver-port{$port}.pid",
+            'classpaths' => [
                 self::getBaseDir() . '/resources/autoload/*.jar'
             ]
         ];

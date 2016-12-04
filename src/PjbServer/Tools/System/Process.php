@@ -7,8 +7,6 @@ use PjbServer\Tools\Exception\UnsupportedSystemException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-
-
 class Process implements ProcessInterface
 {
     const LINUX_STYLE = 'linux';
@@ -25,7 +23,8 @@ class Process implements ProcessInterface
 
     /**
      * Process constructor.
-     * @param string $style
+     *
+     * @param string               $style
      * @param LoggerInterface|null $logger
      */
     public function __construct($style = self::LINUX_STYLE, LoggerInterface $logger = null)
@@ -38,10 +37,11 @@ class Process implements ProcessInterface
     }
 
     /**
-     * Create "internal styled" process
+     * Create "internal styled" process.
      *
-     * @param string $style
+     * @param string          $style
      * @param LoggerInterface $logger
+     *
      * @return ProcessInterface
      */
     protected function getProcess($style, LoggerInterface $logger)
@@ -54,15 +54,18 @@ class Process implements ProcessInterface
                 $msg = "System style '" . (string) $style . "' is not supported";
                 throw new UnsupportedSystemException($msg);
         }
+
         return $process;
     }
 
     /**
-     * Check whether a pid is running
+     * Check whether a pid is running.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param int $pid
-     * @return boolean
+     *
+     * @return bool
      */
     public function isRunning($pid)
     {
@@ -70,12 +73,14 @@ class Process implements ProcessInterface
     }
 
     /**
-     * Kill a process
+     * Kill a process.
      *
      * @throws Exception\InvalidArgumentException
-     * @param int $pid
+     *
+     * @param int  $pid
      * @param bool $wait
-     * @return boolean
+     *
+     * @return bool
      */
     public function kill($pid, $wait = false)
     {

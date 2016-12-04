@@ -3,17 +3,18 @@
 namespace PjbServer\Tools\Composer;
 
 use Composer\Script\Event;
+
 //use Composer\Installer\PackageEvent;
 
-
-class Installer {
-
-    static public function postInstall(Event $event)  {
+class Installer
+{
+    public static function postInstall(Event $event)
+    {
         //var_dump($event);
-
     }
 
-    static public function postUpdate(Event $event)  {
+    public static function postUpdate(Event $event)
+    {
         //var_dump($event);
         /*
         $package = $event->getName();
@@ -22,6 +23,4 @@ class Installer {
         echo $installManager->getInstallPath($package);
         */
     }
-
-
 }

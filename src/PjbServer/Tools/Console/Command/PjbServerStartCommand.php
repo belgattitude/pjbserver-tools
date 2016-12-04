@@ -8,8 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-
 class PjbServerStartCommand extends Command
 {
     use LoggerTrait;
@@ -18,7 +16,6 @@ class PjbServerStartCommand extends Command
      * @var StandaloneServer
      */
     protected $server;
-
 
     /**
      * {@inheritdoc}
@@ -35,7 +32,7 @@ class PjbServerStartCommand extends Command
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
 
-             ->setHelp(<<<EOT
+             ->setHelp(<<<'EOT'
 Start the php java bridge server in the background.
 EOT
         );
@@ -53,7 +50,7 @@ EOT
             throw new \InvalidArgumentException($msg);
         }
 
-        $params = include($file);
+        $params = include $file;
         $port = $params['port'];
 
         $config = new StandaloneServer\Config($params);

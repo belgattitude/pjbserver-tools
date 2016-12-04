@@ -9,16 +9,14 @@ use Psr\Log\NullLogger;
 
 class LinuxProcess implements ProcessInterface
 {
-
-
     /**
      * @var LoggerInterface
      */
     protected $logger;
 
-
     /**
      * LinuxProcess constructor.
+     *
      * @param LoggerInterface $logger
      */
     public function __construct($logger = null)
@@ -30,28 +28,33 @@ class LinuxProcess implements ProcessInterface
     }
 
     /**
-     * Check whether a pid is running
+     * Check whether a pid is running.
      *
      * @throws Exception\InvalidArgumentException
+     *
      * @param int $pid
-     * @return boolean
+     *
+     * @return bool
      */
     public function isRunning($pid)
     {
-        $cmd = sprintf("kill -0 %d 2>&1", $pid);
+        $cmd = sprintf('kill -0 %d 2>&1', $pid);
         $this->logger->debug(__METHOD__ . ": Exec command: $cmd");
         exec($cmd, $output, $return_var);
         $running = ($return_var === 0);
+
         return $running;
     }
 
     /**
-     * Kill a process
+     * Kill a process.
      *
      * @throws Exception\InvalidArgumentException
-     * @param int $pid
+     *
+     * @param int  $pid
      * @param bool $wait wait for the process to be killed
-     * @return boolean
+     *
+     * @return bool
      */
     public function kill($pid, $wait = false)
     {
@@ -59,7 +62,7 @@ class LinuxProcess implements ProcessInterface
         if ($this->isRunning($pid)) {
             if ($wait) {
                 $sleep_time = '0.2';
-                $cmd = sprintf("kill %d; while ps -p %d; do sleep %s;done;", $pid, $pid, $sleep_time);
+                $cmd = sprintf('kill %d; while ps -p %d; do sleep %s;done;', $pid, $pid, $sleep_time);
                 $this->logger->debug(__METHOD__ . " Exec command: $cmd");
                 exec($cmd, $output, $return_var);
                 $killed = ($return_var === 0);
@@ -70,9 +73,10 @@ class LinuxProcess implements ProcessInterface
                 }
             } else {
                 //@todo
-                throw new \Exception("@todo Only wait=true is supported for now");
+                throw new \Exception('@todo Only wait=true is supported for now');
             }
         }
+
         return $killed;
     }
 }

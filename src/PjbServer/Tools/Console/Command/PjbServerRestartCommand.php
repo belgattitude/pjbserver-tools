@@ -17,7 +17,6 @@ class PjbServerRestartCommand extends Command
      */
     protected $server;
 
-
     /**
      * {@inheritdoc}
      */
@@ -32,7 +31,7 @@ class PjbServerRestartCommand extends Command
                 InputArgument::REQUIRED,
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
                )
-             ->setHelp(<<<EOT
+             ->setHelp(<<<'EOT'
 Start the php java bridge server in the background.
 EOT
         );
@@ -49,7 +48,7 @@ EOT
             $msg = "Configuration file '$file' does not exists or is not readable'";
             throw new \InvalidArgumentException($msg);
         }
-        $params = include($file);
+        $params = include $file;
         $port = $params['port'];
         $config = new StandaloneServer\Config($params);
 
@@ -62,6 +61,7 @@ EOT
         $logger->debug("Server output: \n" . $this->server->getOutput());
 
         $output->writeln("Server successfully restarted on port $port");
+
         return 0;
     }
 }

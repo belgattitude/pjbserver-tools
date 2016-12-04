@@ -8,8 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-
 class PjbServerRevealCommand extends Command
 {
     use LoggerTrait;
@@ -18,7 +16,6 @@ class PjbServerRevealCommand extends Command
      * @var StandaloneServer
      */
     protected $server;
-
 
     /**
      * {@inheritdoc}
@@ -35,7 +32,7 @@ class PjbServerRevealCommand extends Command
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
 
-             ->setHelp(<<<EOT
+             ->setHelp(<<<'EOT'
 Echo the underlying cli command (call to java) that will be called.
 EOT
         );
@@ -53,7 +50,7 @@ EOT
             throw new \InvalidArgumentException($msg);
         }
 
-        $params = include($file);
+        $params = include $file;
 
         $config = new StandaloneServer\Config($params);
         $this->logServerConfig($logger, $config);

@@ -8,7 +8,6 @@ use PjbServerTestConfig;
 
 class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var StandaloneServer
      */
@@ -22,7 +21,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->server->stop($throws_exception=false);
+        $this->server->stop($throws_exception = false);
     }
 
     public function testGetConfig()
@@ -44,6 +43,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->server->isStarted());
         $this->assertFileNotExists($pid_file);
     }
+
 /*
     public function testStopExceptionWhenStopped()
     {
@@ -97,12 +97,12 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileNotExists($pid_file);
         $this->server->stop();
         $this->assertFileNotExists($pid_file);
-        $this->server->isProcessRunning($throwException=true);
+        $this->server->isProcessRunning($throwException = true);
     }
 
     public function testGetPid()
     {
-        $config   = $this->server->getConfig();
+        $config = $this->server->getConfig();
         $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
@@ -114,7 +114,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testStop()
     {
-        $config   = $this->server->getConfig();
+        $config = $this->server->getConfig();
         $pid_file = $config->getPidFile();
         $this->server->start();
         $this->assertFileExists($pid_file);
@@ -124,7 +124,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOutput()
     {
-        $config   = $this->server->getConfig();
+        $config = $this->server->getConfig();
         $this->server->start();
         $output = $this->server->getOutput();
         $this->assertInternalType('string', $output);
@@ -135,7 +135,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
     public function testGetOutputThrowsExceptionWhenNoLog()
     {
         $this->setExpectedException(\PjbServer\Tools\Exception\RuntimeException::class);
-        $config   = $this->server->getConfig();
+        $config = $this->server->getConfig();
         $log_file = $config->getLogFile();
         $this->server->start();
         // pretend output log file does not exists
@@ -145,7 +145,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOutputThrowsExceptionWhenUnreadableLog()
     {
-        $config   = $this->server->getConfig();
+        $config = $this->server->getConfig();
         $log_file = $config->getLogFile();
         $this->server->start();
         // pretend output log file is not readable
@@ -154,13 +154,12 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
             $this->server->getOutput();
             $this->assertFalse(true, 'Output log file was not readable, RuntimeException was not thrown');
         } catch (\PjbServer\Tools\Exception\RuntimeException $e) {
-            $this->assertTrue(true, "Correctly catched excepted RuntimeException");
+            $this->assertTrue(true, 'Correctly catched excepted RuntimeException');
         }
         // restore
         chmod($log_file, 0755);
         $this->server->getOutput();
     }
-
 
     public function testStopThrowsException()
     {
@@ -179,7 +178,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPidCorrupted()
     {
-        $config   = $this->server->getConfig();
+        $config = $this->server->getConfig();
         $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
@@ -188,9 +187,9 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         file_put_contents($pid_file, 'invalidpid');
         try {
             $this->server->getPid();
-            $this->assertFalse(true, "PidCorrupted exception was not throwned");
+            $this->assertFalse(true, 'PidCorrupted exception was not throwned');
         } catch (\PjbServer\Tools\Exception\PidCorruptedException $e) {
-            $this->assertTrue(true, "PID Corrupted exception was correctly thrown");
+            $this->assertTrue(true, 'PID Corrupted exception was correctly thrown');
         }
         // restore pid
         file_put_contents($pid_file, $pid);
@@ -221,7 +220,6 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
             'log_file' => $this->server->getConfig()->getLogFile() . '.extra.log',
             'pid_file' => $this->server->getConfig()->getPidFile() . '.extra.pid'
         ]);
-
 
         // Other server on same port
         // should throw a port unavailable exception

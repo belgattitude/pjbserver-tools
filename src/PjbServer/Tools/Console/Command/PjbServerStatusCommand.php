@@ -9,8 +9,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-
 class PjbServerStatusCommand extends Command
 {
     use LoggerTrait;
@@ -19,7 +17,6 @@ class PjbServerStatusCommand extends Command
      * @var StandaloneServer
      */
     protected $server;
-
 
     /**
      * {@inheritdoc}
@@ -36,7 +33,7 @@ class PjbServerStatusCommand extends Command
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
 
-             ->setHelp(<<<EOT
+             ->setHelp(<<<'EOT'
 Get the status of the php java bridge server in the background.
 EOT
         );
@@ -54,7 +51,7 @@ EOT
             throw new \InvalidArgumentException($msg);
         }
 
-        $params = include($file);
+        $params = include $file;
         $port = $params['port'];
 
         $config = new StandaloneServer\Config($params);
@@ -65,13 +62,12 @@ EOT
         $log_file = $config->getLogFile();
 
         if (file_exists($log_file)) {
-            $output->writeln("---------------------------------------------------------");
+            $output->writeln('---------------------------------------------------------');
             $output->writeln("Content of log file ($log_file)");
-            $output->writeln("---------------------------------------------------------");
+            $output->writeln('---------------------------------------------------------');
             $output->writeln($this->server->getOutput());
-            $output->writeln("---------------------------------------------------------");
+            $output->writeln('---------------------------------------------------------');
         }
-
 
         $isRunning = false;
         try {
@@ -87,13 +83,13 @@ EOT
         } catch (PjbException\PidCorruptedException $e) {
             // Pid file corrupted
             $logger->critical("Cannot find server pid, your '$pid_file' is corrupted. Remove it.");
-            $msg = "Server not running (Critical error: pid file corrupted)";
+            $msg = 'Server not running (Critical error: pid file corrupted)';
         } catch (PjbException\PidNotFoundException $e) {
             $logger->info("Pid file '$pid_file' not exists, assuming server is down.");
             $msg = "Server not running on port '$port' (no pid file found)";
         } catch (\Exception $e) {
             $logger->error('Unexpected exception when testing pid file.');
-            $msg = "Cannot test server status";
+            $msg = 'Cannot test server status';
         }
 
         $output->writeln($msg);
