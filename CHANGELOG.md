@@ -1,6 +1,11 @@
 # CHANGELOG
 
-# CHANGELOG
+## 2.X.X (20xx-xx-xx)
+
+### Fixed
+
+- [#7](https://github.com/belgattitude/pjbserver-tools/pull/7) fix markdown in README.md
+- HHVM badge updated for testing HHVM 3.9
 
 ## 2.1.0 (2016-10-27)
 
