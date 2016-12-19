@@ -248,7 +248,7 @@ return [
 
 Don't forget to restart the standalone server to reflect the changes.
 
-*Using wildcard `/my/path/*.jar` is possible but should be used with care. All matching files will be appended to classpath 
+*Using wildcard* `/my/path/*.jar` *is possible but should be used with care. All matching files will be appended to classpath 
 by passing arguments in a shell exec. Limits exists...*
 
 ## Debugging
