@@ -1,11 +1,17 @@
 # CHANGELOG
 
-## 2.X.X (20xx-xx-xx)
+## 2.1.1 (2017-01-15)
+
+### Changed
+
+- Updated embedded `JavaBridge.jar` from [belgattitude/php-java-bridge](https://github.com/belgattitude/php-java-bridge) latest build. 
+- Preliminary support for pre/post composer hooks
 
 ### Fixed
 
 - [#7](https://github.com/belgattitude/pjbserver-tools/pull/7) fix markdown in README.md
 - HHVM badge updated for testing HHVM 3.9
+
 
 ## 2.1.0 (2016-10-27)
 
