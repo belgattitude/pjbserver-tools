@@ -3,17 +3,19 @@ sudo: required
 dist: trusty
 group: edge
 
-php:
-  - 5.5
-  - 7.0
-  - 7.1
-  - hhvm-3.9
-  
 matrix:
-    include:
-        - php: 5.6
-          env: SEND_COVERAGE=true
-          
+  include:
+    - php: 5.5
+      env:
+        - EXECUTE_TEST_COVERALLS=true
+        - SEND_COVERAGE=true
+    - php: 7.0
+    - php: 7.1
+    - php: hhvm-3.9
+    - php: hhvm-3.12
+    - php: hhvm-nightly
+
+
 env:
     global:
         - SEND_COVERAGE=false
