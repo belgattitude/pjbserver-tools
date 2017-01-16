@@ -9,8 +9,7 @@ matrix:
       env:
         - EXECUTE_TEST_COVERALLS=true
         - SEND_COVERAGE=true
-    - php: 7.0
-    - php: 7.1
+    - php: 7
     - php: hhvm-3.9
     - php: hhvm-3.12
     - php: hhvm-nightly
