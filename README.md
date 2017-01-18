@@ -8,12 +8,12 @@
 [![Total Downloads](https://poser.pugx.org/belgattitude/pjbserver-tools/downloads.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 [![License](https://poser.pugx.org/belgattitude/pjbserver-tools/license.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 
-
-## Introduction
-
 The `pjbserver-tools` package currently provides an easy installable php java bridge standalone server.
 See the [soluble/japha](https://github.com/belgattitude/soluble-japha) and [php-java-bridge](https://github.com/belgattitude/php-java-bridge) 
-projects to get more info about php/java integration.
+projects to get more info about php/java integration. 
+
+> **Note** that the `pjbserver-tools` standalone server installation
+> is not necessary if you deploy the bridge on tomcat, [pjb-starter-gradle](https://github.com/belgattitude/pjb-starter-gradle/)  
 
 ## Use cases
 
@@ -297,6 +297,17 @@ You can kill the process:
 ```
 $ kill <pid_standalone_server>
 ```
+## FAQ
+
+### How to start automatically at boot
+
+Check for "supervisord" on google, you'll find some recipes but the
+preferred method is to deploy on Tomcat, see:
+
+- [pjb-starter-gradle](https://github.com/belgattitude/pjb-starter-gradle/) to build you own production, self-container or deployable servlet or
+- [php-java-bridge](https://github.com/belgattitude/php-java-bridge) project.
+
+For alternatives to pjbserver-tools standalone.
 
 ## Coding standards
 
