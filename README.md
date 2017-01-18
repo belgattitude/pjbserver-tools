@@ -35,6 +35,10 @@ for php/java integration while keeping things simple for development, unit testi
 
 ## Installation
 
+> **WARNING** The phpjavabridge server is not supposed to be run on a public facing server
+> and its use should be limited to interactions on the same host/network with the php client.
+> Do not run it as root neither as it exposes the JVM methods through the network. 
+
 Depending on your needs you can use the pjserver-tools in two ways.
 
 1. Option 1: Composer install
