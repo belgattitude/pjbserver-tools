@@ -244,9 +244,8 @@ return [
     'port'       => 8089,
     'classpaths' => [
         '/my/path/autoload/mysql-connector.jar',
-        '/my/autoload_path/*.jar
+        '/my/autoload_path/*.jar'
     ],
-
 ];
 ```
 
@@ -298,13 +297,6 @@ You can kill the process:
 ```
 $ kill <pid_standalone_server>
 ```
-
-
-## Tools
-
-### Create a war bundle
-
-Some scripts and ant tasks examples are available in the /tools folder.
 
 ## Coding standards
 

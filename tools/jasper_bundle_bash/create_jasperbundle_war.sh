@@ -1,5 +1,5 @@
 #!/bin/sh
-# Quickly create a war file bundle with :
+# For testing purposes only !!!
 #
 #   - MySQL connector J
 #   - PHP Java Bridge
