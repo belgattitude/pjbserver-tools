@@ -11,3 +11,4 @@ phpunit.xml
 /vendor
 /nbproject
 /build
+/config/*.php

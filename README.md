@@ -283,7 +283,7 @@ lookup the process through the command line.
 
 ```console
 $ # Searching by listening port
-$ netstat -an | grep <port>
+$ netstat -nlp | grep :<port>   # might require sudo if server started as root
 
 $ # Searching by name
 $ ps ax | grep JavaBridge.jar
