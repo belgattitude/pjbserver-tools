@@ -13,7 +13,11 @@ See the [soluble/japha](https://github.com/belgattitude/soluble-japha) and [php-
 projects to get more info about php/java integration. 
 
 > **Note** that the `pjbserver-tools` standalone server installation
-> is not necessary if you deploy the bridge on tomcat, [pjb-starter-gradle](https://github.com/belgattitude/pjb-starter-gradle/)  
+> is not necessary if you deploy the bridge on tomcat (which is the preferred method
+> for production). 
+> Have a look to the [pjb-starter-gradle](https://github.com/belgattitude/pjb-starter-gradle/) for
+> creating a custom war file or refer to the [php-java-bridge](https://github.com/belgattitude/php-java-bridge) fork.
+    
 
 ## Use cases
 
@@ -37,7 +41,8 @@ for php/java integration while keeping things simple for development, unit testi
 
 > **WARNING** The phpjavabridge server is not supposed to be run on a public facing server
 > and its use should be limited to interactions on the same host/network with the php client.
-> Do not run it as root neither as it exposes the JVM methods through the network. 
+> Do not run it as root neither as it exposes the JVM methods through the network that
+> could be remotely exploited. Do not start it as root neither. 
 
 Depending on your needs you can use the pjserver-tools in two ways.
 
