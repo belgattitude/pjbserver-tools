@@ -12,16 +12,16 @@ The `pjbserver-tools` package currently provides an easy installable php java br
 See the [soluble/japha](https://github.com/belgattitude/soluble-japha) and [php-java-bridge](https://github.com/belgattitude/php-java-bridge) 
 projects to get more info about php/java integration. 
 
-> **Note** that the `pjbserver-tools` standalone server installation
-> is not necessary if you deploy the bridge on tomcat (which is the preferred method
-> for production). 
-> Have a look to the [pjb-starter-gradle](https://github.com/belgattitude/pjb-starter-gradle/) for
-> creating a custom war file or refer to the [php-java-bridge](https://github.com/belgattitude/php-java-bridge) fork.
+> **Note** that the `pjbserver-tools` standalone server utility
+> was made for easy composer installation when developing or testing.
+>
+> *For production, building a customized PHPJavaBridge server is 
+> really easy. Check the recommended [php/java/bridge installation notes](http://docs.soluble.io/soluble-japha/install_server/)** 
     
 
 ## Use cases
 
-The java bridge standalone server can be used as an alternative to a J2EE bridge installation 
+The java bridge standalone server can be used as an alternative to a regular bridge installation 
 for php/java integration while keeping things simple for development, unit testing or small projects.     
 
 ## Features
@@ -309,7 +309,7 @@ $ kill <pid_standalone_server>
 Check for "supervisord" on google, you'll find some recipes but the
 preferred method is to deploy on Tomcat, see:
 
-- [pjb-starter-gradle](https://github.com/belgattitude/pjb-starter-gradle/) to build you own production, self-container or deployable servlet or
+- [pjb-starter-springboot](https://github.com/belgattitude/pjb-starter-springboot/) to build you own production, self-container or deployable servlet or
 - [php-java-bridge](https://github.com/belgattitude/php-java-bridge) project.
 
 For alternatives to pjbserver-tools standalone.
