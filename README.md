@@ -15,7 +15,7 @@ projects to get more info about php/java integration.
 > **Note** that the `pjbserver-tools` standalone server utility
 > was made for easy composer installation when developing or testing.
 >
-> *For production, building a customized PHPJavaBridge server is 
+> **For production, building a customized PHPJavaBridge server is 
 > really easy. Check the recommended [php/java/bridge installation notes](http://docs.soluble.io/soluble-japha/install_server/)** 
     
 
