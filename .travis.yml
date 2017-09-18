@@ -5,15 +5,17 @@ group: edge
 
 matrix:
   include:
-    - php: 5.5
+    - php: 5.6
       env:
-        - EXECUTE_TEST_COVERALLS=true
         - SEND_COVERAGE=true
-    - php: 7
-    - php: hhvm-3.9
+        - CS_CHECK=true
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
     - php: hhvm-3.12
-    - php: hhvm-nightly
-
+  allow_failures:
+    - php: hhvm-3.12
+    - php: 7.2
 
 env:
     global:
@@ -21,13 +23,16 @@ env:
 
 before_script:
   - sudo apt-get install --yes ant
-  - travis_retry composer self-update
-  - travis_retry composer --prefer-source --dev install
+  - composer self-update
+  - composer --prefer-source --dev install
   - mkdir -p test/logs
   
 script: 
-  - ./vendor/bin/phpunit -v
+  - ./vendor/bin/phpunit -v -c .travis/phpunit.travis.xml --coverage-clover=coverage.xml
+  - if [[ $CS_CHECK == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi
 
 after_script:
   - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover test/logs/clover.xml; fi
+  - if [[ $SEND_COVERAGE == true ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.xml; fi
+  - if [[ $SEND_COVERAGE == true ]]; then bash <(curl -s https://codecov.io/bash); fi
+

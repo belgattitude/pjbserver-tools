@@ -114,7 +114,8 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->in(['src', 'test', 'bin'])
+            ->name('/\.php|\.php.dist$/')
+            ->in(['src', 'test', 'bin', 'config'])
             ->filter(function (SplFileInfo $file) {
                 if (strstr($file->getPath(), 'compatibility')) {
                     return false;

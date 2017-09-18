@@ -25,7 +25,7 @@ class Config
      */
     protected $default_config = [
         'java_bin' => 'java',
-        'server_jar' => '{base_dir}/resources/pjb621_standalone/JavaBridge.jar',
+        'server_jar' => '{base_dir}/resources/pjb713_standalone/JavaBridge.jar',
         'log_file' => '{base_dir}/var/pjbserver-port{tcp_port}.log',
         'pid_file' => '{base_dir}/var/pjbserver-port{tcp_port}.pid',
         'classpaths' => [],
@@ -81,7 +81,8 @@ class Config
         // Substitute magic vars is deprecated and will be removed in v1.0.0
         $config = array_merge(
                         $this->getDefaultConfig($port),
-                        $this->substitutePlaceholders($config, $port));
+                        $this->substitutePlaceholders($config, $port)
+        );
         $this->checkConfig($config);
         $this->config = $config;
     }

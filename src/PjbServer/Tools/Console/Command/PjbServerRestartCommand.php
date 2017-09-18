@@ -31,7 +31,8 @@ class PjbServerRestartCommand extends Command
                 InputArgument::REQUIRED,
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
                )
-             ->setHelp(<<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 Start the php java bridge server in the background.
 EOT
         );

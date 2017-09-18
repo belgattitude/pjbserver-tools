@@ -31,7 +31,8 @@ class PjbServerStopCommand extends Command
                 InputArgument::REQUIRED,
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
-             ->setHelp(<<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 Stop the standalone php java bridge server (running in the background).
 EOT
         );

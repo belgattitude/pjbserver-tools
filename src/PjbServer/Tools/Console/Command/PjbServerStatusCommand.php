@@ -33,7 +33,8 @@ class PjbServerStatusCommand extends Command
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
 
-             ->setHelp(<<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 Get the status of the php java bridge server in the background.
 EOT
         );

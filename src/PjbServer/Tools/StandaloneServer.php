@@ -284,8 +284,13 @@ class StandaloneServer
                     "php.java.bridge.threads=$threads"
         ]);
 
-        $command = sprintf('%s -cp "%s" %s php.java.bridge.Standalone SERVLET:%d',
-                            $java_bin, $classpath, $directives, $port);
+        $command = sprintf(
+            '%s -cp "%s" %s php.java.bridge.Standalone SERVLET:%d',
+                            $java_bin,
+            $classpath,
+            $directives,
+            $port
+        );
 
         return $command;
     }

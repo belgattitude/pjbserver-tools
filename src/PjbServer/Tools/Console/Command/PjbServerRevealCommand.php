@@ -32,7 +32,8 @@ class PjbServerRevealCommand extends Command
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
 
-             ->setHelp(<<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 Echo the underlying cli command (call to java) that will be called.
 EOT
         );

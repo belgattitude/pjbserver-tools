@@ -44,16 +44,16 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileNotExists($pid_file);
     }
 
-/*
-    public function testStopExceptionWhenStopped()
-    {
-        $this->server->stop();
-        $this->setExpectedException(Exception\StopFailedException::class);
-        $this->server->stop($throwException=true);
-
-    }
-
-*/
+    /*
+        public function testStopExceptionWhenStopped()
+        {
+            $this->server->stop();
+            $this->setExpectedException(Exception\StopFailedException::class);
+            $this->server->stop($throwException=true);
+    
+        }
+    
+    */
     public function testRestartWhenNotStarted()
     {
         $pid_file = $this->server->getConfig()->getPidFile();

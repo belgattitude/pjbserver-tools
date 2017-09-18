@@ -32,7 +32,8 @@ class PjbServerStartCommand extends Command
                 'Configuration file, see ./dist/pjbserver.config.php.dist'
             )
 
-             ->setHelp(<<<'EOT'
+             ->setHelp(
+                 <<<'EOT'
 Start the php java bridge server in the background.
 EOT
         );
