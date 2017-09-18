@@ -24,7 +24,7 @@ env:
 before_script:
   - sudo apt-get install --yes ant
   - composer self-update
-  - composer --prefer-source --dev install
+  - composer install
   - mkdir -p test/logs
   
 script: 
