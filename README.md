@@ -173,7 +173,7 @@ $config = new Config([
     /**
      * Location of the JavaBridge.jar,
      * Default is to use the default (included) one
-     * available in pjbserver-tools/resources/pjb61_standalone/JavaBridge.jar
+     * available in pjbserver-tools/resources/pjb713_standalone/JavaBridge.jar
      */
     //'server_jar' => "/my/path/pjb713_standalone/JavaBridge.jar",    
 ]);
