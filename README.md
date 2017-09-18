@@ -219,7 +219,7 @@ contains the default parameters used in console mode.
 | Key            | Type   | Comment                                          |
 |----------------|--------|--------------------------------------------------|
 | `port`         | int    | TCP port on which standalone server listen       |
-| `classpaths`   | array  | Java additionnal classpaths                      |
+| `classpaths`   | array  | Java additional classpaths                      |
 | `threads`      | int    | Server max number of threads                     |
 | `java_bin`     | string | Java binary executable (with or without path)    |
 | `server_jar`   | string | Path to the JavaBridge.jar file                  |
