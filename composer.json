@@ -22,7 +22,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "PjbServerTest\\Tools\\": "test/PjbServerTest/Tools"
+      "PjbServerTest\\Tools\\": "test/PjbServerTest/Tools",
+      "PjbServerTest\\Functionnal\\": "test/PjbServerTest/Functionnal"
     }
   },
   "require": {

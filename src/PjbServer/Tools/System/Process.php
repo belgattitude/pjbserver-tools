@@ -43,6 +43,7 @@ class Process implements ProcessInterface
      * @param LoggerInterface $logger
      *
      * @return ProcessInterface
+     * @throws UnsupportedSystemException
      */
     protected function getProcess($style, LoggerInterface $logger)
     {
@@ -51,7 +52,7 @@ class Process implements ProcessInterface
                 $process = new Linux\LinuxProcess($logger);
                 break;
             default:
-                $msg = "System style '" . (string) $style . "' is not supported";
+                $msg = "System style '" . $style . "' is not supported";
                 throw new UnsupportedSystemException($msg);
         }
 

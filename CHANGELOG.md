@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.2.0 (2017-09-18)
+
+### Updated
+
+- Updated standalone server to [php-java-bridge 7.1.3](https://sourceforge.net/projects/php-java-bridge/files/Binary%20package/)
+
 ## 2.1.2 (2017-01-18)
 
 ### Improved

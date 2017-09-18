@@ -1,20 +1,19 @@
 <?php
 /**
- * Example configuration file to use in console mode with
+ * Example configuration file to use in console mode with.
  *
  * $ ./bin/pjbserver-tools pjbserver:start 8089 --config-file=<config-file>
  *
  * You can adapt for your own need, but don't edit this file directly...
  * as *.dist files are overwritten on update (git pull...)
  */
-
 $tcp_port = 8089;
 
 return [
     /* Port on which the standalone server listen */
-    'port'       => $tcp_port,
+    'port' => $tcp_port,
 
-    /**
+    /*
      * Location of log and pid files...
      * Defaults is to put them in the project 'pjbserver-tools/var/...' directory
      * which is fine for unit testing, but to prevent loosing those files
@@ -22,7 +21,6 @@ return [
      */
     //'log_file'   => "/my/path/var/pjbserver-port${tcp_port}.log",
     //'pid_file'   => "/my/path/var/pjbserver-port${tcp_port}.pid",
-
 
     /* Specify here additional jar files or directory */
     'classpaths' => [
@@ -36,7 +34,7 @@ return [
 
     //'threads'    => 60,
 
-    /**
+    /*
      * Java binary, if not in path you can
      * specify its location here, for example:
      *  - '/usr/bin/java' or
@@ -44,14 +42,13 @@ return [
      *  - ...
      */
 
-    'java_bin'   => 'java',
+    'java_bin' => 'java',
 
-    /**
+    /*
      * Location of the JavaBridge.jar,
      * Default is to use the default (included) one
      * available in pjbserver-tools/resources/pjb61_standalone/JavaBridge.jar
      */
     //'server_jar' => "/my/path/pjb621_standalone/JavaBridge.jar",
-
-
+    //'server_jar' => "/my/path/pjb713_standalone/JavaBridge.jar",
 ];

@@ -50,9 +50,9 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
             $this->server->stop();
             $this->setExpectedException(Exception\StopFailedException::class);
             $this->server->stop($throwException=true);
-    
+
         }
-    
+
     */
     public function testRestartWhenNotStarted()
     {
@@ -207,7 +207,7 @@ class StandaloneServerTest extends \PHPUnit_Framework_TestCase
         $pid_file = $this->server->getConfig()->getPidFile();
         $this->assertFileExists($pid_file);
 
-        $this->setExpectedException(Exception\PortUnavailableException::class);
+        $this->expectException(Exception\PortUnavailableException::class);
 
         // Test starting another instance on the same port
 

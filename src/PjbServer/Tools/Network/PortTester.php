@@ -158,7 +158,6 @@ class PortTester
                 $errno = curl_errno($curl_handle);
                 if ($errno != 0) {
                     $available = true;
-                    //echo curl_error($curl_handle);
                 }
                 curl_close($curl_handle);
                 break;

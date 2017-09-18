@@ -7,7 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
+         stopOnFailure="false"
          syntaxCheck="true"
          bootstrap="./test/bootstrap.php"
 >
@@ -16,7 +16,7 @@
         <!-- port on wich the standalone server listen -->
         <server name="standalone_server_port" value="8089" />
         <!-- phpjavabridge standalone server jar file -->
-        <server name="standalone_server_jar" value="./resources/pjb621_standalone/JavaBridge.jar" />
+        <server name="standalone_server_jar" value="./resources/pjb713_standalone/JavaBridge.jar" />
         
     </php>
 
@@ -24,8 +24,12 @@
         <testsuite name="pjbserver-tools">
             <directory>./test/src/PjbServerTest/Tools</directory>
         </testsuite>
+        <testsuite name="pjbserver-functionnal">
+            <directory>./test/src/PjbServerTest/Functionnal</directory>
+        </testsuite>
+
     </testsuites>
-    
+
     <filter>
         <whitelist>
             <directory>./src</directory>
