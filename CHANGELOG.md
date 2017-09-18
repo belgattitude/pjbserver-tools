@@ -4,7 +4,8 @@
 
 ### Updated
 
-- Updated standalone server to [php-java-bridge 7.1.3](https://sourceforge.net/projects/php-java-bridge/files/Binary%20package/)
+- Updated standalone server to [php-java-bridge 7.1.3](https://sourceforge.net/projects/php-java-bridge/files/Binary%20package/),
+  you can still explicitly set the 6.2.1 version in the config `'server_jar' => "/my/path/pjb621_standalone/JavaBridge.jar"` 
 
 ## 2.1.2 (2017-01-18)
 
