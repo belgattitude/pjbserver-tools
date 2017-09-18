@@ -28,7 +28,7 @@ for php/java integration while keeping things simple for development, unit testi
 - Easy setup of a PHP Java bridge standalone server (*nix).
 - Console commands to control the server (start/stop/restart/status). 
 - API library to customize the behaviour.
-- Includes latest compiled [JavaBridge.jar](./resources/pjb621_standalone/JavaBridge.jar) file.
+- Includes compiled [JavaBridge.jar](./resources/pjb713_standalone/JavaBridge.jar) 7.1.3 file.
 
 ## Requirements
 
@@ -175,7 +175,7 @@ $config = new Config([
      * Default is to use the default (included) one
      * available in pjbserver-tools/resources/pjb61_standalone/JavaBridge.jar
      */
-    //'server_jar' => "/my/path/pjb621_standalone/JavaBridge.jar",    
+    //'server_jar' => "/my/path/pjb713_standalone/JavaBridge.jar",    
 ]);
 
 $server = new StandaloneServer($config);
@@ -277,7 +277,7 @@ $ ./bin/pjbserver-tools pjbserver:reveal -vvv ./config/pjbserver.config.php.dist
 For example, the issued command the default config can be
 
 ```console
-$ java -cp "/xxx/pjbserver-tools/resources/pjb621_standalone/JavaBridge.jar" -Dphp.java.bridge.daemon="false" -Dphp.java.bridge.threads=50 php.java.bridge.Standalone SERVLET:8089
+$ java -cp "/xxx/pjbserver-tools/resources/pjb713_standalone/JavaBridge.jar" -Dphp.java.bridge.daemon="false" -Dphp.java.bridge.threads=50 php.java.bridge.Standalone SERVLET:8089
 ```
  
 ### Process management

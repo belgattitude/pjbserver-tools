@@ -43,6 +43,7 @@ class Process implements ProcessInterface
      * @param LoggerInterface $logger
      *
      * @return ProcessInterface
+     *
      * @throws UnsupportedSystemException
      */
     protected function getProcess($style, LoggerInterface $logger)
