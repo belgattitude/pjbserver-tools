@@ -28,7 +28,7 @@ before_script:
   - mkdir -p test/logs
   
 script: 
-  - ./vendor/bin/phpunit -v -c --coverage-clover=coverage.xml
+  - ./vendor/bin/phpunit -v --coverage-clover=coverage.xml
   - if [[ $CS_CHECK == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi
 
 after_script:
