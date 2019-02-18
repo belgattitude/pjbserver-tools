@@ -2,9 +2,14 @@
 
 ## 3.0.0 (2019-02-??)
 
+### Added 
+
+- Support for symfony/console ^4.0
+
 ### Changed
 
 - PHP 7.1 with strict_types.
+- PHP 7.2 and 7.3 tested.
 - PHPUnit upgraded to 7.5
 
 ### Removed 

@@ -38,7 +38,8 @@
     "phpstan/phpstan-phpunit": "^0.11",
     "phpstan/phpstan-strict-rules": "^0.11",
     "composer/composer": "^1.1.0",
-    "soluble/japha": "^2.2.0"
+    "soluble/japha": "^2.2.0",
+    "captainhook/plugin-composer": "^4.0"
   },
   "suggest": {
     "monolog/monolog": "Monolog or other PSR-3 compatible logger"
@@ -53,6 +54,7 @@
     "test": "vendor/bin/phpunit",
     "phpstan": "vendor/bin/phpstan analyse -l 5 -c phpstan.neon src",
     "cs:fix": "vendor/bin/php-cs-fixer fix",
+    "cs:check": "vendor/bin/php-cs-fixer fix --dry-run",
     "pjbserver:start": "./bin/pjbserver-tools -vvv pjbserver:start ./config/pjbserver.config.php.dist",
     "pjbserver:stop": "./bin/pjbserver-tools -vvv pjbserver:stop ./config/pjbserver.config.php.dist",
     "pjbserver:restart": "./bin/pjbserver-tools -vvv pjbserver:restart ./config/pjbserver.config.php.dist",
