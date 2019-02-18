@@ -1,5 +1,6 @@
 # pjbserver-tools
 [![PHP Version](http://img.shields.io/badge/php-5.5+-ff69b4.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
+[![PHP Version](https://img.shields.io/badge/php-7.1+-ff69b4.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 [![Build Status](https://travis-ci.org/belgattitude/pjbserver-tools.svg?branch=master)](https://travis-ci.org/belgattitude/pjbserver-tools)
 [![codecov](https://codecov.io/gh/belgattitude/pjbserver-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/belgattitude/pjbserver-tools)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/?branch=master)
