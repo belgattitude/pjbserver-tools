@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 3.0.0 (2019-02-??)
+## 3.0.0 (2019-02-18)
+
+No breaking changes. Just more type checks and support for symfony/console ^4.0.
 
 ### Added 
 
@@ -14,9 +16,9 @@
 
 ### Removed 
 
-- Support for hhvm.
-- Support for soluble/japha < 2.5.0.
-- Support for symfony/confole < 3.0.0.
+- Drop support for hhvm (travis).
+- Drop support for soluble/japha < 2.5.0.
+- Drop support for symfony/console < 3.0.0.
 
 ## 2.2.0 (2017-09-18)
 
