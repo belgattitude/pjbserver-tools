@@ -76,7 +76,8 @@ class Config
     {
         if (!isset($config['port'])) {
             throw new Exception\InvalidArgumentException("Error missing required 'port' in config");
-        } elseif (!filter_var($config['port'], FILTER_VALIDATE_INT) || $config['port'] < 1) {
+        }
+        if (!(bool)filter_var($config['port'], FILTER_VALIDATE_INT) || $config['port'] < 1) {
             throw new Exception\InvalidArgumentException("Option 'port' must be numeric greater than 0");
         }
         $port = $config['port'];
@@ -184,7 +185,8 @@ class Config
      * Substitute the placeholder {tcp_port} and {base_dir}
      * from a config array.
      *
-     * @param array $configArray associative array
+     * @param array<string, mixed> $configArray associative array
+     * @param int|string $port
      *
      * @return array<string, mixed>
      */
@@ -195,7 +197,7 @@ class Config
 
         foreach ($configArray as $key => $value) {
             $tmp = str_replace('{base_dir}', $base_dir, $value);
-            $tmp = str_replace('{tcp_port}', $port, $tmp);
+            $tmp = str_replace('{tcp_port}', (string) $port, $tmp);
             $substituted[$key] = $tmp;
         }
 
@@ -228,7 +230,7 @@ class Config
      *
      * @param array<string, mixed> $config
      */
-    protected function checkConfig(array $config)
+    protected function checkConfig(array $config): void
     {
         // Step 1: all required options
         $required = ['port', 'server_jar', 'log_file', 'pid_file', 'threads'];

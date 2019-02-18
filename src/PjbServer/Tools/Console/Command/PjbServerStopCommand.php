@@ -22,7 +22,7 @@ class PjbServerStopCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('pjbserver:stop')
              ->setDescription(

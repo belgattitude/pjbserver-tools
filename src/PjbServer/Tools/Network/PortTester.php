@@ -63,14 +63,15 @@ class PortTester
     public function __construct(array $options = [])
     {
         $this->options = array_merge($this->defaults, $options);
-        if ($this->options['backend'] == '') {
+        if ($this->options['backend'] === null) {
             if ($this->isCurlAvailable()) {
                 $this->options['backend'] = self::BACKEND_CURL;
             } else {
                 $this->options['backend'] = self::BACKEND_STREAM_SOCKET;
             }
         }
-        if (!in_array($this->options['backend'], $this->supportedBackends)) {
+        $this->options['backend'] = strtolower($this->options['backend']);
+        if (!in_array($this->options['backend'], $this->supportedBackends, true)) {
             throw new \InvalidArgumentException("Unsupported backend '" . $this->options['backend'] . "'");
         }
     }
@@ -90,7 +91,7 @@ class PortTester
      */
     public function isAvailable(string $host, int $port, string $protocol = 'http', ?int $timeout = null): bool
     {
-        if (!in_array($protocol, $this->supportedProtocols)) {
+        if (!in_array($protocol, $this->supportedProtocols, true)) {
             throw new \InvalidArgumentException("Unsupported protocol '$protocol'");
         }
 
@@ -105,7 +106,7 @@ class PortTester
         switch ($backend) {
             case self::BACKEND_PFSOCKOPEN:
                 $sock = @pfsockopen("$protocol://$host", $port, $errno, $errstr, $timeout);
-                if (!is_resource($sock)) {
+                if ($sock === false) {
                     $available = true;
                 } else {
                     fclose($sock);

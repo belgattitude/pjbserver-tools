@@ -10,12 +10,12 @@ use Composer\Script\Event;
 
 class Installer
 {
-    public static function postInstall(Event $event)
+    public static function postInstall(Event $event): void
     {
         //var_dump($event);
     }
 
-    public static function postUpdate(Event $event)
+    public static function postUpdate(Event $event): void
     {
         //var_dump($event);
         /*

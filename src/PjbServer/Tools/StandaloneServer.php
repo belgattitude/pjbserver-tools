@@ -132,7 +132,7 @@ class StandaloneServer
 
         // Loop for waiting correct start of phpjavabridge
         $started = false;
-        $iterations = true;
+        $iterations = 0;
         $refresh_us = 100 * 1000; // 100ms
         $timeout_us = $timeout_ms * 1000;
         $max_iterations = ceil($timeout_us / min([$refresh_us, $timeout_us]));
