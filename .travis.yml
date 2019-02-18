@@ -9,6 +9,7 @@ matrix:
       env:
         - CS_CHECKS=true
         - PHPSTAN=true
+        - SEND_COVERAGE=true
     - php: 7.2
     - php: 7.3
   allow_failures:
