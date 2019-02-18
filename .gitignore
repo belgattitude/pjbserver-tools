@@ -12,3 +12,4 @@ phpunit.xml
 /nbproject
 /build
 /config/*.php
+/test/logs
