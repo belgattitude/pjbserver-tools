@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\System\Linux;
 
 use PjbServer\Tools\Exception;
@@ -16,10 +18,8 @@ class LinuxProcess implements ProcessInterface
 
     /**
      * LinuxProcess constructor.
-     *
-     * @param LoggerInterface $logger
      */
-    public function __construct($logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         if ($logger === null) {
             $logger = new NullLogger();
@@ -36,27 +36,21 @@ class LinuxProcess implements ProcessInterface
      *
      * @return bool
      */
-    public function isRunning($pid)
+    public function isRunning(int $pid): bool
     {
         $cmd = sprintf('kill -0 %d 2>&1', $pid);
         $this->logger->debug(__METHOD__ . ": Exec command: $cmd");
         exec($cmd, $output, $return_var);
-        $running = ($return_var === 0);
 
-        return $running;
+        return $return_var === 0;
     }
 
     /**
      * Kill a process.
      *
      * @throws Exception\InvalidArgumentException
-     *
-     * @param int  $pid
-     * @param bool $wait wait for the process to be killed
-     *
-     * @return bool
      */
-    public function kill($pid, $wait = false)
+    public function kill(int $pid, bool $wait = false): bool
     {
         $killed = false;
         if ($this->isRunning($pid)) {

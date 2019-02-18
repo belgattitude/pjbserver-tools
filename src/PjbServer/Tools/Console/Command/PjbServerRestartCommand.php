@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\Console\Command;
 
 use PjbServer\Tools\StandaloneServer;
@@ -27,9 +29,9 @@ class PjbServerRestartCommand extends Command
                  'Restart the standalone pjb server (java)'
                )
              ->addArgument(
-                'config-file',
-                InputArgument::REQUIRED,
-                'Configuration file, see ./dist/pjbserver.config.php.dist'
+                 'config-file',
+                 InputArgument::REQUIRED,
+                 'Configuration file, see ./dist/pjbserver.config.php.dist'
                )
              ->setHelp(
                  <<<'EOT'

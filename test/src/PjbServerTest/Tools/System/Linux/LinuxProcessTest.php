@@ -2,10 +2,11 @@
 
 namespace PjbServerTest\Tools\System\Linux;
 
+use PHPUnit\Framework\TestCase;
 use PjbServer\Tools\System\ProcessInterface;
 use PjbServer\Tools\System\Linux\LinuxProcess;
 
-class LinuxProcessTest extends \PHPUnit_Framework_TestCase
+class LinuxProcessTest extends TestCase
 {
     /**
      * @var LinuxProcess
@@ -23,25 +24,25 @@ class LinuxProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testImplementsProcessInterface()
     {
-        $this->assertInstanceOf(ProcessInterface::class, $this->process);
+        self::assertInstanceOf(ProcessInterface::class, $this->process);
     }
 
     public function testIsRunning()
     {
         $crazy_pid = 1239883477;
-        $this->assertFalse($this->process->isRunning($crazy_pid));
-        $this->assertInternalType('boolean', $this->process->isRunning($crazy_pid));
+        self::assertFalse($this->process->isRunning($crazy_pid));
+        self::assertInternalType('boolean', $this->process->isRunning($crazy_pid));
 
         $my_pid = getmypid();
-        $this->assertTrue($this->process->isRunning($my_pid));
-        $this->assertInternalType('boolean', $this->process->isRunning($my_pid));
+        self::assertTrue($this->process->isRunning($my_pid));
+        self::assertInternalType('boolean', $this->process->isRunning($my_pid));
     }
 
     public function testKill()
     {
         $crazy_pid = 1239883477;
         $return = $this->process->kill($crazy_pid);
-        $this->assertInternalType('boolean', $return);
-        $this->assertFalse($return);
+        self::assertInternalType('boolean', $return);
+        self::assertFalse($return);
     }
 }

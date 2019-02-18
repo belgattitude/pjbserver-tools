@@ -27,15 +27,18 @@
     }
   },
   "require": {
-    "php": "^5.5 || ^7.0",
+    "php": "^7.1",
     "psr/log": "^1.0",
-    "symfony/console": "^2.6.0 || ^3.0.0"
+    "symfony/console": "^3.0.0 || ^4.0.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7",
-    "friendsofphp/php-cs-fixer": "^2.6.0",
+    "phpunit/phpunit": "^7.5",
+    "friendsofphp/php-cs-fixer": "^2.14",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-phpunit": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11",
     "composer/composer": "^1.1.0",
-    "soluble/japha": "^1.4.0 || ^2.2.0"
+    "soluble/japha": "^2.2.0"
   },
   "suggest": {
     "monolog/monolog": "Monolog or other PSR-3 compatible logger"
@@ -48,6 +51,7 @@
         "PjbServer\\Tools\\Composer\\Installer::postUpdate"
     ],
     "test": "vendor/bin/phpunit",
+    "phpstan": "vendor/bin/phpstan analyse -l max -c phpstan.neon src",
     "cs:fix": "vendor/bin/php-cs-fixer fix",
     "pjbserver:start": "./bin/pjbserver-tools -vvv pjbserver:start ./config/pjbserver.config.php.dist",
     "pjbserver:stop": "./bin/pjbserver-tools -vvv pjbserver:stop ./config/pjbserver.config.php.dist",

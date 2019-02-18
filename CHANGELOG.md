@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 3.0.0 (2019-02-??)
+
+### Changed
+
+- PHP 7.1 with strict_types.
+- PHPUnit upgraded to 7.5
+
+### Removed 
+
+- Support for hhvm.
+- Support for soluble/japha < 2.5.0.
+- Support for symfony/confole < 3.0.0.
+
 ## 2.2.0 (2017-09-18)
 
 ### Updated

@@ -2,10 +2,11 @@
 
 namespace PjbServerTest\Tools\System;
 
+use PHPUnit\Framework\TestCase;
 use PjbServer\Tools\System;
 use PjbServer\Tools\Exception;
 
-class ProcessTest extends \PHPUnit_Framework_TestCase
+class ProcessTest extends TestCase
 {
     /**
      * @var System\Linux\LinuxProcess
@@ -23,24 +24,24 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsupportedSystem()
     {
-        $this->setExpectedException(Exception\UnsupportedSystemException::class);
+        self::expectException(Exception\UnsupportedSystemException::class);
         $process = new System\Process('WinMac');
     }
 
     public function testImplementsProcessInterface()
     {
         $process = new System\Process();
-        $this->assertInstanceOf(System\ProcessInterface::class, $process);
+        self::assertInstanceOf(System\ProcessInterface::class, $process);
     }
 
     public function testIsRunning()
     {
         $crazy_pid = 1239883477;
-        $this->assertFalse($this->linuxProcess->isRunning($crazy_pid));
-        $this->assertInternalType('boolean', $this->linuxProcess->isRunning($crazy_pid));
+        self::assertFalse($this->linuxProcess->isRunning($crazy_pid));
+        self::assertInternalType('boolean', $this->linuxProcess->isRunning($crazy_pid));
 
         $my_pid = getmypid();
-        $this->assertTrue($this->linuxProcess->isRunning($my_pid));
-        $this->assertInternalType('boolean', $this->linuxProcess->isRunning($my_pid));
+        self::assertTrue($this->linuxProcess->isRunning($my_pid));
+        self::assertInternalType('boolean', $this->linuxProcess->isRunning($my_pid));
     }
 }

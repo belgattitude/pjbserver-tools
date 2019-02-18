@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\StandaloneServer;
 
 use PjbServer\Tools\Exception;
@@ -21,7 +23,7 @@ class Config
     /**
      * Default configuration options.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $default_config = [
         'java_bin' => 'java',
@@ -35,7 +37,7 @@ class Config
     /**
      * Internal configuration array.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $config;
 
@@ -68,7 +70,7 @@ class Config
      *
      * @throws Exception\InvalidArgumentException
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      */
     public function __construct(array $config)
     {
@@ -80,8 +82,8 @@ class Config
         $port = $config['port'];
         // Substitute magic vars is deprecated and will be removed in v1.0.0
         $config = array_merge(
-                        $this->getDefaultConfig($port),
-                        $this->substitutePlaceholders($config, $port)
+            $this->getDefaultConfig($port),
+            $this->substitutePlaceholders($config, $port)
         );
         $this->checkConfig($config);
         $this->config = $config;
@@ -89,40 +91,32 @@ class Config
 
     /**
      * Return port on which standalone server listens.
-     *
-     * @return int
      */
-    public function getPort()
+    public function getPort(): int
     {
-        return $this->config['port'];
+        return (int) $this->config['port'];
     }
 
     /**
      * Return jar file of the server.
-     *
-     * @return string
      */
-    public function getServerJar()
+    public function getServerJar(): string
     {
         return $this->config['server_jar'];
     }
 
     /**
      * Return java binary.
-     *
-     * @return string
      */
-    public function getJavaBin()
+    public function getJavaBin(): string
     {
         return $this->config['java_bin'];
     }
 
     /**
      * Return log file.
-     *
-     * @return string
      */
-    public function getLogFile()
+    public function getLogFile(): string
     {
         return $this->config['log_file'];
     }
@@ -130,19 +124,14 @@ class Config
     /**
      * Return an array containing the java classpath(s) for the server.
      *
-     * @return array
+     * @return string[]
      */
-    public function getClasspaths()
+    public function getClasspaths(): array
     {
         return $this->config['classpaths'];
     }
 
-    /**
-     * Return pid file where to store process id.
-     *
-     * @return string
-     */
-    public function getPidFile()
+    public function getPidFile(): string
     {
         return $this->config['pid_file'];
     }
@@ -160,9 +149,9 @@ class Config
     /**
      * Return standalone configuration.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->config;
     }
@@ -172,9 +161,9 @@ class Config
      *
      * @deprecated use toArray() instead
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->toArray();
     }
@@ -184,9 +173,9 @@ class Config
      *
      * @param int $port
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function getDefaultConfig($port)
+    protected function getDefaultConfig($port): array
     {
         return $this->substitutePlaceholders($this->default_config, $port);
     }
@@ -197,9 +186,9 @@ class Config
      *
      * @param array $configArray associative array
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function substitutePlaceholders(array $configArray, $port)
+    protected function substitutePlaceholders(array $configArray, $port): array
     {
         $substituted = [];
         $base_dir = $this->getBaseDir();
@@ -217,10 +206,8 @@ class Config
      * Return pjbserver-tools installation base directory.
      *
      * @throws Exception\RuntimeException
-     *
-     * @return string
      */
-    public function getBaseDir()
+    public function getBaseDir(): string
     {
         // Four levels back.
         $ds = DIRECTORY_SEPARATOR;
@@ -239,7 +226,7 @@ class Config
      *
      * @throws Exception\InvalidArgumentException
      *
-     * @param array $config
+     * @param array<string, mixed> $config
      */
     protected function checkConfig(array $config)
     {
@@ -262,7 +249,7 @@ class Config
             $file = $config[$option];
             $info = pathinfo($file);
             $dirname = $info['dirname'];
-            if (!is_dir($dirname) || $dirname == '.') {
+            if (!is_dir($dirname) || $dirname === '.') {
                 $msg = "Option '$option' refer to an invalid or non-existent directory ($file)";
                 throw new Exception\InvalidArgumentException($msg);
             }

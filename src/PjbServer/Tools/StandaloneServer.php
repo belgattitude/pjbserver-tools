@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools;
 
 use PjbServer\Tools\Network\PortTester;
@@ -90,7 +92,7 @@ class StandaloneServer
      *
      * @param int $timeout_ms maximum number of milliseconds to wait for server start
      */
-    public function start($timeout_ms = 3000)
+    public function start(int $timeout_ms = 3000): void
     {
         $port = $this->config->getPort();
 
@@ -167,7 +169,7 @@ class StandaloneServer
      * @param bool $throwException          whether to throw exception if pid exists in config but process cannot be found
      * @param bool $clearPidFileOnException clear th pid file if the server was not running
      */
-    public function stop($throwException = false, $clearPidFileOnException = false)
+    public function stop(bool $throwException = false, bool $clearPidFileOnException = false): void
     {
         $this->logger->notice('Stopping server');
 
@@ -190,7 +192,7 @@ class StandaloneServer
                 if ($clearPidFileOnException) {
                     $this->clearPidFile();
                 }
-                throw new Exception\StopFailedException($msg, null, $e);
+                throw new Exception\StopFailedException($msg, 0, $e);
             }
 
             return;
@@ -219,7 +221,7 @@ class StandaloneServer
     /**
      * @throws Exception\FilePermissionException
      */
-    protected function clearPidFile()
+    protected function clearPidFile(): void
     {
         $pid_file = $this->config->getPidFile();
         if (file_exists($pid_file)) {
@@ -233,12 +235,8 @@ class StandaloneServer
 
     /**
      * Tells whether the standalone server is started.
-     *
-     * @param bool $test_is_running
-     *
-     * @return bool
      */
-    public function isStarted($test_is_running = true)
+    public function isStarted(bool $test_is_running = true): bool
     {
         // In case of previous run, let's us
         if (!$this->started && $test_is_running) {
@@ -253,7 +251,7 @@ class StandaloneServer
      *
      * @return string
      */
-    public function getCommand()
+    public function getCommand(): string
     {
         $port = $this->config->getPort();
 
@@ -265,11 +263,11 @@ class StandaloneServer
             if (preg_match('/\*\.jar$/', $classpath)) {
                 $directory = preg_replace('/\*\.jar$/', '', $classpath);
                 $files = glob("$directory/*.jar");
+                //foreach ($files as $file) {
                 foreach ($files as $file) {
-                    foreach ($files as $file) {
-                        $jars[] = $file;
-                    }
+                    $jars[] = $file;
                 }
+                //}
             } else {
                 $jars[] = $classpath;
             }
@@ -286,7 +284,7 @@ class StandaloneServer
 
         $command = sprintf(
             '%s -cp "%s" %s php.java.bridge.Standalone SERVLET:%d',
-                            $java_bin,
+            $java_bin,
             $classpath,
             $directives,
             $port
@@ -298,11 +296,11 @@ class StandaloneServer
     /**
      * Get standalone server pid number as it was stored during last start.
      *
-     * @throws Exception\PidNotFoundException|ExceptionPidCorruptedException
+     * @throws Exception\PidNotFoundException|Exception\PidCorruptedException
      *
      * @return int
      */
-    public function getPid()
+    public function getPid(): int
     {
         $pid_file = $this->config->getPidFile();
         if (!file_exists($pid_file)) {
@@ -327,7 +325,7 @@ class StandaloneServer
      *
      * @return string
      */
-    public function getOutput()
+    public function getOutput(): string
     {
         $log_file = $this->config->getLogFile();
         if (!file_exists($log_file)) {
@@ -351,10 +349,8 @@ class StandaloneServer
      * @throws Exception\PidNotFoundException
      *
      * @param bool $throwsException if false discard exception if pidfile not exists
-     *
-     * @return bool
      */
-    public function isProcessRunning($throwsException = false)
+    public function isProcessRunning(bool $throwsException = false): bool
     {
         $running = false;
         try {
@@ -378,7 +374,7 @@ class StandaloneServer
     /**
      * Restart the standalone server.
      */
-    public function restart()
+    public function restart(): void
     {
         $this->stop();
         $this->start();
@@ -389,7 +385,7 @@ class StandaloneServer
      *
      * @return StandaloneServer\Config
      */
-    public function getConfig()
+    public function getConfig(): StandaloneServer\Config
     {
         return $this->config;
     }

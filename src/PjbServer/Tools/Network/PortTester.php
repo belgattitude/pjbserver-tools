@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\Network;
 
 class PortTester
@@ -15,17 +17,17 @@ class PortTester
     const PROTOCOL_HTTPS = 'https';
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $supportedBackends = ['stream_socket', 'socket_create', 'pfsockopen', 'curl'];
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $supportedProtocols = ['tcp', 'udp', 'http', 'https'];
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected $defaults = [
         'backend' => null,
@@ -56,9 +58,9 @@ class PortTester
      *
      * @throws \InvalidArgumentException
      *
-     * @param array $options
+     * @param array<string, mixed> $options
      */
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->defaults, $options);
         if ($this->options['backend'] == '') {
@@ -86,7 +88,7 @@ class PortTester
      *
      * @return bool
      */
-    public function isAvailable($host, $port, $protocol = 'http', $timeout = null)
+    public function isAvailable(string $host, int $port, string $protocol = 'http', ?int $timeout = null): bool
     {
         if (!in_array($protocol, $this->supportedProtocols)) {
             throw new \InvalidArgumentException("Unsupported protocol '$protocol'");
@@ -172,12 +174,7 @@ class PortTester
         return $available;
     }
 
-    /**
-     * Test whether curl extension is available.
-     *
-     * @return bool
-     */
-    protected function isCurlAvailable()
+    protected function isCurlAvailable(): bool
     {
         return function_exists('curl_version');
     }

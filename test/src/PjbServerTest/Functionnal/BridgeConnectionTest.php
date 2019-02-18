@@ -2,12 +2,13 @@
 
 namespace PjbServerTest\Functionnal;
 
+use PHPUnit\Framework\TestCase;
 use Soluble\Japha\Bridge\Adapter as BridgeAdapter;
 use PjbServer\Tools\StandaloneServer;
 use PjbServerTestConfig;
 use Soluble\Japha\Bridge\Driver\Pjb62\PjbProxyClient;
 
-class BridgeConnectionTest extends \PHPUnit_Framework_TestCase
+class BridgeConnectionTest extends TestCase
 {
     /**
      * @var StandaloneServer
@@ -38,7 +39,7 @@ class BridgeConnectionTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $jString = $ba->java('java.lang.String', 'hello');
-        $this->assertEquals('hello', (string) $jString);
+        self::assertEquals('hello', (string) $jString);
         //die();
     }
 }

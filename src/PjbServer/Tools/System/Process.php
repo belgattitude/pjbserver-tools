@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\System;
 
 use PjbServer\Tools\Exception;
@@ -27,7 +29,7 @@ class Process implements ProcessInterface
      * @param string               $style
      * @param LoggerInterface|null $logger
      */
-    public function __construct($style = self::LINUX_STYLE, LoggerInterface $logger = null)
+    public function __construct(string $style = self::LINUX_STYLE, LoggerInterface $logger = null)
     {
         if ($logger === null) {
             $logger = new NullLogger();
@@ -42,11 +44,9 @@ class Process implements ProcessInterface
      * @param string          $style
      * @param LoggerInterface $logger
      *
-     * @return ProcessInterface
-     *
      * @throws UnsupportedSystemException
      */
-    protected function getProcess($style, LoggerInterface $logger)
+    protected function getProcess(string $style, LoggerInterface $logger): ProcessInterface
     {
         switch ($style) {
             case self::LINUX_STYLE:
@@ -66,10 +66,8 @@ class Process implements ProcessInterface
      * @throws Exception\InvalidArgumentException
      *
      * @param int $pid
-     *
-     * @return bool
      */
-    public function isRunning($pid)
+    public function isRunning(int $pid): bool
     {
         return $this->process->isRunning($pid);
     }
@@ -84,7 +82,7 @@ class Process implements ProcessInterface
      *
      * @return bool
      */
-    public function kill($pid, $wait = false)
+    public function kill(int $pid, bool $wait = false): bool
     {
         return $this->process->kill($pid, $wait);
     }

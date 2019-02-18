@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\Console\Command;
 
 use PjbServer\Tools\Exception as PjbException;

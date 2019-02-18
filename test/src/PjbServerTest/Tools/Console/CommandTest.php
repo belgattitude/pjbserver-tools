@@ -2,13 +2,14 @@
 
 namespace PjbServerTest\Tools\Console;
 
+use PHPUnit\Framework\TestCase;
 use PjbServerTestConfig;
 use PjbServer\Tools\Console\CommandRepository;
 use PjbServer\Tools\StandaloneServer\Config;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CommandTest extends \PHPUnit_Framework_TestCase
+class CommandTest extends TestCase
 {
     /**
      * @var CommandRepository
@@ -39,14 +40,14 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(0, $tester->getStatusCode());
+        self::assertEquals(0, $tester->getStatusCode());
 
         $pid_file = $this->config->getPidFile();
 
         if (!file_exists($pid_file)) {
-            $this->assertRegexp("/Server already stopped \(pid_file (.*) not found\)./", $tester->getDisplay());
+            self::assertRegexp("/Server already stopped \(pid_file (.*) not found\)./", $tester->getDisplay());
         } else {
-            $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
+            self::assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
         }
     }
 
@@ -63,9 +64,9 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(1, $tester->getStatusCode());
+        self::assertEquals(1, $tester->getStatusCode());
 
-        $this->assertRegexp("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
+        self::assertRegexp("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
     }
 
     public function testServerStart()
@@ -81,9 +82,9 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(0, $tester->getStatusCode());
+        self::assertEquals(0, $tester->getStatusCode());
 
-        $this->assertRegexp("/Server successfully started on port $port/", $tester->getDisplay());
+        self::assertRegexp("/Server successfully started on port $port/", $tester->getDisplay());
     }
 
     public function testServerStatusWhileRunning()
@@ -99,9 +100,9 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(0, $tester->getStatusCode());
+        self::assertEquals(0, $tester->getStatusCode());
 
-        $this->assertRegexp("/Server is running on port '$port'/", $tester->getDisplay());
+        self::assertRegexp("/Server is running on port '$port'/", $tester->getDisplay());
     }
 
     public function testServerRestart()
@@ -117,9 +118,9 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(0, $tester->getStatusCode());
+        self::assertEquals(0, $tester->getStatusCode());
 
-        $this->assertRegexp("/Server successfully restarted on port $port/", $tester->getDisplay());
+        self::assertRegexp("/Server successfully restarted on port $port/", $tester->getDisplay());
     }
 
     public function testServerStop()
@@ -135,9 +136,9 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(0, $tester->getStatusCode());
+        self::assertEquals(0, $tester->getStatusCode());
 
-        $this->assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
+        self::assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
     }
 
     public function testReveal()
@@ -153,8 +154,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
             'config-file' => PjbServerTestConfig::getBaseDir() . '/config/pjbserver.config.php.dist'
         ]);
 
-        $this->assertEquals(1, $tester->getStatusCode());
+        self::assertEquals(1, $tester->getStatusCode());
 
-        $this->assertRegexp("/java -cp(.*)JavaBridge.jar(.*)SERVLET:$port/", $tester->getDisplay());
+        self::assertRegexp("/java -cp(.*)JavaBridge.jar(.*)SERVLET:$port/", $tester->getDisplay());
     }
 }

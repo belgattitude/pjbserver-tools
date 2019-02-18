@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\Console\Command;
 
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -8,12 +10,7 @@ use PjbServer\Tools\StandaloneServer\Config;
 
 trait LoggerTrait
 {
-    /**
-     * @param OutputInterface $output
-     *
-     * @return ConsoleLogger
-     */
-    public function getConsoleLogger(OutputInterface $output)
+    public function getConsoleLogger(OutputInterface $output): ConsoleLogger
     {
         return new ConsoleLogger($output);
     }
@@ -22,7 +19,7 @@ trait LoggerTrait
      * @param ConsoleLogger $logger
      * @param Config        $config
      */
-    public function logServerConfig(ConsoleLogger $logger, Config $config)
+    public function logServerConfig(ConsoleLogger $logger, Config $config): void
     {
         $logger->info('* config port       :' . $config->getPort());
         $logger->info('* config log_file   :' . $config->getLogFile());

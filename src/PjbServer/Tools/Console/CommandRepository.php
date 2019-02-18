@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PjbServer\Tools\Console;
+
+use Symfony\Component\Console\Command\Command as ConsoleCommand;
 
 class CommandRepository
 {
     /**
-     * @var array
+     * @var array<string, ConsoleCommand>
      */
     protected $commands;
 
@@ -20,12 +24,7 @@ class CommandRepository
         ];
     }
 
-    /**
-     * @param $name
-     *
-     * @return \Symfony\Component\Console\Command\Command
-     */
-    public function getRegisteredCommand($name)
+    public function getRegisteredCommand(string $name): ConsoleCommand
     {
         return $this->commands[$name];
     }
@@ -33,9 +32,9 @@ class CommandRepository
     /**
      * Return all registered commands.
      *
-     * @return array
+     * @return array<string, ConsoleCommand>
      */
-    public function getRegisteredCommands()
+    public function getRegisteredCommands(): array
     {
         return $this->commands;
     }
