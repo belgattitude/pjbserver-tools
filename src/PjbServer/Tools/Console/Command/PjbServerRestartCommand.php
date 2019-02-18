@@ -47,8 +47,8 @@ EOT
         $file = $input->getArgument('config-file');
 
         // Test if config file exists
-        if (!file_exists($file) || !is_readable($file)) {
-            $msg = "Configuration file '$file' does not exists or is not readable'";
+        if (!is_string($file) || !file_exists($file) || !is_readable($file)) {
+            $msg = sprintf("Configuration file '%s' does not exists or is not readable'", (string) json_encode($file));
             throw new \InvalidArgumentException($msg);
         }
         $params = include $file;

@@ -105,7 +105,7 @@ class PortTester
         switch ($backend) {
             case self::BACKEND_PFSOCKOPEN:
                 $sock = @pfsockopen("$protocol://$host", $port, $errno, $errstr, $timeout);
-                if (!$sock) {
+                if (!is_resource($sock)) {
                     $available = true;
                 } else {
                     fclose($sock);

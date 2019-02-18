@@ -6,6 +6,9 @@ group: edge
 matrix:
   include:
     - php: 7.1
+      env:
+        - CS_CHECKS=true
+        - PHPSTAN=true
     - php: 7.2
     - php: 7.3
   allow_failures:
@@ -24,6 +27,7 @@ before_script:
 script: 
   - ./vendor/bin/phpunit -v --coverage-clover=coverage.xml
   - if [[ $CS_CHECK == true ]]; then ./vendor/bin/php-cs-fixer --diff --dry-run -v fix; fi
+  - if [[ $PHPSTAN == true ]]; then ./vendor/bin/phpstan analyse -l 5 -c phpstan.neon src; fi
 
 after_script:
   - if [[ $SEND_COVERAGE == true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi

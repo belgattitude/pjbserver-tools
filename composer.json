@@ -51,7 +51,7 @@
         "PjbServer\\Tools\\Composer\\Installer::postUpdate"
     ],
     "test": "vendor/bin/phpunit",
-    "phpstan": "vendor/bin/phpstan analyse -l max -c phpstan.neon src",
+    "phpstan": "vendor/bin/phpstan analyse -l 5 -c phpstan.neon src",
     "cs:fix": "vendor/bin/php-cs-fixer fix",
     "pjbserver:start": "./bin/pjbserver-tools -vvv pjbserver:start ./config/pjbserver.config.php.dist",
     "pjbserver:stop": "./bin/pjbserver-tools -vvv pjbserver:stop ./config/pjbserver.config.php.dist",
