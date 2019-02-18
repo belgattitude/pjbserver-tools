@@ -77,7 +77,7 @@ class Config
         if (!isset($config['port'])) {
             throw new Exception\InvalidArgumentException("Error missing required 'port' in config");
         }
-        if (!(bool)filter_var($config['port'], FILTER_VALIDATE_INT) || $config['port'] < 1) {
+        if (!(bool) filter_var($config['port'], FILTER_VALIDATE_INT) || $config['port'] < 1) {
             throw new Exception\InvalidArgumentException("Option 'port' must be numeric greater than 0");
         }
         $port = $config['port'];
@@ -186,7 +186,7 @@ class Config
      * from a config array.
      *
      * @param array<string, mixed> $configArray associative array
-     * @param int|string $port
+     * @param int|string           $port
      *
      * @return array<string, mixed>
      */
