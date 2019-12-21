@@ -1,10 +1,14 @@
 # CHANGELOG
 
+## 3.1.0 (2019-12-21)
+
+- Support for symfony/console ^5.0
+
 ## 3.0.0 (2019-02-18)
 
-No breaking changes. Just more type checks and support for symfony/console ^4.0.
+- No breaking changes. Just more type checks and support for symfony/console ^4.0.
 
-### Added 
+### Added
 
 - Support for symfony/console ^4.0
 
@@ -14,7 +18,7 @@ No breaking changes. Just more type checks and support for symfony/console ^4.0.
 - PHP 7.2 and 7.3 tested.
 - PHPUnit upgraded to 7.5
 
-### Removed 
+### Removed
 
 - Drop support for hhvm (travis).
 - Drop support for soluble/japha < 2.5.0.
@@ -25,7 +29,7 @@ No breaking changes. Just more type checks and support for symfony/console ^4.0.
 ### Updated
 
 - Updated standalone server to [php-java-bridge 7.1.3](https://sourceforge.net/projects/php-java-bridge/files/Binary%20package/),
-  you can still explicitly set the 6.2.1 version in the config `'server_jar' => "/my/path/pjb621_standalone/JavaBridge.jar"` 
+  you can still explicitly set the 6.2.1 version in the config `'server_jar' => "/my/path/pjb621_standalone/JavaBridge.jar"`
 
 ## 2.1.2 (2017-01-18)
 
@@ -41,7 +45,7 @@ No breaking changes. Just more type checks and support for symfony/console ^4.0.
 
 ### Changed
 
-- Updated embedded `JavaBridge.jar` from [belgattitude/php-java-bridge](https://github.com/belgattitude/php-java-bridge) latest build. 
+- Updated embedded `JavaBridge.jar` from [belgattitude/php-java-bridge](https://github.com/belgattitude/php-java-bridge) latest build.
 - Preliminary support for pre/post composer hooks
 
 ### Fixed
@@ -67,7 +71,7 @@ No breaking changes. Just more type checks and support for symfony/console ^4.0.
 
 ### Changed
 
-- Reworked default configuration, 'log_file', 'pid_file' and 'server_jar' are now 
+- Reworked default configuration, 'log_file', 'pid_file' and 'server_jar' are now
   commented and use defaults.
 
 ### Deprecated
@@ -128,7 +132,7 @@ No breaking changes. Just more type checks and support for symfony/console ^4.0.
 - Added console logger to all commands:
   - To get more verbose message try the usual command with -v, -vv or -vvv
     i.e: ./bin/pjbservertools -vvv pjbserver:start ./config/pjbserver.config.php.dist
-  
+
 ## 2.0.2 (2016-07-03)
 
 - Fix travis builds (no notable changes)
@@ -145,7 +149,7 @@ No breaking changes. Just more type checks and support for symfony/console ^4.0.
   - ./bin/pjbservertools pjbserver:start <config_file>
   - ./bin/pjbservertools pjbserver:stop <config_file>
   - ./bin/pjbservertools pjbserver:restart <config_file>
-  
+
 
 
 ## 1.1.0 (2016-07-02)
