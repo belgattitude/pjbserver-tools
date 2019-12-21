@@ -27,7 +27,7 @@ class PjbServerStopCommand extends Command
         $this->setName('pjbserver:stop')
              ->setDescription(
                  'Stop the standalone pjb server (java)'
-               )
+             )
             ->addArgument(
                 'config-file',
                 InputArgument::REQUIRED,
@@ -37,7 +37,7 @@ class PjbServerStopCommand extends Command
                  <<<'EOT'
 Stop the standalone php java bridge server (running in the background).
 EOT
-        );
+             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

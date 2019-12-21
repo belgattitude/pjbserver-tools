@@ -28,7 +28,7 @@ class PjbServerStatusCommand extends Command
         $this->setName('pjbserver:status')
              ->setDescription(
                  'Get the status of the standalone pjb server (java)'
-               )
+             )
             ->addArgument(
                 'config-file',
                 InputArgument::REQUIRED,
@@ -39,7 +39,7 @@ class PjbServerStatusCommand extends Command
                  <<<'EOT'
 Get the status of the php java bridge server in the background.
 EOT
-        );
+             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

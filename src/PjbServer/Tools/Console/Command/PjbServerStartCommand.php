@@ -27,7 +27,7 @@ class PjbServerStartCommand extends Command
         $this->setName('pjbserver:start')
              ->setDescription(
                  'Start the standalone pjb server (java)'
-               )
+             )
             ->addArgument(
                 'config-file',
                 InputArgument::REQUIRED,
@@ -38,7 +38,7 @@ class PjbServerStartCommand extends Command
                  <<<'EOT'
 Start the php java bridge server in the background.
 EOT
-        );
+             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -27,17 +27,17 @@ class PjbServerRestartCommand extends Command
         $this->setName('pjbserver:restart')
              ->setDescription(
                  'Restart the standalone pjb server (java)'
-               )
+             )
              ->addArgument(
                  'config-file',
                  InputArgument::REQUIRED,
                  'Configuration file, see ./dist/pjbserver.config.php.dist'
-               )
+             )
              ->setHelp(
                  <<<'EOT'
 Start the php java bridge server in the background.
 EOT
-        );
+             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

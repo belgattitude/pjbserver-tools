@@ -27,7 +27,7 @@ class PjbServerRevealCommand extends Command
         $this->setName('pjbserver:reveal')
              ->setDescription(
                  'Print the underlying java cli command'
-               )
+             )
             ->addArgument(
                 'config-file',
                 InputArgument::REQUIRED,
@@ -38,7 +38,7 @@ class PjbServerRevealCommand extends Command
                  <<<'EOT'
 Echo the underlying cli command (call to java) that will be called.
 EOT
-        );
+             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
