@@ -19,12 +19,12 @@ class PortTester
     /**
      * @var string[]
      */
-    protected $supportedBackends = ['stream_socket', 'socket_create', 'pfsockopen', 'curl'];
+    protected $supportedBackends = [self::BACKEND_CURL, self::BACKEND_PFSOCKOPEN, self::BACKEND_SOCKET_CREATE, self::BACKEND_STREAM_SOCKET];
 
     /**
      * @var string[]
      */
-    protected $supportedProtocols = ['tcp', 'udp', 'http', 'https'];
+    protected $supportedProtocols = [self::PROTOCOL_HTTP, self::PROTOCOL_HTTPS, self::PROTOCOL_TCP, self::PROTOCOL_UDP];
 
     /**
      * @var array<string, mixed>

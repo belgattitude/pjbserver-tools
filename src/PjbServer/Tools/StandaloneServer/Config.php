@@ -172,7 +172,7 @@ class Config
     /**
      * Return default configuration options.
      *
-     * @param int $port
+     * @param int|string $port
      *
      * @return array<string, mixed>
      */
@@ -190,7 +190,7 @@ class Config
      *
      * @return array<string, mixed>
      */
-    protected function substitutePlaceholders(array $configArray, string $port): array
+    protected function substitutePlaceholders(array $configArray, $port): array
     {
         $substituted = [];
         $base_dir = $this->getBaseDir();
@@ -198,7 +198,7 @@ class Config
         foreach ($configArray as $key => $value) {
             if (is_string($value)) {
                 $tmp = str_replace('{base_dir}', $base_dir, $value);
-                $tmp = str_replace('{tcp_port}', $port, $tmp);
+                $tmp = str_replace('{tcp_port}', (string) $port, $tmp);
             } else {
                 $tmp = $value;
             }
