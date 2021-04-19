@@ -21,7 +21,7 @@ class CommandTest extends TestCase
      */
     protected $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->commandRepo = new CommandRepository();
         $this->config = PjbServerTestConfig::getStandaloneServerConfig();
@@ -45,9 +45,9 @@ class CommandTest extends TestCase
         $pid_file = $this->config->getPidFile();
 
         if (!file_exists($pid_file)) {
-            self::assertRegexp("/Server already stopped \(pid_file (.*) not found\)./", $tester->getDisplay());
+            self::assertMatchesRegularExpression("/Server already stopped \(pid_file (.*) not found\)./", $tester->getDisplay());
         } else {
-            self::assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
+            self::assertMatchesRegularExpression("/Server running on port $port successfully stopped/", $tester->getDisplay());
         }
     }
 
@@ -66,7 +66,7 @@ class CommandTest extends TestCase
 
         self::assertEquals(1, $tester->getStatusCode());
 
-        self::assertRegexp("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
     }
 
     public function testServerStart()
@@ -84,7 +84,7 @@ class CommandTest extends TestCase
 
         self::assertEquals(0, $tester->getStatusCode());
 
-        self::assertRegexp("/Server successfully started on port $port/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/Server successfully started on port $port/", $tester->getDisplay());
     }
 
     public function testServerStatusWhileRunning()
@@ -102,7 +102,7 @@ class CommandTest extends TestCase
 
         self::assertEquals(0, $tester->getStatusCode());
 
-        self::assertRegexp("/Server is running on port '$port'/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/Server is running on port '$port'/", $tester->getDisplay());
     }
 
     public function testServerRestart()
@@ -120,7 +120,7 @@ class CommandTest extends TestCase
 
         self::assertEquals(0, $tester->getStatusCode());
 
-        self::assertRegexp("/Server successfully restarted on port $port/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/Server successfully restarted on port $port/", $tester->getDisplay());
     }
 
     public function testServerStop()
@@ -138,7 +138,7 @@ class CommandTest extends TestCase
 
         self::assertEquals(0, $tester->getStatusCode());
 
-        self::assertRegexp("/Server running on port $port successfully stopped/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/Server running on port $port successfully stopped/", $tester->getDisplay());
     }
 
     public function testReveal()
@@ -156,6 +156,6 @@ class CommandTest extends TestCase
 
         self::assertEquals(1, $tester->getStatusCode());
 
-        self::assertRegexp("/java -cp(.*)JavaBridge.jar(.*)SERVLET:$port/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/java -cp(.*)JavaBridge.jar(.*)SERVLET:$port/", $tester->getDisplay());
     }
 }

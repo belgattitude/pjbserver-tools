@@ -8,7 +8,4 @@ parameters:
         - dist
     reportUnmatchedIgnoredErrors: true
     ignoreErrors:
-        -
-            message: '#Strict comparison using === between resource and false will always evaluate to false.#'
-            path: src/PjbServer/Tools/Network/PortTester.php
 

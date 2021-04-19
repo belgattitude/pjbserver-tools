@@ -8,14 +8,6 @@ use PjbServerTestConfig;
 
 class ConfigTest extends TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
     public function testConstructorThrowsInvalidArgumentException()
     {
         self::expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);
@@ -144,7 +136,7 @@ class ConfigTest extends TestCase
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
 
-        self::assertInternalType('array', $config);
+        self::assertIsArray($config);
         self::assertArrayHasKey('port', $config);
         self::assertArrayHasKey('java_bin', $config);
         self::assertArrayHasKey('log_file', $config);

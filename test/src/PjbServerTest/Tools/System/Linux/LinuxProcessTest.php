@@ -13,13 +13,9 @@ class LinuxProcessTest extends TestCase
      */
     protected $process;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->process = new LinuxProcess();
-    }
-
-    protected function tearDown()
-    {
     }
 
     public function testImplementsProcessInterface()
@@ -31,18 +27,18 @@ class LinuxProcessTest extends TestCase
     {
         $crazy_pid = 1239883477;
         self::assertFalse($this->process->isRunning($crazy_pid));
-        self::assertInternalType('boolean', $this->process->isRunning($crazy_pid));
+        self::assertIsBool($this->process->isRunning($crazy_pid));
 
         $my_pid = getmypid();
         self::assertTrue($this->process->isRunning($my_pid));
-        self::assertInternalType('boolean', $this->process->isRunning($my_pid));
+        self::assertIsBool($this->process->isRunning($my_pid));
     }
 
     public function testKill()
     {
         $crazy_pid = 1239883477;
         $return = $this->process->kill($crazy_pid);
-        self::assertInternalType('boolean', $return);
+        self::assertIsBool($return);
         self::assertFalse($return);
     }
 }

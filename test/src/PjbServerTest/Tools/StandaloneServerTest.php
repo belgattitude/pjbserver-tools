@@ -3,6 +3,7 @@
 namespace PjbServerTest\Tools;
 
 use PHPUnit\Framework\TestCase;
+use PjbServer\Tools\Network\PortTester;
 use PjbServer\Tools\StandaloneServer;
 use PjbServer\Tools\Exception;
 use PjbServerTestConfig;
@@ -14,13 +15,13 @@ class StandaloneServerTest extends TestCase
      */
     protected $server;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig();
         $this->server = new StandaloneServer($config);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->server->stop($throws_exception = false);
     }
@@ -42,7 +43,7 @@ class StandaloneServerTest extends TestCase
         self::assertFileExists($pid_file);
         $this->server->stop();
         self::assertFalse($this->server->isStarted());
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
     }
 
     /*
@@ -64,7 +65,7 @@ class StandaloneServerTest extends TestCase
         self::assertFileExists($pid_file);
         self::assertTrue($this->server->isStarted());
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         self::assertFalse($this->server->isStarted());
     }
 
@@ -78,7 +79,7 @@ class StandaloneServerTest extends TestCase
         self::assertFileExists($pid_file);
         self::assertTrue($this->server->isStarted());
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         self::assertFalse($this->server->isStarted());
     }
 
@@ -95,9 +96,9 @@ class StandaloneServerTest extends TestCase
     {
         self::expectException(Exception\PidNotFoundException::class);
         $pid_file = $this->server->getConfig()->getPidFile();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         $this->server->isProcessRunning($throwException = true);
     }
 
@@ -107,7 +108,7 @@ class StandaloneServerTest extends TestCase
         $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
-        self::assertInternalType('int', (filter_var($pid, FILTER_VALIDATE_INT)));
+        self::assertIsInt((filter_var($pid, FILTER_VALIDATE_INT)));
         self::assertFileExists($pid_file);
         self::assertEquals(trim(file_get_contents($pid_file)), $pid);
         $this->server->stop();
@@ -120,7 +121,7 @@ class StandaloneServerTest extends TestCase
         $this->server->start();
         self::assertFileExists($pid_file);
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
     }
 
     public function testGetOutput()
@@ -128,7 +129,7 @@ class StandaloneServerTest extends TestCase
         $config = $this->server->getConfig();
         $this->server->start();
         $output = $this->server->getOutput();
-        self::assertInternalType('string', $output);
+        self::assertIsString($output);
         self::assertTrue(strlen($output) > 10);
         $this->server->stop();
     }
@@ -184,7 +185,7 @@ class StandaloneServerTest extends TestCase
         $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
-        self::assertInternalType('int', $pid);
+        self::assertIsInt($pid);
         // pretend pid file is corrupted
         file_put_contents($pid_file, 'invalidpid');
         try {
@@ -196,27 +197,27 @@ class StandaloneServerTest extends TestCase
         // restore pid
         file_put_contents($pid_file, $pid);
 
-        self::assertInternalType('int', $this->server->getPid());
+        self::assertIsInt($this->server->getPid());
         self::assertEquals($pid, $this->server->getPid());
         $this->server->stop();
     }
 
     public function testStartServerThrowsPortUnavailableException()
     {
+        self::assertTrue((new PortTester())->isAvailable('localhost', $this->server->getConfig()->getPort(), 'http'));
+
         self::assertFalse($this->server->isStarted());
         $this->server->start();
         self::assertTrue($this->server->isStarted());
+        sleep(3);
+        self::assertFalse((new PortTester())->isAvailable('localhost', $this->server->getConfig()->getPort(), 'http'));
         $pid_file = $this->server->getConfig()->getPidFile();
         self::assertFileExists($pid_file);
 
         $this->expectException(Exception\PortUnavailableException::class);
 
         // Test starting another instance on the same port
-
         $runningServerConfig = $this->server->getConfig()->toArray();
-
-        // Start the original server
-        $this->server->start();
 
         $config = array_merge($runningServerConfig, [
             'log_file' => $this->server->getConfig()->getLogFile() . '.extra.log',

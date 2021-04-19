@@ -172,7 +172,7 @@ class Config
     /**
      * Return default configuration options.
      *
-     * @param int $port
+     * @param int|string $port
      *
      * @return array<string, mixed>
      */
@@ -196,8 +196,12 @@ class Config
         $base_dir = $this->getBaseDir();
 
         foreach ($configArray as $key => $value) {
-            $tmp = str_replace('{base_dir}', $base_dir, $value);
-            $tmp = str_replace('{tcp_port}', (string) $port, $tmp);
+            if (is_string($value)) {
+                $tmp = str_replace('{base_dir}', $base_dir, $value);
+                $tmp = str_replace('{tcp_port}', (string) $port, $tmp);
+            } else {
+                $tmp = $value;
+            }
             $substituted[$key] = $tmp;
         }
 
@@ -269,7 +273,7 @@ class Config
 
         $threads = $config['threads'];
 
-        if (!preg_match('/^([0-9])+$/', $threads) || $threads <= 0) {
+        if (!preg_match('/^([0-9])+$/', (string) $threads) || $threads <= 0) {
             $msg = "Parameter 'threads' must be valid integer greater than 0";
             throw new Exception\InvalidArgumentException($msg);
         }

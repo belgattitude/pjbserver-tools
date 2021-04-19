@@ -13,3 +13,4 @@ phpunit.xml
 /build
 /config/*.php
 /test/logs
+/.phpunit.result.cache
