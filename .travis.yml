@@ -1,11 +1,10 @@
+dist: bionic
 language: php
 sudo: required
-dist: trusty
-group: edge
 
 matrix:
   include:
-    - php: 8.0
+    - php: "8.0"
       env:
         - CS_CHECKS=true
         - PHPSTAN=true
