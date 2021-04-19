@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.0.0 (2021-04-19)
+
+- Support for php 8.0 and php 7.4
+- Removed support for php 7.1, 7.2 and 7.3
+
 ## 3.1.0 (2019-12-21)
 
 - Support for symfony/console ^5.0
