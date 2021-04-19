@@ -1,6 +1,7 @@
 # pjbserver-tools
 [![PHP Version](http://img.shields.io/badge/php-5.5+-ff69b4.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 [![PHP Version](https://img.shields.io/badge/php-7.1+-ff69b4.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
+[![PHP Version](https://img.shields.io/badge/php-8.0+-ff69b4.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 [![Build Status](https://travis-ci.org/belgattitude/pjbserver-tools.svg?branch=master)](https://travis-ci.org/belgattitude/pjbserver-tools)
 [![codecov](https://codecov.io/gh/belgattitude/pjbserver-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/belgattitude/pjbserver-tools)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/belgattitude/pjbserver-tools/?branch=master)
@@ -9,25 +10,25 @@
 [![License](https://poser.pugx.org/belgattitude/pjbserver-tools/license.svg)](https://packagist.org/packages/belgattitude/pjbserver-tools)
 
 The `pjbserver-tools` package currently provides an easy installable php java bridge standalone server.
-See the [soluble/japha](https://github.com/belgattitude/soluble-japha) and [php-java-bridge](https://github.com/belgattitude/php-java-bridge) 
-projects to get more info about php/java integration. 
+See the [soluble/japha](https://github.com/belgattitude/soluble-japha) and [php-java-bridge](https://github.com/belgattitude/php-java-bridge)
+projects to get more info about php/java integration.
 
 > **Note** that the `pjbserver-tools` standalone server utility
 > was made for easy composer installation when developing or testing.
 >
-> **For production, building a customized PHPJavaBridge server is 
-> really easy. Check the recommended [php/java/bridge installation notes](http://docs.soluble.io/soluble-japha/install_server/)** 
-    
+> **For production, building a customized PHPJavaBridge server is
+> really easy. Check the recommended [php/java/bridge installation notes](http://docs.soluble.io/soluble-japha/install_server/)**
+
 
 ## Use cases
 
-The java bridge standalone server can be used as an alternative to a regular bridge installation 
-for php/java integration while keeping things simple for development, unit testing or small projects.     
+The java bridge standalone server can be used as an alternative to a regular bridge installation
+for php/java integration while keeping things simple for development, unit testing or small projects.
 
 ## Features
 
 - Easy setup of a PHP Java bridge standalone server (*nix).
-- Console commands to control the server (start/stop/restart/status). 
+- Console commands to control the server (start/stop/restart/status).
 - API library to customize the behaviour.
 - Includes compiled [JavaBridge.jar](./resources/pjb713_standalone/JavaBridge.jar) 7.1.3 file.
 
@@ -42,23 +43,23 @@ for php/java integration while keeping things simple for development, unit testi
 > **WARNING** The phpjavabridge server is not supposed to be run on a public facing server
 > and its use should be limited to interactions on the same host/network with the php client.
 > Do not run it as root neither as it exposes the JVM methods through the network that
-> could be remotely exploited. Do not start it as root neither. 
+> could be remotely exploited. Do not start it as root neither.
 
 Depending on your needs you can use the pjserver-tools in two ways.
 
 1. Option 1: Composer install
-   
-   You can easily add the pjbserver-tools to your existing [composer](http://getcomposer.org/) project.  
-      
+
+   You can easily add the pjbserver-tools to your existing [composer](http://getcomposer.org/) project.
+
     ```console
     $ composer require belgattitude/pjbserver-tools
     ```
-    
+
     It can also be added to your development dependencies (replace `require` by `require --dev` in the
-    previous command). Very helpful if you intend to test with Travis... 
-    
+    previous command). Very helpful if you intend to test with Travis...
+
     Test a command line.
-   
+
     ```console
     ./vendor/bin/pjbserver-tools pjbserver:status ./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist -vvv
     ```
@@ -66,27 +67,27 @@ Depending on your needs you can use the pjserver-tools in two ways.
 
 2. Option 2: Console, clone the repo.
 
-   First create a path on your filesystem that will hold the server install.        
-   
+   First create a path on your filesystem that will hold the server install.
+
    ```console
    $ mkdir -p /my/path/pjbserver-tools
    $ cd /my/path/pjbserver-tools
    ```
-   
+
    Clone the repository and use run [composer](http://getcomposer.org) update.
-   
+
    ```console
    $ git clone https://github.com/belgattitude/pjbserver-tools.git
    $ cd pjbserver-tools
    $ composer update
    ```
-   
+
    Test a command line
-   
+
    ```
    ./bin/pjbserver-tools pjbserver:status ./config/pjbserver.config.php.dist -vvv
    ```
-   
+
 
 ## Usage
 
@@ -94,17 +95,17 @@ Depending on your needs you can use the pjserver-tools in two ways.
 
 Command line depends on your install method (composer or clone/download).
 
-- With composer the location of the binary is `./vendor/bin/pjbserver-tools` and the default 
+- With composer the location of the binary is `./vendor/bin/pjbserver-tools` and the default
   config is located in `./vendor/belgattitude/pjbserver-tools/config/pjbserver.config.php.dist`.
 
 - With the clone method, binary is `./bin/pjbserver-tools` and default config is `./config/pjbserver.config.php.dist`.
 
-*For clarity, the documentation of console commands is based on the clone method. Simply 
-replace your path whenever needed.*  
+*For clarity, the documentation of console commands is based on the clone method. Simply
+replace your path whenever needed.*
 
-You can use the commands 
+You can use the commands
 `pjbserver:start`, `pjbserver:stop`, `pjbserver:restart`, `pjbserver:status` followed
-by the `pjbserver.config.php` file to control or query the server status. 
+by the `pjbserver.config.php` file to control or query the server status.
 
 
 ```console
@@ -113,15 +114,15 @@ $ ./bin/pjbserver-tools pjbserver:stop -vvv ./config/pjbserver.config.php.dist
 $ ./bin/pjbserver-tools pjbserver:restart -vvv ./config/pjbserver.config.php.dist
 $ ./bin/pjbserver-tools pjbserver:status -vvv ./config/pjbserver.config.php.dist
 
-$ # for listing the java cli command issued : 
+$ # for listing the java cli command issued :
 $ ./bin/pjbserver-tools pjbserver:reveal ./config/pjbserver.config.php.dist
 ```
- 
 
-If you use the [./config/pjbserver.config.php.dist](./config/pjbserver.config.php.dist) config file, the server will start on port ***8089***. 
-   
+
+If you use the [./config/pjbserver.config.php.dist](./config/pjbserver.config.php.dist) config file, the server will start on port ***8089***.
+
 Feel free to create a local copy of this file and adapt for your usage :
- 
+
 ```console
 $ cp ./config/pjbserver.config.php.dist /my/path/pjbserver.config.php
 ```
@@ -130,7 +131,7 @@ $ cp ./config/pjbserver.config.php.dist /my/path/pjbserver.config.php
 
 ### Controlling via the API
 
-Command line is good, but API gives a little more control especially good when setting unit tests and CI. 
+Command line is good, but API gives a little more control especially good when setting unit tests and CI.
 
 Here's a little example:
 
@@ -145,7 +146,7 @@ $tcp_port = 8089;
 $config = new Config([
     // Port on which php java bridge server listen (required)
     'port' => $tcp_port,
-    
+
     /**
      * Location of log and pid files...
      * Defaults is to put them in the project 'pjbserver-tools/var/...' directory
@@ -154,29 +155,29 @@ $config = new Config([
      */
     //'log_file'   => "/my/path/var/pjbserver-port${tcp_port}.log",
     //'pid_file'   => "/my/path/var/pjbserver-port${tcp_port}.pid",
-    
+
 
     // Optional but often more than useful
     'classpaths'  => [
           '/my/path/*.jar',
           '/another/path/mylib.jar'
     ],
-   
+
     // Standalone server tuning
     // Number of threads for standalone server is 50, increase if needed
     //'threads'    => 50,
-       
+
     // Java binary
     // change location if you like, for example
     // /usr/lib/jvm/java-8-oracle/bin/java
-    'java_bin' => 'java', 
+    'java_bin' => 'java',
 
     /**
      * Location of the JavaBridge.jar,
      * Default is to use the default (included) one
      * available in pjbserver-tools/resources/pjb713_standalone/JavaBridge.jar
      */
-    //'server_jar' => "/my/path/pjb713_standalone/JavaBridge.jar",    
+    //'server_jar' => "/my/path/pjb713_standalone/JavaBridge.jar",
 ]);
 
 $server = new StandaloneServer($config);
@@ -213,7 +214,7 @@ $server = new StandaloneServer($config, $logger);
 ## Configuration
 
 The dist config file [./config/pjbserver.config.php.dist](https://github.com/belgattitude/pjbserver-tools/blob/master/config/pjbserver.config.php.dist)
-contains the default parameters used in console mode.  
+contains the default parameters used in console mode.
 
 ### Parameters
 
@@ -233,7 +234,7 @@ Some considerations:
 - The default config set `log_file` and `pid_file` in the ./var directory, please
   change the default location to your data directory.
 - Avoid storing `log_file` and `pid_file` in the global temp directory '/tmp' as it might
-  be cleared by the OS at anytime.  
+  be cleared by the OS at anytime.
 
 ### Classpath configuration
 
@@ -256,7 +257,7 @@ return [
 
 Don't forget to restart the standalone server to reflect the changes.
 
-*Using wildcard* `/my/path/*.jar` *is possible but should be used with care. All matching files will be appended to classpath 
+*Using wildcard* `/my/path/*.jar` *is possible but should be used with care. All matching files will be appended to classpath
 by passing arguments in a shell exec. Limits exists...*
 
 ## Debugging
@@ -280,7 +281,7 @@ For example, the issued command the default config can be
 ```console
 $ java -cp "/xxx/pjbserver-tools/resources/pjb713_standalone/JavaBridge.jar" -Dphp.java.bridge.daemon="false" -Dphp.java.bridge.threads=50 php.java.bridge.Standalone SERVLET:8089
 ```
- 
+
 ### Process management
 
 If for any reason the server cannot be stopped through the console, you can
