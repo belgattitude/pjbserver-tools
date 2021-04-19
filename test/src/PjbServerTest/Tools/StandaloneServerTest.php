@@ -42,7 +42,7 @@ class StandaloneServerTest extends TestCase
         self::assertFileExists($pid_file);
         $this->server->stop();
         self::assertFalse($this->server->isStarted());
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
     }
 
     /*
@@ -64,7 +64,7 @@ class StandaloneServerTest extends TestCase
         self::assertFileExists($pid_file);
         self::assertTrue($this->server->isStarted());
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         self::assertFalse($this->server->isStarted());
     }
 
@@ -78,7 +78,7 @@ class StandaloneServerTest extends TestCase
         self::assertFileExists($pid_file);
         self::assertTrue($this->server->isStarted());
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         self::assertFalse($this->server->isStarted());
     }
 
@@ -95,9 +95,9 @@ class StandaloneServerTest extends TestCase
     {
         self::expectException(Exception\PidNotFoundException::class);
         $pid_file = $this->server->getConfig()->getPidFile();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
         $this->server->isProcessRunning($throwException = true);
     }
 
@@ -120,7 +120,7 @@ class StandaloneServerTest extends TestCase
         $this->server->start();
         self::assertFileExists($pid_file);
         $this->server->stop();
-        self::assertFileNotExists($pid_file);
+        self::assertFileDoesNotExist($pid_file);
     }
 
     public function testGetOutput()
