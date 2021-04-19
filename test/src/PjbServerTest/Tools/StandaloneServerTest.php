@@ -3,6 +3,7 @@
 namespace PjbServerTest\Tools;
 
 use PHPUnit\Framework\TestCase;
+use PjbServer\Tools\Network\PortTester;
 use PjbServer\Tools\StandaloneServer;
 use PjbServer\Tools\Exception;
 use PjbServerTestConfig;
@@ -203,20 +204,20 @@ class StandaloneServerTest extends TestCase
 
     public function testStartServerThrowsPortUnavailableException()
     {
+        self::assertTrue((new PortTester())->isAvailable('localhost', $this->server->getConfig()->getPort(), 'http'));
+
         self::assertFalse($this->server->isStarted());
         $this->server->start();
         self::assertTrue($this->server->isStarted());
+        sleep(3);
+        self::assertFalse((new PortTester())->isAvailable('localhost', $this->server->getConfig()->getPort(), 'http'));
         $pid_file = $this->server->getConfig()->getPidFile();
         self::assertFileExists($pid_file);
 
         $this->expectException(Exception\PortUnavailableException::class);
 
         // Test starting another instance on the same port
-
         $runningServerConfig = $this->server->getConfig()->toArray();
-
-        // Start the original server
-        $this->server->start();
 
         $config = array_merge($runningServerConfig, [
             'log_file' => $this->server->getConfig()->getLogFile() . '.extra.log',
