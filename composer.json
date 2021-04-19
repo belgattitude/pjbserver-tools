@@ -39,7 +39,8 @@
     "phpstan/phpstan-strict-rules": "^0.12.9",
     "composer/composer": "^2.0.12",
     "soluble/japha": "^2.5.0",
-    "captainhook/plugin-composer": "^5.7.0"
+    "captainhook/captainhook": "^5.7.0",
+    "captainhook/plugin-composer": "^5.2.4"
   },
   "suggest": {
     "monolog/monolog": "Monolog or other PSR-3 compatible logger"
