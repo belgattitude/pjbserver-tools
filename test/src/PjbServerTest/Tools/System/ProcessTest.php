@@ -34,10 +34,10 @@ class ProcessTest extends TestCase
     {
         $crazy_pid = 1239883477;
         self::assertFalse($this->linuxProcess->isRunning($crazy_pid));
-        self::assertInternalType('boolean', $this->linuxProcess->isRunning($crazy_pid));
+        self::assertIsBool($this->linuxProcess->isRunning($crazy_pid));
 
         $my_pid = getmypid();
         self::assertTrue($this->linuxProcess->isRunning($my_pid));
-        self::assertInternalType('boolean', $this->linuxProcess->isRunning($my_pid));
+        self::assertIsBool($this->linuxProcess->isRunning($my_pid));
     }
 }

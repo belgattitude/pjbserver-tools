@@ -136,7 +136,7 @@ class ConfigTest extends TestCase
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig()->getConfig();
 
-        self::assertInternalType('array', $config);
+        self::assertIsArray($config);
         self::assertArrayHasKey('port', $config);
         self::assertArrayHasKey('java_bin', $config);
         self::assertArrayHasKey('log_file', $config);

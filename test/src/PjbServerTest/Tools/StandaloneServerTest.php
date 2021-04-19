@@ -107,7 +107,7 @@ class StandaloneServerTest extends TestCase
         $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
-        self::assertInternalType('int', (filter_var($pid, FILTER_VALIDATE_INT)));
+        self::assertIsInt((filter_var($pid, FILTER_VALIDATE_INT)));
         self::assertFileExists($pid_file);
         self::assertEquals(trim(file_get_contents($pid_file)), $pid);
         $this->server->stop();
@@ -128,7 +128,7 @@ class StandaloneServerTest extends TestCase
         $config = $this->server->getConfig();
         $this->server->start();
         $output = $this->server->getOutput();
-        self::assertInternalType('string', $output);
+        self::assertIsString($output);
         self::assertTrue(strlen($output) > 10);
         $this->server->stop();
     }
@@ -184,7 +184,7 @@ class StandaloneServerTest extends TestCase
         $pid_file = $config->getPidFile();
         $this->server->start();
         $pid = $this->server->getPid();
-        self::assertInternalType('int', $pid);
+        self::assertIsInt($pid);
         // pretend pid file is corrupted
         file_put_contents($pid_file, 'invalidpid');
         try {
@@ -196,7 +196,7 @@ class StandaloneServerTest extends TestCase
         // restore pid
         file_put_contents($pid_file, $pid);
 
-        self::assertInternalType('int', $this->server->getPid());
+        self::assertIsInt($this->server->getPid());
         self::assertEquals($pid, $this->server->getPid());
         $this->server->stop();
     }
