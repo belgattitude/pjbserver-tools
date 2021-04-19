@@ -13,13 +13,9 @@ class ProcessTest extends TestCase
      */
     protected $linuxProcess;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->linuxProcess = new System\Process(System\Process::LINUX_STYLE);
-    }
-
-    protected function tearDown()
-    {
     }
 
     public function testUnsupportedSystem()

@@ -8,14 +8,6 @@ use PjbServerTestConfig;
 
 class ConfigTest extends TestCase
 {
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
     public function testConstructorThrowsInvalidArgumentException()
     {
         self::expectException(\PjbServer\Tools\Exception\InvalidArgumentException::class);

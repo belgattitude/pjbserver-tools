@@ -15,20 +15,20 @@ class BridgeConnectionTest extends TestCase
      */
     protected $server;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig();
         $this->server = new StandaloneServer($config);
         $this->server->start();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->server->stop($throws_exception = false);
         PjbProxyClient::unregisterInstance();
     }
 
-    public function testBasicUsage()
+    public function testBasicUsage(): void
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig();
         $port = $config->getPort();

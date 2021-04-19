@@ -14,13 +14,13 @@ class StandaloneServerTest extends TestCase
      */
     protected $server;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = PjbServerTestConfig::getStandaloneServerConfig();
         $this->server = new StandaloneServer($config);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->server->stop($throws_exception = false);
     }

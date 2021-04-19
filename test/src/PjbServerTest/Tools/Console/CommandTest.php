@@ -21,7 +21,7 @@ class CommandTest extends TestCase
      */
     protected $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->commandRepo = new CommandRepository();
         $this->config = PjbServerTestConfig::getStandaloneServerConfig();
@@ -66,7 +66,7 @@ class CommandTest extends TestCase
 
         self::assertEquals(1, $tester->getStatusCode());
 
-        self::assertRegexp("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/Server not running on port '$port' \(no pid file found\)/", $tester->getDisplay());
     }
 
     public function testServerStart()
