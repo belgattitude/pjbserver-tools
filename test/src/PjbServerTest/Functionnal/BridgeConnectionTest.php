@@ -17,7 +17,6 @@ class BridgeConnectionTest extends TestCase
 
     protected function setUp(): void
     {
-
     }
 
     protected function tearDown(): void
