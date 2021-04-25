@@ -148,7 +148,8 @@ class StandaloneServer
             }
 
             $log_file_content = file_get_contents($log_file);
-            if (preg_match('/JavaBridgeRunner started on/', $log_file_content)) {
+            if (preg_match('/JavaBridgeRunner started on/', $log_file_content)
+                && !$this->portTester->isAvailable('localhost', $port, 'http', 1)) {
                 $started = true;
             }
             ++$iterations;
