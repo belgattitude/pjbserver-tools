@@ -20,6 +20,8 @@ class BridgeConnectionTest extends TestCase
         $config = PjbServerTestConfig::getStandaloneServerConfig();
         $this->server = new StandaloneServer($config);
         $this->server->start();
+        // ci sleep / probably a bug somewhere too, to investigate
+        sleep(2);
     }
 
     protected function tearDown(): void
@@ -40,6 +42,5 @@ class BridgeConnectionTest extends TestCase
 
         $jString = $ba->java('java.lang.String', 'hello');
         self::assertEquals('hello', (string) $jString);
-        //die();
     }
 }
