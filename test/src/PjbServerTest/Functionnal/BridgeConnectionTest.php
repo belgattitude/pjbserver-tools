@@ -40,6 +40,5 @@ class BridgeConnectionTest extends TestCase
 
         $jString = $ba->java('java.lang.String', 'hello');
         self::assertEquals('hello', (string) $jString);
-        //die();
     }
 }
