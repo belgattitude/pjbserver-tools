@@ -2,9 +2,8 @@
 
 ## 4.1.0 (2021-04-25)
 
-- Fix: for some slow CI, ensure the port is ready when starting
-- Add support for soluble-japha ^3.0
-
+- Fix: for some slow CI, ensure the port is ready when starting [#11](https://github.com/belgattitude/pjbserver-tools/pull/11)
+- Add support for soluble-japha ^3.0 in [#11](https://github.com/belgattitude/pjbserver-tools/pull/11)
 
 ## 4.0.0 (2021-04-19)
 
