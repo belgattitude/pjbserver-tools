@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.1.0 (2021-04-25)
+
+- Fix: for some slow CI, ensure the port is ready when starting
+- Add support for soluble-japha ^3.0
+
+
 ## 4.0.0 (2021-04-19)
 
 - Support for php 8.0 and php 7.4
