@@ -38,7 +38,7 @@
     "phpstan/phpstan-phpunit": "^0.12.18",
     "phpstan/phpstan-strict-rules": "^0.12.9",
     "composer/composer": "^2.0.12",
-    "soluble/japha": "^2.5.0",
+    "soluble/japha": "^2.5.0 || ^3.0.0",
     "captainhook/captainhook": "^5.7.0",
     "captainhook/plugin-composer": "^5.2.4"
   },
